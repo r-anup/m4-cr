@@ -18,7 +18,7 @@ import java.util.*;
 
 
 public class PageSpeed {
-    private static final Logger LOG = LogManager.getLogger(PageSpeedService.class);
+    private static final Logger LOG = LogManager.getLogger(PageSpeed.class);
 
     private static final HttpClient httpClient;
     private static final String PAGE_SPEED_API = System.getenv("PAGE_SPEED_API");
