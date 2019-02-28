@@ -24,6 +24,10 @@
     <webjars-jquery.version>3.3.1-1</webjars-jquery.version>
   </properties>
 
+
+
+
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
