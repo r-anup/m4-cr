@@ -1,1 +1,2 @@
-/usr/local/serverless/heroku/m4-cr/src/main/java/com/example/Main.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/Main.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/PageSpeed.java

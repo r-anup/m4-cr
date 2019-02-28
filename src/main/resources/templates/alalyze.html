@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Product Reviews and Ratings - Consumer Reports</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1">
+    <meta name="robots" content="NOINDEX,NOFOLLOW">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.cr.org/crux/styles/2.0/css/main.css" type="text/css">
+
+    <style>
+
+        body {
+            font-size: 2rem;
+        }
+
+        .score {
+            border-radius: 50%;
+            color: #fff;
+            background-color: #00ae4d;
+            width: 100px;
+            height: 100px;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            display: -ms-flexbox;
+            display: flex;
+            font-size: 50px;
+            margin-left: 30%;
+        }
+        .score.average {
+            background-color: #e67700;;
+        }
+        .score.slow {
+            background-color: #c7221f;;
+        }
+        #table-details .slow {
+            color: #c7221f;;
+        }
+        #table-details .average {
+            color: #e67700;;
+        }
+        #table-details .fast {
+            color: #00ae4d;;
+        }
+
+
+        .main-action {
+            padding: 48px 0 24px;
+            background: #4285f4;
+            line-height: 4rem;
+            margin-top: 5rem;
+            margin-bottom: 5rem;
+            padding-bottom: 3rem;
+        }
+
+        .main-action div.url-and-analyze {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .main-action input[name=url] {
+            color: rgba(0,0,0,0.87);
+            border: none;
+            font-size: 14px;
+            height: auto;
+            padding: 0 16px;
+            width: 40%;
+        }
+
+        input[type="text"] {
+            border: 1px solid #ebebeb;
+            border-radius: 2px;
+            color: #212121;
+            font: 16px/20px Roboto,sans-serif;
+            margin: 0;
+            max-width: 100%;
+            outline: 0;
+            padding: 7px;
+            transition: border-color .2s;
+            vertical-align: middle;
+        }
+
+        .main-action div.analyze-cell {
+            border: none;
+            color: #fff;
+            margin-left: 8px;
+            min-width: 96px;
+            font-size: 14px;
+            line-height: 32px;
+        }
+
+        .main-action .main-submit {
+            background-color: #3367d6;
+            box-shadow: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $( document ).on( "click", ".main-submit", function() {
+            var inputURL = $(".main-action .url");
+            var inputURLStr = inputURL.val();
+            if (!inputURLStr.startsWith('http', 0)) {
+                inputURLStr = "http://" + inputURLStr;
+                inputURL.val(inputURLStr);
+            }
+
+            $(".loading-spinner").show();
+        });
+    </script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between m-3">
+            <div class="p2"><img src="images/cr-logo.svg"></div>
+
+
+
+            <div class="p2">
+                <ul class="nav justify-content-end nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" href="main.html">Latest Score Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="analyze.html">Analyze Pagespeed Insight</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="config.html">Configuration</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center pt-5">
+            <div class="p2"><h1 class="crux-headline--standard">Analyze Pagespeed Insight</h1></div>
+        </div>
+
+
+        <div class="main-action pt-5">
+            <form>
+                <div class="url-and-analyze"><input type="text" name="url" class="url label-input-label"
+                                                    placeholder="Enter a web page URL"
+                                                    aria-label="Enter a web page URL">
+                    <div class="analyze-cell">
+                        <div class="button button-red analyze jfk-button main-submit" role="button" tabindex="0"
+                             style="user-select: none;"> ANALYZE
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="container-fluid">
+
+            <div class="loading-spinner" style="display: none;">
+                <div class="text-center">
+                    <div class="spinner-border" style="width: 6rem; height: 6rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
