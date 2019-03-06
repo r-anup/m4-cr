@@ -116,6 +116,24 @@
             }
 
             $(".loading-spinner").show();
+
+            $.ajax({
+                url: "/process",
+                data: {
+                    url: inputURLStr,
+                },
+                dataType: 'json',
+                method: 'GET'
+            })
+                .done(function (response) {
+                    $("#analysis-chart").html(response);
+                })
+                .fail(function () {
+                    $("#analysis-chart").html("there was an error");
+                })
+                .always(function () {
+                    $(".loading-spinner").hide();
+                });
         });
     </script>
 
@@ -124,8 +142,6 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between m-3">
             <div class="p2"><img src="images/cr-logo.svg"></div>
-
-
 
             <div class="p2">
                 <ul class="nav justify-content-end nav-pills">
@@ -136,13 +152,14 @@
                         <a class="nav-link active" href="analyze.html">Analyze Pagespeed Insight</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="config.html">Configuration</a>
+                        <a class="nav-link" href="config.html">Configuration1</a>
                     </li>
 
                 </ul>
 
             </div>
         </div>
+
 
         <div class="d-flex justify-content-center pt-5">
             <div class="p2"><h1 class="crux-headline--standard">Analyze Pagespeed Insight</h1></div>
@@ -172,6 +189,11 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
+            </div>
+
+
+            <div class="container-fluid" id="analysis-chart">
+
             </div>
         </div>
     </div>

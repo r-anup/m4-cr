@@ -94,5 +94,10 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.boot:spring-boot-devtools:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.1.2.RELEASE" level="project" />
+    <orderEntry type="library" name="org.apache.httpcomponents:httpclient:4.2.3" level="project" />
+    <orderEntry type="library" name="org.apache.httpcomponents:httpcore:4.2.4" level="project" />
+    <orderEntry type="library" name="org.apache.directory.studio:org.apache.commons.lang:2.6" level="project" />
+    <orderEntry type="library" name="org.json:json:20140107" level="project" />
+    <orderEntry type="library" name="com.budjb:http-requests-httpcomponents-client:2.0.3" level="project" />
   </component>
 </module>
