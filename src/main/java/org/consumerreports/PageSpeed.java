@@ -13,13 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
-import sun.jvm.hotspot.debugger.Page;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.util.*;
 
 
 public class PageSpeed {
