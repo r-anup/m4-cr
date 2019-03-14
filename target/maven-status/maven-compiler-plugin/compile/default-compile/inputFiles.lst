@@ -1,2 +1,12 @@
-/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/Main.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/LighthouseResult.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/LightHouseResultsMetricsMeta.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/Metrics.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/Screenshot.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/Urls.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/controllers/UrlsController.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/Main.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/PageSpeed.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/repositories/UrlsRepository.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/Diagnostics.java

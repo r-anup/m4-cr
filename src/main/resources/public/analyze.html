@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:fragment="layout (template)>
     <head>
         <title>Product Reviews and Ratings - Consumer Reports</title>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -182,6 +182,7 @@
                 right: 0;
             }
 
+
             .result-tabs .goog-tab-selected .icon, .result-tabs .goog-tab-selected.goog-tab-hover .icon, .result-tabs .goog-tab-selected .tab-title, .result-tabs .goog-tab-selected.goog-tab-hover .tab-title {
                 opacity: 1;
             }
@@ -308,6 +309,7 @@
                 --circle-size: calc(3 * var(--header-font-size));
                 --pass-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  viewBox=\0000220 0 48 48\000022\00003e\00003ctitle\00003echeck\00003c/title\00003e\00003cpath fill=\000022%23178239\000022  d=\000022M24 4C12.95 4 4 12.95 4 24c0 11.04 8.95 20 20 20 11.04 0 20-8.96 20-20 0-11.05-8.96-20-20-20zm-4 30L10 24l2.83-2.83L20 28.34l15.17-15.17L38 16 20 34z\000022/\00003e\00003c/svg\00003e');
                 --average-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  viewBox=\0000220 0 48 48\000022\00003e\00003ctitle\00003einfo\00003c/title\00003e\00003cpath fill=\000022%23E67700\000022  d=\000022M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm2 30h-4V22h4v12zm0-16h-4v-4h4v4z\000022/\00003e\00003c/svg\00003e');
+                --info-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  viewBox=\0000220 0 48 48\000022\00003e\00003ctitle\00003einfo\00003c/title\00003e\00003cpath fill=\000022%230097E1\000022  d=\000022M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm2 30h-4V22h4v12zm0-16h-4v-4h4v4z\000022/\00003e\00003c/svg\00003e');
                 --fail-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  viewBox=\0000220 0 48 48\000022\00003e\00003ctitle\00003ewarn\00003c/title\00003e\00003cpath fill=\000022%23C7221F\000022  d=\000022M2 42h44L24 4 2 42zm24-6h-4v-4h4v4zm0-8h-4v-8h4v8z\000022/\00003e\00003c/svg\00003e');
                 --content-paste-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  width=\00002224\000022  height=\00002224\000022\00003e\00003cpath fill=\000022%235E6268\000022  d=\000022M19 2h-4.18C14.4.84 13.3 0 12 0c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 18H5V4h2v3h10V4h2v16z\000022/\00003e\00003cpath d=\000022M0 0h24v24H0z\000022  fill=\000022none\000022/\00003e\00003c/svg\00003e');
                 --av-timer-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  width=\00002224\000022  height=\00002224\000022  fill=\000022%235E6268\000022\00003e\00003cpath d=\000022M0 0h24v24H0z\000022  fill=\000022none\000022/\00003e\00003cpath d=\000022M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0 0 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 0 0 7.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z\000022/\00003e\00003c/svg\00003e');
@@ -335,15 +337,6 @@
                 --subheader-font-size: 18px;
                 --lh-audit-group-vpadding: 24px;
                 --section-padding: 24px
-            }
-
-            .lh-category:first-of-type {
-                padding-top: calc(2*var(--section-padding));
-                border: none;
-            }
-
-            .lh-category {
-                padding: var(--section-padding);
             }
 
 
@@ -438,6 +431,19 @@
             .tooltip-boundary {
                 position: relative;
             }
+
+            .tooltip-inner {
+                font-size: 1.5rem;
+                text-align:left;
+                padding: 1rem;
+                background-color: #ddd;
+                color: #111;
+            }
+
+            .tooltip > .arrow:before {
+                border-top-color:#ddd;
+            }
+
             .lh-metric__innerwrap {
                 display: flex;
                 justify-content: space-between;
@@ -491,17 +497,7 @@
                 margin-left: calc(var(--body-font-size)/2);
             }
 
-            .tooltip {
-                position: absolute;
-                display: none;
-                opacity: 0;
-                background: #ffffff;
-                min-width: 246px;
-                max-width: 275px;
-                padding: 15px;
-                border-radius: 5px;
-                text-align: initial;
-            }
+
 
             .lh-metric__description {
                 color: var(--secondary-text-color);
@@ -509,6 +505,12 @@
 
             #screenshots div {
                 padding: 2rem;
+                display: grid;
+            }
+
+            #screenshots div span {
+                font-size: 1.2rem;
+                text-align: center;
             }
 
             #screenshots div img {
@@ -520,12 +522,205 @@
 
 
             .footer {
-                border-bottom: solid 1px #999;
-                box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2), 0 1px 0 0 rgba(0,0,0,0.01);
+                border-top: solid 1px #999;
+                /*box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2), 0 1px 0 0 rgba(0,0,0,0.01);*/
                 margin: 4rem 0 2rem 0;
                 font-size: 1.5rem;
                 font-weight: 300;
+                line-height: 4rem;
             }
+
+
+
+
+
+
+
+            .field-data {
+                font-weight: normal;
+                padding-top: 24px;
+            }
+
+            .field-data .metrics {
+                display: flex;
+                flex-wrap: nowrap;
+                flex: 1;
+                width: 100%;
+            }
+
+            .field-data .metric-wrapper {
+                font-size: 14px;
+                flex: 1;
+                padding: 1rem;
+            }
+
+            .field-data .metric-wrapper .metric-chart {
+                display: flex;
+                margin-top: 16px;
+                margin-bottom: 24px
+            }
+
+            .field-data .metric-wrapper .metric-chart .bar {
+                display: inline-block;
+                line-height: 24px;
+                text-align: center;
+                color: #fff;
+                margin-left: 2px
+            }
+
+            .field-data .metric-wrapper .metric-chart .fast {
+                background: #178239;
+                border-radius: 4px 0 0 4px
+            }
+
+            .field-data .metric-wrapper .metric-chart .average {
+                background: #e67700;
+                color: #000
+            }
+
+            .field-data .metric-wrapper .metric-chart .slow {
+                background: #c7221f;
+                border-radius: 0 4px 4px 0
+            }
+
+
+            .field-data-title::before {
+                content: '';
+                width: 32px;
+                height: 32px;
+                background: #4285f4 none no-repeat center/16px;
+                display: inline-block;
+                border-radius: 50%;
+                vertical-align: top;
+                background-size: 20px 20px;
+                margin-right: 9px;
+            }
+
+            .field-data-title::before {
+                background-image: url(/images/ic_bar_chart_white.svg) !important;
+            }
+
+
+            .metric-wrapper:first-of-type, .lh-column:first-of-type {
+                margin-left: 0;
+                margin-right: 12px
+            }
+
+            .metric-wrapper, .lh-column {
+                margin-left: 12px;
+                margin-right: 0
+            }
+
+            .field-data .field-metric {
+                display: flex;
+                white-space: nowrap;
+                padding: 8px;
+                justify-content: space-between;
+                border-bottom: solid 1px #e0e0e0
+            }
+
+            .field-data .field-metric .metric-value::after {
+                content: '';
+                width: 16px;
+                height: 16px;
+                display: inline-block;
+                vertical-align: text-bottom;
+                margin-left: 8px
+            }
+
+            .field-data .field-metric.fast .metric-value {
+                color: #178239
+            }
+
+            .field-data .field-metric.fast .metric-value::after {
+                background: url(//www.gstatic.com/pagespeed/insights/67/img/ic_check_circle.svg) no-repeat;
+                background-size: 16px 16px
+            }
+
+            .field-data .field-metric.average .metric-value {
+                color: #e67700
+            }
+
+            .field-data .field-metric.average .metric-value::after {
+                background: url(//www.gstatic.com/pagespeed/insights/67/img/ic_info.svg) no-repeat;
+                background-size: 16px 16px
+            }
+
+            .field-data .field-metric.slow .metric-value {
+                color: #c7221f
+            }
+
+            .field-data .field-metric.slow .metric-value::after {
+                background: url(//www.gstatic.com/pagespeed/insights/67/img/ic_warning.svg) no-repeat;
+                background-size: 16px 16px
+            }
+
+            .score {
+                display: inline-block;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap
+            }
+
+            .score.indicator {
+                font-weight: bold;
+                width: 17px;
+                margin-right: 4px
+            }
+
+            html[dir=rtl] .score.indicator {
+                margin-left: 4px;
+                margin-right: 0
+            }
+
+            .result {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                transition: opacity .1s, height .1s
+            }
+
+            .field-data-description, .lh-audit-group__description {
+                color: #777;
+                font-style: 'Roboto';
+                font-size: 14px;
+                margin: 24px 8px
+            }
+
+            .field-data-description.fast b {
+                color: #178239
+            }
+
+            .field-data-description.average b {
+                color: #e67700
+            }
+
+            .field-data-description.slow b {
+                color: #c7221f
+            }
+
+            html[dir=rtl] .result-container {
+                padding: 0 32px 0 0
+            }
+
+            .origin-field-data {
+                padding-top: 24px
+            }
+
+            .screenshot-container {
+                padding: 24px 24px 0 24px;
+                width: 18vw;
+                max-width: 328px;
+                min-width: 168px
+            }
+
+            .screenshot-container img {
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
+                width: 100%
+            }
+
+
 
 
 
@@ -534,8 +729,66 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript" src="/js/jquery.loadTemplate.min.js"></script>
         <script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+
+        <script>
+            function timeMiliSecondFormatter(value) {
+                if(!isNaN(value)) {
+                    if (value < 1000) {
+                        return value + ' ms';
+                    } else {
+                        value = value / 1000;
+                        return (Math.floor(value * 100) / 100) + ' s';
+                    }
+                } else {
+                    return value;
+                }
+            }
+
+            $.addTemplateFormatter({
+                TimeMiliSecondFormatter: function(value, template) {
+                    return timeMiliSecondFormatter(value);
+                },
+
+                CategoryFormatter: function(value, template) {
+                    var category = 'slow';
+                    switch (value) {
+                        case 'SLOW':
+                            category = 'slow';
+                            break;
+                        case 'AVERAGE':
+                            category = 'average';
+                            break;
+                        case 'FAST':
+                            category = 'fast';
+                            break;
+                        default:
+                            category = 'fast';
+
+                    }
+
+                    return 'field-metric ' + category;
+
+                },
+
+                FlexGrowStyleFormatter: function(value, template) {
+                    value = value * 100;
+                    return 'flex-grow: ' + (Math.floor(value)) + ';';
+                },
+
+                PercentageFormatter: function(value, template) {
+                    value = value * 100;
+                    return (Math.floor(value)) + '%';
+                },
+
+
+            });
+
+
+
+        </script>
         <script type="text/javascript">
             //TODO: remove this variable
             var responseData = {};
@@ -556,9 +809,12 @@
 
                 $(function() {
                     $(".main-action .url").val(url);
-                    displayScoreEntities(url, strategy);
+                    generateReport(url, strategy, 'https://m4-lh.herokuapp.com/', '/process');
                 });
             }
+
+
+
 
 
             $( document ).on( "click", ".main-submit", function() {
@@ -569,16 +825,62 @@
                     inputURL.val(inputURLStr);
                 }
 
-                displayScoreEntities(inputURLStr, 'mobile');
+                generateReport(inputURLStr, 'mobile', 'https://m4-lh.herokuapp.com/', '/process');
             });
 
 
             $( document ).on( "click", ".goog-tab", function() {
-                displayScoreEntities(globalData.url, $(this).data().id);
+                generateReport(globalData.url, $(this).data().id, 'https://m4-lh.herokuapp.com/', '/process');
             });
 
 
-            function displayScoreEntities(url, strategy) {
+            /*function displayLoadingExperience(url, strategy, api) {
+                //api = '/process'
+                if (typeof(api) === 'undefined') {
+                    api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
+                }
+
+                $.ajax({
+                    url: api,
+                    data: {
+                        category: 'performance',
+                        url: url,
+                        key: 'AIzaSyAQp8vshwJq1nwhsryxOfK__GshqnpXvUA',
+                        locale: 'en_US',
+                        strategy: strategy,
+                    },
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (response) {
+                        var data = getScoreEntities(response);
+                        $("#field-data-chart").loadTemplate($("#field-data-template"),
+                            {
+                                fcp_sec: data['FIRST_CONTENTFUL_PAINT_MS'].percentile,
+                                fcp_category: data['FIRST_CONTENTFUL_PAINT_MS'].category,
+                                fcp_flex_grow_fast: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[0].proportion,
+                                fcp_flex_grow_average: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[1].proportion,
+                                fcp_flex_grow_slow: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[2].proportion,
+                                fid_sec: data['FIRST_INPUT_DELAY_MS'].percentile,
+                                fid_category: data['FIRST_INPUT_DELAY_MS'].category,
+                                fid_flex_grow_fast: data['FIRST_INPUT_DELAY_MS'].distributions[0].proportion,
+                                fid_flex_grow_average: data['FIRST_INPUT_DELAY_MS'].distributions[1].proportion,
+                                fid_flex_grow_slow: data['FIRST_INPUT_DELAY_MS'].distributions[2].proportion,
+
+                            });
+
+                    },
+                    error: function () {
+                        $("#analysis-chart").html("there was an error");
+                    },
+                    complete: function () {
+                        $(".loading-spinner").hide();
+                    }
+
+                });
+            }
+*/
+
+            function generateReport(url, strategy, mainAPI, secondAPI) {
                 globalData.url = url;
                 globalData.strategy = strategy;
 
@@ -592,16 +894,123 @@
                 }
                 $(".tab-bar-wrapper").show();
 
-                /* reset DOM */
+                /!* reset DOM *!/
+                $("#analysis-chart").html('');
+                $("#field-data-chart").html('');
+
+                $("#screenshots").html('');
+
+                $(".loading-spinner").show();
+                /!* reset DOM *!/
+
+                if (typeof(api)==='undefined') {
+                    api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
+                }
+                $.when(
+                    $.ajax({
+                        data: {
+                            category: 'performance',
+                            url: url,
+                            key: 'AIzaSyAQp8vshwJq1nwhsryxOfK__GshqnpXvUA',
+                            locale: 'en_US',
+                            strategy: strategy,
+                        },
+                        dataType: 'json',
+                        method: 'GET',
+                        url: mainAPI,
+                    }),
+                    $.ajax({
+                        data: {
+                            category: 'performance',
+                            url: url,
+                            key: 'AIzaSyAQp8vshwJq1nwhsryxOfK__GshqnpXvUA',
+                            locale: 'en_US',
+                            strategy: strategy,
+                        },
+                        dataType: 'json',
+                        method: 'GET',
+                        url: secondAPI,
+                    })
+                )
+                    .done(function (mainAPIResponse, secondAPIResponse) {
+                        var data = getScoreEntities(secondAPIResponse[0]);
+                        if (data['showLoadingExperience']) {
+                            $("#field-data-chart").loadTemplate($("#field-data-template"),
+                                {
+                                    fcp_sec: data['FIRST_CONTENTFUL_PAINT_MS'].percentile,
+                                    fcp_category: data['FIRST_CONTENTFUL_PAINT_MS'].category,
+                                    fcp_flex_grow_fast: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[0].proportion,
+                                    fcp_flex_grow_average: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[1].proportion,
+                                    fcp_flex_grow_slow: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[2].proportion,
+                                    fid_sec: data['FIRST_INPUT_DELAY_MS'].percentile,
+                                    fid_category: data['FIRST_INPUT_DELAY_MS'].category,
+                                    fid_flex_grow_fast: data['FIRST_INPUT_DELAY_MS'].distributions[0].proportion,
+                                    fid_flex_grow_average: data['FIRST_INPUT_DELAY_MS'].distributions[1].proportion,
+                                    fid_flex_grow_slow: data['FIRST_INPUT_DELAY_MS'].distributions[2].proportion,
+
+                                });
+                        }
+
+                        data = getScoreEntities(mainAPIResponse[0]);
+                        $("#analysis-chart").loadTemplate($("#analysis-chart-template"),
+                            {
+                                score: data['score'],
+                                fetchTime: data['fetchTime'],
+                                url: data['url'],
+                            });
+
+
+                        plotPieChart(data);
+
+                        plotLabDataChart(data);
+
+                        data['screenshots'].forEach(function (screenshot) {
+                            $("#screenshots").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
+                        });
+
+                        $(".tab-bar-wrapper").show();
+
+                        responseData = mainAPIResponse;
+
+                        $(".loading-spinner").hide();
+                    })
+                    .fail(function () {
+                        $("#analysis-chart").html("there was an error");
+                        $(".loading-spinner").hide();
+                    });
+
+            }
+
+
+            /*function displayScoreEntities(url, strategy, api) {
+
+                globalData.url = url;
+                globalData.strategy = strategy;
+
+                window.history.pushState(null, null, "/analyze.html?url=" + encodeURIComponent(globalData.url) + "&tab=" + globalData.strategy);
+
+                $(".tab-bar-wrapper .goog-tab").removeClass('goog-tab-selected');
+                if (strategy == 'mobile') {
+                    $(".tab-bar-wrapper .goog-tab:nth-child(1)").addClass('goog-tab-selected');
+                } else {
+                    $(".tab-bar-wrapper .goog-tab:nth-child(2)").addClass('goog-tab-selected');
+                }
+                $(".tab-bar-wrapper").show();
+
+                /!* reset DOM *!/
                 $("#analysis-chart").html('');
                 $("#screenshots").html('');
 
                 $(".loading-spinner").show();
-                /* reset DOM */
+                /!* reset DOM *!/
 
-                var urlPrefix = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
+                if (typeof(api)==='undefined') {
+                    api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
+                }
+
+                //var urlPrefix = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
                 //urlPrefix = "/process";
-
+                //urlPrefix = "https://m4-lh.herokuapp.com/";
                 $.ajax({
                     xhr: function () {
                         var xhr = new window.XMLHttpRequest();
@@ -609,12 +1018,12 @@
                             if (evt.lengthComputable) {
                                 var percentComplete = evt.loaded / evt.total;
                                 //Do something with download progress
-                                console.log(percentComplete);
+                                //console.log(percentComplete);
                             }
                         }, false);
                         return xhr;
                     },
-                    url: urlPrefix,
+                    url: api,
                     data: {
                         category: 'performance',
                         url: url,
@@ -627,24 +1036,36 @@
                     success: function(response) {
                         //$("#analysis-chart").html(JSON.stringify(response));
                         var data = getScoreEntities(response);
-                        $("#analysis-chart").loadTemplate($("#analysis-chart-template"),
-                            {
-                                score: data['score'],
-                                fetchTime: data['fetchTime'],
-                                fcp: data['fcp'],
-                                fmp: data['fmp'],
-                                interactive: data['interactive'],
-                                fci: data['fci'],
-                                eil: data['eil'],
-                                si: data['si'],
-                                url: data['url'],
+                        if (data['showLoadingExperience']) {
+                            $("#field-data-chart").loadTemplate($("#field-data-template"),
+                                {
+                                    fcp_sec: data['FIRST_CONTENTFUL_PAINT_MS'].percentile,
+                                    fcp_category: data['FIRST_CONTENTFUL_PAINT_MS'].category,
+                                    fcp_flex_grow_fast: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[0].proportion,
+                                    fcp_flex_grow_average: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[1].proportion,
+                                    fcp_flex_grow_slow: data['FIRST_CONTENTFUL_PAINT_MS'].distributions[2].proportion,
+                                    fid_sec: data['FIRST_INPUT_DELAY_MS'].percentile,
+                                    fid_category: data['FIRST_INPUT_DELAY_MS'].category,
+                                    fid_flex_grow_fast: data['FIRST_INPUT_DELAY_MS'].distributions[0].proportion,
+                                    fid_flex_grow_average: data['FIRST_INPUT_DELAY_MS'].distributions[1].proportion,
+                                    fid_flex_grow_slow: data['FIRST_INPUT_DELAY_MS'].distributions[2].proportion,
 
-                            });
+                                });
+                        } else {
+                            $("#analysis-chart").loadTemplate($("#analysis-chart-template"),
+                                {
+                                    score: data['score'],
+                                    fetchTime: data['fetchTime'],
+                                    url: data['url'],
+                                });
+                        }
 
                         plotPieChart(data);
 
+                        plotLabDataChart(data);
+
                         data['screenshots'].forEach(function (screenshot) {
-                            $("#screenshots").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /></div>');
+                            $("#screenshots").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
                         });
 
                         $(".tab-bar-wrapper").show();
@@ -659,42 +1080,101 @@
                     }
 
                 });
-            }
+            }*/
+
+
 
 
             function getScoreEntities(response) {
                 var data = {};
-                var result = response.lighthouseResult;
+                var result = response.lighthouseResult || response;
                 var audits = result.audits;
 
-                data['score'] = result.categories.performance.score;
-                data['fetchTime'] = new Date(response.analysisUTCTimestamp).toLocaleString();
-                data['fcp'] = audits['first-contentful-paint'];
-                data['fmp'] = audits['first-meaningful-paint'];
-                data['interactive'] = audits['interactive'];
-                data['fci'] = audits['first-cpu-idle'];
-                data['eil'] = audits['estimated-input-latency'];
-                data['si'] = audits['speed-index'];
-                data['url'] = response.loadingExperience.initial_url;
-                data['screenshots'] = audits['screenshot-thumbnails'].details.items;
+
+                if (response.loadingExperience) {
+                    data['showLoadingExperience'] = true;
+                    data['FIRST_CONTENTFUL_PAINT_MS'] = response.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS;
+                    data['FIRST_INPUT_DELAY_MS'] = response.loadingExperience.metrics.FIRST_INPUT_DELAY_MS;
+                } else {
+                    data['score'] = result.categories.performance.score;
+                    data['fetchTime'] = new Date(response.analysisUTCTimestamp).toLocaleString();
+                    data['first-contentful-paint'] = audits['first-contentful-paint'];
+                    data['first-meaningful-paint'] = audits['first-meaningful-paint'];
+                    data['interactive'] = audits['interactive'];
+                    data['first-cpu-idle'] = audits['first-cpu-idle'];
+                    data['estimated-input-latency'] = audits['estimated-input-latency'];
+                    data['speed-index'] = audits['speed-index'];
+                    data['url'] = response.finalUrl;
+                    data['screenshots'] = audits['screenshot-thumbnails'].details.items;
+                    data['showLoadingExperience'] = false;
+                }
 
                 return data;
             }
 
-            function plotPieChart(data) {
-                var myChart = echarts.init(document.getElementById('pi-chart'));
-                var color = "#178239";
-                var score = data['score']*100;
+            function getScaleFromScore(score) {
+                var data = {
+                    scale: 'pass',
+                    score: score*100,
+                    color: '#178239'
+                };
                 switch(true) {
-                    case score <= 49:
-                        color = "#c7221f";
+                    case data.score <= 49:
+                        data.color = "#c7221f";
+                        data.scale = 'fail';
                         break;
-                    case score <= 89:
-                        color = "#e67700";
+                    case data.score <= 89:
+                        data.color = "#e67700";
+                        data.scale = 'average';
                         break;
                     default:
-                        color = "#178239";
+                        data.color = "#178239";
+                        data.scale = 'pass';
                 }
+
+                return data;
+            }
+
+            function plotLabDataChart(data) {
+                var items = ["first-contentful-paint", "first-meaningful-paint", "interactive", "first-cpu-idle", "estimated-input-latency", "speed-index"];
+                items.forEach(function (id) {
+                    $("#" + id).removeClass().find(".lh-metric__value").html(data[id].displayValue);
+                    var score = getScaleFromScore(data[id].score);
+                    $("#" + id).addClass('lh-metric lh-metric--' + score.scale);
+                });
+
+                /* activate tooltip */
+                delayPopoverClose();
+
+            }
+
+            function delayPopoverClose() {
+                //$('[data-toggle="tooltip"]').tooltip({delay: { "show": 100, "hide": 100 }});
+                $('[data-toggle="tooltip"]').tooltip({ trigger: "manual" , html: true, animation:false})
+                    .on("mouseenter", function () {
+                        var _this = this;
+                        $(this).tooltip("show");
+                        $(".tooltip").on("mouseleave", function () {
+                            $(_this).tooltip('hide');
+                        });
+                    }).on("mouseleave", function () {
+                    var _this = this;
+                    setTimeout(function () {
+                        if (!$(".tooltip:hover").length) {
+                            $(_this).tooltip("hide");
+                        }
+                    }, 300);
+                });
+            }
+
+            function plotPieChart(data) {
+                var myChart = echarts.init(document.getElementById('pi-chart'));
+
+                var scoreData = getScaleFromScore(data['score']);
+
+                var color = scoreData.color;
+                var score = scoreData.score;
+
 
                 var option = {
                     color: [color,'#cccccc']
@@ -818,7 +1298,12 @@
                     </div>
                 </div>
 
-                <script type="text/html" id="analysis-chart-template">
+
+
+
+
+
+                <script type="text/html" id="field-data-template">
                     <div class="report-summary d-flex justify-content-center pt-2 pb-2">
                         <div id="pi-chart" style="width: 200px; height: 200px;"></div>
                         <div class="summary-description m-4">
@@ -835,10 +1320,57 @@
                                     class="range slow">0-49 (slow)</span></div>
                         </div>
                     </div>
+                    <div class="field-data">
+                        <div class="page-field-data d-flex justify-content-center">
+                            <div class="container-fluid col-8 pt-2">
+                                <div class="field-data-title row"><span class="title">Field Data</span></div>
+                                <div class="field-data-description average row">Over the last 30 days, the field data shows that
+                                    this page has an&nbsp;<b>Average</b>&nbsp;speed compared to other pages in the&nbsp;<a
+                                            href="https://developers.google.com/web/tools/chrome-user-experience-report/"
+                                            target="_blank">Chrome User Experience Report</a>. We are showing&nbsp;<a
+                                            href="https://developers.google.com/speed/docs/insights/about#faq"
+                                            target="_blank">the 90th percentile of FCP</a>&nbsp;and&nbsp;<a
+                                            href="https://developers.google.com/speed/docs/insights/about#faq"
+                                            target="_blank">the 95th percentile of FID</a>.
+                                </div>
+                                <div class="metrics row">
+                                    <div class="metric-wrapper">
+                                        <div data-class="fcp_category" data-format-target="class" data-format="CategoryFormatter"><span class="metric-description">First Contentful Paint (FCP)</span>
+                                            <div class="metric-value" data-content="fcp_sec" data-format="TimeMiliSecondFormatter"></div>
+                                        </div>
+                                        <div class="metric-chart">
+                                            <div class="bar fast" data-template-bind='[{"attribute": "style", "value": "fcp_flex_grow_fast", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fcp_flex_grow_fast" data-format="PercentageFormatter"></div>
+                                            <div class="bar average" data-template-bind='[{"attribute": "style", "value": "fcp_flex_grow_average", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fcp_flex_grow_average" data-format="PercentageFormatter"></div>
+                                            <div class="bar slow" data-template-bind='[{"attribute": "style", "value": "fcp_flex_grow_slow", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fcp_flex_grow_slow" data-format="PercentageFormatter"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-wrapper">
+                                        <div data-class="fid_category" data-format-target="class" data-format="CategoryFormatter"><span class="metric-description">First Input Delay (FID)</span>
+                                            <div class="metric-value" data-content="fid_sec" data-format="TimeMiliSecondFormatter"></div>
+                                        </div>
+                                        <div class="metric-chart">
+                                            <div class="bar fast" data-template-bind='[{"attribute": "style", "value": "fid_flex_grow_fast", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fid_flex_grow_fast" data-format="PercentageFormatter"></div>
+                                            <div class="bar average" data-template-bind='[{"attribute": "style", "value": "fid_flex_grow_average", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fid_flex_grow_average" data-format="PercentageFormatter"></div>
+                                            <div class="bar slow" data-template-bind='[{"attribute": "style", "value": "fid_flex_grow_slow", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fid_flex_grow_slow" data-format="PercentageFormatter"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                </script>
+
+                <script type="text/html" id="analysis-chart-template">
                     <div class="lh-vars lab-data">
                         <div class="lh-category d-flex justify-content-center">
-                            <div class="lh-audit-group lh-audit-group--metrics container-fluid col-8 pt-2">
+                            <div class="lh-audit-group lh-audit-group--metrics container-fluid col-8">
                                 <div class="row">
                                     <div class="lh-audit-group__summary">
                                         <div class="lh-audit-group__header">Lab Data</div>
@@ -849,65 +1381,62 @@
                                 </div>
                                 <div class="lh-columns row">
                                     <div class="lh-column">
-                                        <div class="lh-metric lh-metric--fail" id="first-contentful-paint">
+                                        <div class="lh-metric" id="first-contentful-paint">
                                             <div class="lh-metric__innerwrap tooltip-boundary">
                                                 <span class="lh-metric__title">First Contentful Paint</span>
-                                                <div class="lh-metric__value">4.2&nbsp;s</div>
-                                                <div class="lh-metric__description tooltip"><span>First Contentful Paint marks the time at which the first text or image is painted. <a
-                                                        rel="noopener" target="_blank"
-                                                        href="https://developers.google.com/web/tools/lighthouse/audits/first-contentful-paint">Learn more</a>.</span>
-                                                </div>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top" data-html="true" data-container="body"
+                                                     title='<span>First Contentful Paint marks the time at which the first text or image is painted. <a rel="noopener" target="_blank" href="https://developers.google.com/web/tools/lighthouse/audits/first-contentful-paint">Learn more</a>.</span>'></div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric lh-metric--fail" id="speed-index">
+                                        <div class="lh-metric" id="speed-index">
                                             <div class="lh-metric__innerwrap tooltip-boundary">
                                                 <span class="lh-metric__title">Speed Index</span>
-                                                <div class="lh-metric__value">6.9&nbsp;s</div>
-                                                <div class="lh-metric__description tooltip"><span>Speed Index shows how quickly the contents of a page are visibly populated. <a
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top" data-html="true" data-container="body"
+                                                     title='<span>Speed Index shows how quickly the contents of a page are visibly populated. <a
                                                         rel="noopener" target="_blank"
-                                                        href="https://developers.google.com/web/tools/lighthouse/audits/speed-index">Learn more</a>.</span>
+                                                        href="https://developers.google.com/web/tools/lighthouse/audits/speed-index">Learn more</a>.</span>'>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric lh-metric--fail" id="interactive">
+                                        <div class="lh-metric" id="interactive">
                                             <div class="lh-metric__innerwrap tooltip-boundary">
                                                 <span class="lh-metric__title">Time to Interactive</span>
-                                                <div class="lh-metric__value">19.0&nbsp;s</div>
-                                                <div class="lh-metric__description tooltip"><span>Time to interactive is the amount of time it takes for the page to become fully interactive. <a
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top" data-html="true"
+                                                     title='<span>Time to interactive is the amount of time it takes for the page to become fully interactive. <a
                                                         rel="noopener" target="_blank"
-                                                        href="https://developers.google.com/web/tools/lighthouse/audits/consistently-interactive">Learn more</a>.</span>
+                                                        href="https://developers.google.com/web/tools/lighthouse/audits/consistently-interactive">Learn more</a>.</span>'>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="lh-column">
-                                        <div class="lh-metric lh-metric--fail" id="first-meaningful-paint">
+                                        <div class="lh-metric" id="first-meaningful-paint">
                                             <div class="lh-metric__innerwrap tooltip-boundary">
                                                 <span class="lh-metric__title">First Meaningful Paint</span>
-                                                <div class="lh-metric__value">4.3&nbsp;s</div>
-                                                <div class="lh-metric__description tooltip"><span>First Meaningful Paint measures when the primary content of a page is visible. <a
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top" data-html="true"
+                                                     title='<span>First Meaningful Paint measures when the primary content of a page is visible. <a
                                                         rel="noopener" target="_blank"
-                                                        href="https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint">Learn more</a>.</span>
+                                                        href="https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint">Learn more</a>.</span>'>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric lh-metric--fail" id="first-cpu-idle">
+                                        <div class="lh-metric" id="first-cpu-idle">
                                             <div class="lh-metric__innerwrap tooltip-boundary">
                                                 <span class="lh-metric__title">First CPU Idle</span>
-                                                <div class="lh-metric__value">16.8&nbsp;s</div>
-                                                <div class="lh-metric__description tooltip"><span>First CPU Idle marks the first time at which the page's main thread is quiet enough to handle input. <a
-                                                        rel="noopener" target="_blank"
-                                                        href="https://developers.google.com/web/tools/lighthouse/audits/first-interactive">Learn more</a>.</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top" data-html="true"
+                                                     title="<span>First CPU Idle marks the first time at which the page's main thread is quiet enough to handle input. <a
+                                                        rel='noopener' target='_blank'
+                                                        href='https://developers.google.com/web/tools/lighthouse/audits/first-interactive'>Learn more</a>.</span>">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric lh-metric--fail" id="estimated-input-latency">
+                                        <div class="lh-metric" id="estimated-input-latency">
                                             <div class="lh-metric__innerwrap tooltip-boundary">
                                                 <span class="lh-metric__title">Estimated Input Latency</span>
-                                                <div class="lh-metric__value">1,100&nbsp;ms</div>
-                                                <div class="lh-metric__description tooltip"><span>Estimated Input Latency is an estimate of how long your app takes to respond to user input, in milliseconds, during the busiest 5s window of page load. If your latency is higher than 50 ms, users may perceive your app as laggy. <a
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top" data-html="true"
+                                                     title='<span>Estimated Input Latency is an estimate of how long your app takes to respond to user input, in milliseconds, during the busiest 5s window of page load. If your latency is higher than 50 ms, users may perceive your app as laggy. <a
                                                         rel="noopener" target="_blank"
-                                                        href="https://developers.google.com/web/tools/lighthouse/audits/estimated-input-latency">Learn more</a>.</span>
+                                                        href="https://developers.google.com/web/tools/lighthouse/audits/estimated-input-latency">Learn more</a>.</span>'>
                                                 </div>
                                             </div>
                                         </div>
@@ -920,10 +1449,62 @@
 
 
 
+                <script type="text/html" id="analysis-diagnostics-template">
+                    <div class="lh-vars lab-data">
+                        <div class="lh-category d-flex justify-content-center">
+                            <div class="lh-audit-group lh-audit-group--metrics container-fluid col-8">
+                                <div class="row">
+                                    <div class="lh-audit-group__summary">
+                                        <div class="lh-audit-group__header">Diagnostics</div>
+                                    </div>
+                                </div>
+                                <div class="lh-audit-group__description row"><span>Collection of useful page vitals.</span></div>
+                                <!--
+                                numRequests": 112,
+    "numScripts": 29,
+    "numStylesheets": 7,
+    "numFonts": 8,
+    "numTasks": 1665,
+    "numTasksOver10ms": 43,
+    "numTasksOver25ms": 21,
+    "numTasksOver50ms": 14,
+    "numTasksOver100ms": 8,
+    "numTasksOver500ms": 1,
+    "rtt": "0.7549999999999955",
+    "throughput": "7594337.695993658",
+    "maxRtt": "38.447",
+    "maxServerLatency": "217.965",
+    "totalByteWeight": "1626135",
+    "totalTaskTime": "3368.785999999993",
+    "mainDocumentTransferSize": "45201"
+                                -->
+                                <div class="lh-columns row">
+                                    <div class="lh-column">
+                                        <div class="lh-metric" id="numScripts">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Number of scripts on the page</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numStylesheets">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Number of stylesheets on the page</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="container-fluid" id="analysis-chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </script>
 
-                </div>
+                <div class="container-fluid" id="field-data-chart"></div>
+
+                <div class="container-fluid" id="analysis-diagnostics"></div>
+
+                <div class="container-fluid" id="analysis-chart"></div>
 
                 <div class="container-fluid d-flex flex-wrap col-8 pt-2 pb-2" id="screenshots"></div>
 

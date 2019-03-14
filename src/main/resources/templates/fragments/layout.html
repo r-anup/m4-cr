@@ -1,48 +1,155 @@
 <!doctype html>
-<html th:fragment="layout (template, menu)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="include(title,links,styles,scripts,body)">
+
+
+
 <head>
-    <title>Java Getting Started on Heroku</title>
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+
+    <title th:replace="${title}">The awesome application</title>
+
+    <!-- Common styles and scripts -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1">
+    <meta name="robots" content="NOINDEX,NOFOLLOW">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.dev.consumerreports.org/crux/styles/2.0/css/main.css" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
+
+    <style>
+        body {
+            font-size: 2rem;
+            font-family: Arial;
+        }
+
+
+        #table-details .slow {
+            color: #c7221f;;
+        }
+
+        #table-details .average {
+            color: #e67700;;
+        }
+
+        #table-details .fast {
+            color: #00ae4d;;
+        }
+
+        .main-action {
+            padding: 4rem 0 0;
+            background: #4285f4;
+            line-height: 4rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .main-action div.url-and-analyze {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .main-action input[name=url] {
+            color: rgba(0, 0, 0, 0.87);
+            border: none;
+            font-size: 14px;
+            height: auto;
+            padding: 0 16px;
+            width: 40%;
+        }
+
+        input[type="text"] {
+            border: 1px solid #ebebeb;
+            border-radius: 2px;
+            color: #212121;
+            font: 16px/20px Roboto, sans-serif;
+            margin: 0;
+            max-width: 100%;
+            outline: 0;
+            padding: 7px;
+            transition: border-color .2s;
+            vertical-align: middle;
+        }
+
+
+        .footer {
+            border-top: solid 1px #999;
+            /*box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2), 0 1px 0 0 rgba(0,0,0,0.01);*/
+            margin: 4rem 0 2rem 0;
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 4rem;
+        }
+
+        .fixed-header {
+            position: fixed;
+            height: 6rem;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+
+    </style>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.loadTemplate.min.js"></script>
+   <!-- <script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>-->
+    <script type="text/javascript" src="/js/echarts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymoutabs"></script>
+
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}" />
+    <th:block th:replace="${styles}" />
+    <th:block th:replace="${scripts}" />
+
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbar-static-top navbar-inverse">
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
-                </li>
-                <li>
-                    <a href="https://devcenter.heroku.com/articles/how-heroku-works"><span class="glyphicon glyphicon-user"></span> How Heroku Works</a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-info-sign"></span> Getting Started Guides <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-ruby">Getting Started with Ruby on Heroku</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started with Node on Heroku</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-php">Getting Started with PHP on Heroku</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-java">Getting Started with Java on Heroku</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-go">Getting Started with Go on Heroku</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-clojure">Getting Started with Clojure on Heroku</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-scala">Getting Started with Scala on Heroku</a></li>
-                        <li class="divider"></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-heroku-and-connect-without-local-dev">Getting Started on Heroku with Heroku Connect</a></li>
-                        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-jruby">Getting Started with Ruby on Heroku (Microsoft Windows)</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="navbar-right">
-                    <a href="https://devcenter.heroku.com"><span class="glyphicon glyphicon-book"></span> Heroku Dev Center</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div th:replace="${template}"/>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between p-3 fixed-header">
+        <div class="p2"><img src="images/cr-logo.svg"></div>
 
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-</body>
+        <div class="p2">
+            <ul class="nav justify-content-end nav-pills">
+                <li class="nav-item">
+                    <a th:class="${tab} == 'reports' ? 'nav-link active' : 'nav-link'" href="reports.html">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a th:class="${tab} == 'analyze' ? 'nav-link active' : 'nav-link'" href="analyze.html">Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a th:class="${tab} == 'metrics' ? 'nav-link active' : 'nav-link'" href="metrics.html">Metrics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="config.html">Settings</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+    <div style="padding-top: 8rem;">
+        <th:block th:replace="${body}" />
+    </div>
+    <div class="footer container-fluid d-flex">
+        For questions please email at arai@consumer.org
+    </div>
+
+</div>
+
+
+<body>

@@ -1,201 +1,405 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Product Reviews and Ratings - Consumer Reports</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1">
-    <meta name="robots" content="NOINDEX,NOFOLLOW">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.cr.org/crux/styles/2.0/css/main.css" type="text/css">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: include(~{::title},~{::link},~{},~{::script},~{::body})}">
+    <head>
+        <title>Analyze - Consumer Reports</title>
+        <link rel="stylesheet" href="/stylesheets/analyze.css" type="text/css">
+        <script src="/js/analyze.js"></script>
+    </head>
 
-    <style>
-
-        body {
-            font-size: 2rem;
-        }
-
-        .score {
-            border-radius: 50%;
-            color: #fff;
-            background-color: #00ae4d;
-            width: 100px;
-            height: 100px;
-            -ms-flex-align: center;
-            align-items: center;
-            -ms-flex-pack: center;
-            justify-content: center;
-            display: -ms-flexbox;
-            display: flex;
-            font-size: 50px;
-            margin-left: 30%;
-        }
-        .score.average {
-            background-color: #e67700;;
-        }
-        .score.slow {
-            background-color: #c7221f;;
-        }
-        #table-details .slow {
-            color: #c7221f;;
-        }
-        #table-details .average {
-            color: #e67700;;
-        }
-        #table-details .fast {
-            color: #00ae4d;;
-        }
-
-
-        .main-action {
-            padding: 48px 0 24px;
-            background: #4285f4;
-            line-height: 4rem;
-            margin-top: 5rem;
-            margin-bottom: 5rem;
-            padding-bottom: 3rem;
-        }
-
-        .main-action div.url-and-analyze {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .main-action input[name=url] {
-            color: rgba(0,0,0,0.87);
-            border: none;
-            font-size: 14px;
-            height: auto;
-            padding: 0 16px;
-            width: 40%;
-        }
-
-        input[type="text"] {
-            border: 1px solid #ebebeb;
-            border-radius: 2px;
-            color: #212121;
-            font: 16px/20px Roboto,sans-serif;
-            margin: 0;
-            max-width: 100%;
-            outline: 0;
-            padding: 7px;
-            transition: border-color .2s;
-            vertical-align: middle;
-        }
-
-        .main-action div.analyze-cell {
-            border: none;
-            color: #fff;
-            margin-left: 8px;
-            min-width: 96px;
-            font-size: 14px;
-            line-height: 32px;
-        }
-
-        .main-action .main-submit {
-            background-color: #3367d6;
-            box-shadow: none;
-            padding: 8px 16px;
-            cursor: pointer;
-        }
-    </style>
-
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-    <script type="text/javascript">
-        $( document ).on( "click", ".main-submit", function() {
-            var inputURL = $(".main-action .url");
-            var inputURLStr = inputURL.val();
-            if (!inputURLStr.startsWith('http', 0)) {
-                inputURLStr = "http://" + inputURLStr;
-                inputURL.val(inputURLStr);
+    <body>
+        <script th:inline="javascript">
+            var globalData = {};
+            globalData.fetch = /*[[${fetch}]]*/ "process";
+            globalData.strategy = /*[[${strategy}]]*/ "mobile";
+            globalData.overrideAPI = /*[[${overrideAPI}]]*/ "";
+            globalData.apiSource = /*[[${apiSource}]]*/ "local";
+            globalData.secondAPI = null;
+            globalData.mainAPI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+            if (globalData.overrideAPI != "") {
+                globalData.mainAPI = globalData.overrideAPI;
+            } else if (globalData.fetch == 'google') {
+                globalData.mainAPI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+            } else if (globalData.fetch == 'process') {
+                globalData.mainAPI = '/process';
+            } else if (globalData.fetch == 'processAndSave') {
+                globalData.mainAPI = '/processAndSave';
+            }  else if (globalData.fetch == 'repo'){
+                globalData.mainAPI = '/metrics/url';
             }
 
-            $(".loading-spinner").show();
 
-            $.ajax({
-                url: "/process",
-                data: {
-                    url: inputURLStr,
-                },
-                dataType: 'json',
-                method: 'GET'
-            })
-                .done(function (response) {
-                    $("#analysis-chart").html(response);
-                })
-                .fail(function () {
-                    $("#analysis-chart").html("there was an error");
-                })
-                .always(function () {
-                    $(".loading-spinner").hide();
-                });
-        });
-    </script>
 
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="d-flex justify-content-between m-3">
-            <div class="p2"><img src="images/cr-logo.svg"></div>
+        </script>
 
-            <div class="p2">
-                <ul class="nav justify-content-end nav-pills">
-                    <li class="nav-item">
-                        <a class="nav-link" href="main.html">Latest Score Report</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="analyze.html">Analyze Pagespeed Insight</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="config.html">Configuration1</a>
-                    </li>
-
-                </ul>
-
+            <div class="d-flex container-fluid col-sm-12 justify-content-left">
+               <h1 class="crux-headline--standard">Analyze Pagespeed Insight</h1>
             </div>
-        </div>
 
 
-        <div class="d-flex justify-content-center pt-5">
-            <div class="p2"><h1 class="crux-headline--standard">Analyze Pagespeed Insight</h1></div>
-        </div>
+            <div class="main-action pt-4">
+                <form>
+                    <div class="url-and-analyze"><input type="text" name="url" class="url label-input-label"
+                                                        placeholder="Enter a web page URL"
+                                                        aria-label="Enter a web page URL">
+                        <div class="analyze-cell">
+                            <div class="button button-red analyze jfk-button main-submit" role="button" tabindex="0"
+                                 style="user-select: none;"> ANALYZE
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
 
-        <div class="main-action pt-5">
-            <form>
-                <div class="url-and-analyze"><input type="text" name="url" class="url label-input-label"
-                                                    placeholder="Enter a web page URL"
-                                                    aria-label="Enter a web page URL">
-                    <div class="analyze-cell">
-                        <div class="button button-red analyze jfk-button main-submit" role="button" tabindex="0"
-                             style="user-select: none;"> ANALYZE
+                <div class="goog-tab-bar result-tabs goog-tab-bar result-tabs-horizontal goog-tab-bar result-tabs-top"
+                     role="tablist" style="user-select: none;">
+                    <div class="tab-bar-wrapper" style="user-select: none; display: none;">
+                        <div class="goog-tab goog-tab-selected" data-id="mobile" role="tab" aria-selected="true" tabindex="0"
+                             id=":5"
+                             style="user-select: none;">
+                            <div style="user-select: none;">
+                                <div class="tab-title" style="user-select: none;">Mobile</div>
+                            </div>
+                        </div>
+                        <div class="goog-tab" role="tab" data-id="desktop" aria-selected="false" tabindex="0" id=":8"
+                             style="user-select: none;">
+                            <div style="user-select: none;">
+                                <div class="tab-title" style="user-select: none;">Desktop</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
 
 
-        <div class="container-fluid">
+            <div class="container-fluid" style="min-height: 800px;">
 
-            <div class="loading-spinner" style="display: none;">
-                <div class="text-center">
-                    <div class="spinner-border" style="width: 6rem; height: 6rem;" role="status">
-                        <span class="sr-only">Loading...</span>
+                <div class="loading-spinner" style="display: none; margin-top: 200px;">
+                    <div class="text-center">
+                        <div class="spinner-grow spinner" style="width: 6rem; height: 6rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="report-summary" style="display: none">
+                    <div  class="d-flex justify-content-center pt-2 pb-2">
+                        <div id="pi-chart" style="width: 200px; height: 200px;"></div>
+                        <div class="summary-description m-4">
+                            <a target="_blank" class="audited-url" data-href="url" data-content="url"></a>
+                            <p class="summary-message">The <a
+                                    href="https://developers.google.com/web/tools/lighthouse/v3/scoring"
+                                    target="_blank">speed score</a> is based on the lab data analyzed by <a
+                                    href="https://developers.google.com/web/tools/lighthouse/" target="_blank">Lighthouse</a>.
+                            </p>
+                            <p class="summary-message">Analysis time: <span data-content="fetchTime"></span></p>
+                            <div class="gauge-scale"><span>Scale:</span><span
+                                    class="range fast">90-100 (fast)</span><span
+                                    class="range average">50-89 (average)</span><span
+                                    class="range slow">0-49 (slow)</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <script type="text/html" id="field-data-template">
+
+                    <div class="field-data">
+                        <div class="page-field-data d-flex justify-content-center">
+                            <div class="container-fluid col-8 pt-2">
+                                <div class="field-data-title row"><span class="title">Field Data</span></div>
+                                <div class="field-data-description average row">Over the last 30 days, the field data shows that
+                                    this page has an&nbsp;<b>Average</b>&nbsp;speed compared to other pages in the&nbsp;<a
+                                            href="https://developers.google.com/web/tools/chrome-user-experience-report/"
+                                            target="_blank">Chrome User Experience Report</a>. We are showing&nbsp;<a
+                                            href="https://developers.google.com/speed/docs/insights/about#faq"
+                                            target="_blank">the 90th percentile of FCP</a>&nbsp;and&nbsp;<a
+                                            href="https://developers.google.com/speed/docs/insights/about#faq"
+                                            target="_blank">the 95th percentile of FID</a>.
+                                </div>
+                                <div class="metrics row">
+                                    <div class="metric-wrapper">
+                                        <div data-class="fcp_category" data-format-target="class"
+                                             data-format="CategoryFormatter"><span class="metric-description">First Contentful Paint (FCP)</span>
+                                            <div class="metric-value" data-content="fcp_sec"
+                                                 data-format="TimeMiliSecondFormatter"></div>
+                                        </div>
+                                        <div class="metric-chart">
+                                            <div class="bar fast"
+                                                 data-template-bind='[{"attribute": "style", "value": "fcp_flex_grow_fast", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fcp_flex_grow_fast" data-format="PercentageFormatter"></div>
+                                            <div class="bar average"
+                                                 data-template-bind='[{"attribute": "style", "value": "fcp_flex_grow_average", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fcp_flex_grow_average" data-format="PercentageFormatter"></div>
+                                            <div class="bar slow"
+                                                 data-template-bind='[{"attribute": "style", "value": "fcp_flex_grow_slow", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fcp_flex_grow_slow" data-format="PercentageFormatter"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-wrapper">
+                                        <div data-class="fid_category" data-format-target="class"
+                                             data-format="CategoryFormatter"><span class="metric-description">First Input Delay (FID)</span>
+                                            <div class="metric-value" data-content="fid_sec"
+                                                 data-format="TimeMiliSecondFormatter"></div>
+                                        </div>
+                                        <div class="metric-chart">
+                                            <div class="bar fast"
+                                                 data-template-bind='[{"attribute": "style", "value": "fid_flex_grow_fast", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fid_flex_grow_fast" data-format="PercentageFormatter"></div>
+                                            <div class="bar average"
+                                                 data-template-bind='[{"attribute": "style", "value": "fid_flex_grow_average", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fid_flex_grow_average" data-format="PercentageFormatter"></div>
+                                            <div class="bar slow"
+                                                 data-template-bind='[{"attribute": "style", "value": "fid_flex_grow_slow", "formatter": "FlexGrowStyleFormatter"}]'
+                                                 data-content="fid_flex_grow_slow" data-format="PercentageFormatter"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </script>
+
+                <!--
+                            numRequests": 112,
+"numScripts": 29,
+"numStylesheets": 7,
+"numFonts": 8,
+"numTasks": 1665,
+"numTasksOver10ms": 43,
+"numTasksOver25ms": 21,
+"numTasksOver50ms": 14,
+"numTasksOver100ms": 8,
+"numTasksOver500ms": 1,
+"rtt": "0.7549999999999955",
+"throughput": "7594337.695993658",
+"maxRtt": "38.447",
+"maxServerLatency": "217.965",
+"totalByteWeight": "1626135",
+"totalTaskTime": "3368.785999999993",
+"mainDocumentTransferSize": "45201"
+                            -->
+
+                <script type="text/html" id="diagnostics-chart-template">
+                    <div class="lh-vars lab-data">
+                        <div class="lh-category d-flex justify-content-center">
+                            <div class="lh-audit-group lh-audit-group--metrics container-fluid col-8">
+                                <div class="row">
+                                    <div class="lh-audit-group__summary">
+                                        <div class="lh-audit-group__header">Diagnostics</div>
+                                    </div>
+                                </div>
+                                <div class="lh-audit-group__description row"><span>Collection of useful page vitals.</span></div>
+
+                                <div class="lh-columns row">
+                                    <div class="lh-column">
+                                        <div class="lh-metric" id="numScripts">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Total Scripts</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numFonts">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Total Fonts</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="mainDocumentTransferSize">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Main Document Transfer Size</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numTasksOver25ms">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Tasks Over 25 ms</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numTasksOver100ms">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Tasks Over 100 ms</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric lh-metric--info" id="rtt">
+                                            <div class="lh-metric__innerwrap  tooltip-boundary">
+                                                <span class="lh-metric__title">Round Trip Time</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
+                                                     data-html="true" data-container="body"
+                                                     title='<span>Round trip time (RTT) is the time required for a signal pulse or packet to travel from a specific source such as the computer that initiates the signal, to a specific destination such as a remote computer or system, and back. <a rel="noopener" target="_blank" href="https://developers.google.com/web/tools/lighthouse/audits/first-contentful-paint">Learn more</a>.</span>'></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="lh-metric" id="maxRtt">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Maximum Round Trip Time</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="totalByteWeight">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Total page weight in Kb</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-            <div class="container-fluid" id="analysis-chart">
 
-            </div>
+                                    <div class="lh-column">
+                                        <div class="lh-metric" id="numStylesheets">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Number of stylesheets</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numTasks">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Total tasks</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numTasksOver10ms">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Tasks over 10ms</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numTasksOver50ms">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Total Stylesheets</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="numTasksOver500ms">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Tasks Over 500 ms</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="throughput">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Throughput</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="lh-metric" id="maxServerLatency">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Max Server Latency</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="totalTaskTime">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Total Task time</span>
+                                                <div class="lh-metric__value"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+
+                <script type="text/html" id="analysis-chart-template">
+                    <div class="lh-vars lab-data">
+                        <div class="lh-category d-flex justify-content-center">
+                            <div class="lh-audit-group lh-audit-group--metrics container-fluid col-8">
+                                <div class="row">
+                                    <div class="lh-audit-group__summary">
+                                        <div class="lh-audit-group__header">Lab Data</div>
+                                    </div>
+                                </div>
+                                <div class="lh-audit-group__description row"><span><a rel="noopener" target="_blank"
+                                                                                      href="https://developers.google.com/web/tools/lighthouse/">Lighthouse</a> analysis of the current page on an emulated mobile network. Values are estimated and may vary.</span>
+                                </div>
+                                <div class="lh-columns row">
+                                    <div class="lh-column">
+                                        <div class="lh-metric" id="first-contentful-paint">
+                                            <div class="lh-metric__innerwrap tooltip-boundary">
+                                                <span class="lh-metric__title">First Contentful Paint</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
+                                                     data-html="true" data-container="body"
+                                                     title='<span>First Contentful Paint marks the time at which the first text or image is painted. <a rel="noopener" target="_blank" href="https://developers.google.com/web/tools/lighthouse/audits/first-contentful-paint">Learn more</a>.</span>'></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="speed-index">
+                                            <div class="lh-metric__innerwrap tooltip-boundary">
+                                                <span class="lh-metric__title">Speed Index</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
+                                                     data-html="true" data-container="body"
+                                                     title='<span>Speed Index shows how quickly the contents of a page are visibly populated. <a
+                                                                rel="noopener" target="_blank"
+                                                                href="https://developers.google.com/web/tools/lighthouse/audits/speed-index">Learn more</a>.</span>'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="interactive">
+                                            <div class="lh-metric__innerwrap tooltip-boundary">
+                                                <span class="lh-metric__title">Time to Interactive</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
+                                                     data-html="true"
+                                                     title='<span>Time to interactive is the amount of time it takes for the page to become fully interactive. <a
+                                                                rel="noopener" target="_blank"
+                                                                href="https://developers.google.com/web/tools/lighthouse/audits/consistently-interactive">Learn more</a>.</span>'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lh-column">
+                                        <div class="lh-metric" id="first-meaningful-paint">
+                                            <div class="lh-metric__innerwrap tooltip-boundary">
+                                                <span class="lh-metric__title">First Meaningful Paint</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
+                                                     data-html="true"
+                                                     title='<span>First Meaningful Paint measures when the primary content of a page is visible. <a
+                                                                rel="noopener" target="_blank"
+                                                                href="https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint">Learn more</a>.</span>'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="first-cpu-idle">
+                                            <div class="lh-metric__innerwrap tooltip-boundary">
+                                                <span class="lh-metric__title">First CPU Idle</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
+                                                     data-html="true"
+                                                     title="<span>First CPU Idle marks the first time at which the page's main thread is quiet enough to handle input. <a
+                                                                rel='noopener' target='_blank'
+                                                                href='https://developers.google.com/web/tools/lighthouse/audits/first-interactive'>Learn more</a>.</span>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric" id="estimated-input-latency">
+                                            <div class="lh-metric__innerwrap tooltip-boundary">
+                                                <span class="lh-metric__title">Estimated Input Latency</span>
+                                                <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
+                                                     data-html="true"
+                                                     title='<span>Estimated Input Latency is an estimate of how long your app takes to respond to user input, in milliseconds, during the busiest 5s window of page load. If your latency is higher than 50 ms, users may perceive your app as laggy. <a
+                                                                rel="noopener" target="_blank"
+                                                                href="https://developers.google.com/web/tools/lighthouse/audits/estimated-input-latency">Learn more</a>.</span>'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+
+
+                <div class="container-fluid" id="field-data-chart"></div>
+
+                <div class="container-fluid" id="analysis-chart"></div>
+
+                <div class="container-fluid" id="diagnostics-chart"></div>
+
+                <div class="container-fluid d-flex flex-wrap col-8 pt-2 pb-2" id="screenshots"></div>
         </div>
-    </div>
-</body>
+    </body>
 </html>
