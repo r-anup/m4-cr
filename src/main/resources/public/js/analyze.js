@@ -1,10 +1,23 @@
 function timeMiliSecondFormatter(value) {
     if (!isNaN(value)) {
         if (value < 1000) {
-            return value + ' ms';
+            return (Math.floor(value * 100) / 100).toLocaleString() + ' ms';
         } else {
             value = value / 1000;
-            return (Math.floor(value * 100) / 100) + ' s';
+            return (Math.floor(value * 100) / 100).toLocaleString() + ' s';
+        }
+    } else {
+        return value;
+    }
+}
+
+function bytesFormatter(value) {
+    if (!isNaN(value)) {
+        if (value < 1024) {
+            return value.toLocaleString() + ' Bytes';
+        } else {
+            value = value / 1024;
+            return Math.round(value).toLocaleString() + ' KB';
         }
     } else {
         return value;
@@ -36,7 +49,33 @@ function getScaleFromScore(score) {
 
 $.addTemplateFormatter({
     TimeMiliSecondFormatter: function (value, template) {
+        if (template == "getValue") {
+            value = value.value;
+        }
         return timeMiliSecondFormatter(value);
+    },
+
+    BytesFormatter: function (value, template) {
+        if (template == "getValue") {
+            value = value.value;
+        }
+        return bytesFormatter(value);
+    },
+
+    NumberFormatter: function (value, template) {
+        if (template == "getValue") {
+            value = value.value;
+        }
+        if (isNaN(value)) {
+            return value;
+        } else {
+            return Number(value).toLocaleString();
+        }
+    },
+
+    GetValue: function (value, template) {
+        console.log(value);
+        return value.value;
     },
 
     CategoryFormatter: function (value, template) {
@@ -116,7 +155,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
     globalData.url = url;
     globalData.strategy = strategy;
 
-    window.history.pushState(null, null, "/analyze.html?url=" + encodeURIComponent(url) + "&strategy=" + strategy + ((globalData.fetch != '') ? "&fetch=" + globalData.fetch : "") + ((globalData.overrideAPI != '') ? "&overrideAPI=" + globalData.overrideAPI: '') + ((globalData.apiSource != '') ? "&apiSource=" + globalData.apiSource: ''));
+    window.history.pushState(null, null, "/analyze.html?url=" + encodeURIComponent(url) + "&strategy=" + strategy + ((globalData.fetchSource != '') ? "&fetchSource=" + globalData.fetchSource : "") + ((globalData.overrideAPI != '') ? "&overrideAPI=" + globalData.overrideAPI: '') + ((globalData.date != null) ? "&date=" + globalData.date: ''));
 
     $(".tab-bar-wrapper .goog-tab").removeClass('goog-tab-selected');
     if (strategy == 'mobile') {
@@ -155,7 +194,8 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
                 key: 'AIzaSyAQp8vshwJq1nwhsryxOfK__GshqnpXvUA',
                 locale: 'en_US',
                 strategy: globalData.strategy,
-                apiSource: globalData.apiSource,
+                fetchSource: globalData.fetchSource,
+                date: globalData.date,
             },
             dataType: 'json',
             method: 'GET',
@@ -201,12 +241,34 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
                 url: data['url'],
             });
 
+        if (data['diagnostics']) {
+            $("#diagnostics-chart").loadTemplate($("#diagnostics-chart-template"),
+                data['diagnostics']
+            );
 
-        $("#diagnostics-chart").loadTemplate($("#diagnostics-chart-template"));
-        plotDiagnostricsChart(data['diagnostics']);
+            //plotDiagnostricsChart(data['diagnostics']);
 
-        plotPieChart(data['score']);
+            plotFileTypeChart(
+                $(".file-type-metrics").map(function () {
+                    return {
+                        name: $(this).find(".lh-metric__title").text(),
+                        value: $(this).find(".lh-metric__value").text()
+                    };
+                }).get(), 'file-type-chart', 'Page weight'
+            );
 
+            plotFileTypeChart(
+                $(".tasks-metrics").map(function () {
+                    return {
+                        name: $(this).find(".lh-metric__title").text(),
+                        value: $(this).find(".lh-metric__value").text()
+                    };
+                }).get(), 'tasks-chart', 'Page tasks'
+            );
+
+        }
+
+        plotDonutChart(data['score']);
         plotLabDataChart(data['lighthouseResult']);
 
         data['screenshots'].forEach(function (screenshot) {
@@ -221,49 +283,25 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
         $(".loading-spinner").hide();
     })
         .fail(function () {
-            $("#analysis-chart").html("there was an error");
-            $(".loading-spinner").hide();
+            if (globalData.fetchSource == "repository") {
+                var urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('fetchSource','lightHouseNoSave');
+                window.location.href = window.location.origin +  window.location.pathname  + "?" + urlParams.toString();
+            } else {
+                $("#analysis-chart").html("");
+                //$("#analysis-chart").html("there was an error");
+                $(".loading-spinner").hide();
+            }
         });
 
 }
 
 
-function getScoreEntities(response) {
-    var data = {};
 
-    if (response.isDataFormatted) {
-        /* data coming from database */
-        data['fetchTime'] = new Date(response.fetchTime).toLocaleString();
-        data['lighthouseResult'] = response.lighthouseResult;
-        data['score'] = response.lighthouseResult.score;
-        data['screenshots'] = response['screenshots'];
-    } else {
-        /* data coming directly from server call */
-        var result = response.lighthouseResult || response;
-        data['score'] = result.categories.performance.score;
-        data['fetchTime'] = new Date(response.analysisUTCTimestamp).toLocaleString();
-        data['lighthouseResult'] = result.audits;
-        data['url'] = response.finalUrl;
-        data['screenshots'] = audits['screenshot-thumbnails'].details.items;
-    }
-
-    data['showLoadingExperience'] = false;
-    if (response.loadingExperience) {
-        data['showLoadingExperience'] = true;
-        data['FIRST_CONTENTFUL_PAINT_MS'] = response.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS;
-        data['FIRST_INPUT_DELAY_MS'] = response.loadingExperience.metrics.FIRST_INPUT_DELAY_MS;
-    }
-
-    if (response.diagnostics) {
-        data['diagnostics'] = response.diagnostics;
-    }
-
-    return data;
-}
 
 function plotDiagnostricsChart(items) {
     Object.keys(items).forEach(function (key) {
-        $("#" + key).find(".lh-metric__value").html(items[key]);
+        $("#" + key).find(".lh-metric__value").html(items[key].value);
     });
 }
 
@@ -300,8 +338,53 @@ function delayPopoverClose() {
     });
 }
 
-function plotPieChart(scoreValue) {
-    var myChart = echarts.init(document.getElementById('pi-chart'));
+function plotFileTypeChart(data, elem, title) {
+
+    var myChart = echarts.init(document.getElementById(elem));
+
+    var option = {
+        title : {
+            text: title,
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend:
+            {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
+            },
+        series: [
+            {
+                name: title,
+                type: 'pie',
+                radius : '45%',
+                center: ['40%', '50%'],
+                label: {
+                    formatter: "{b}: {c}"
+                },
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+                data: data
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+}
+
+function plotDonutChart(scoreValue) {
+    var myChart = echarts.init(document.getElementById('score-chart'));
 
     var scoreData = getScaleFromScore(scoreValue);
 

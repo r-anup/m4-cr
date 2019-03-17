@@ -4,32 +4,35 @@
         <title>Analyze - Consumer Reports</title>
         <link rel="stylesheet" href="/stylesheets/analyze.css" type="text/css">
         <script src="/js/analyze.js"></script>
+        <script>
+            var globalData = {};
+            // /*[[${settings}]]*/
+        </script>
     </head>
 
     <body>
-        <script th:inline="javascript">
-            var globalData = {};
-            globalData.fetch = /*[[${fetch}]]*/ "process";
-            globalData.strategy = /*[[${strategy}]]*/ "mobile";
-            globalData.overrideAPI = /*[[${overrideAPI}]]*/ "";
-            globalData.apiSource = /*[[${apiSource}]]*/ "local";
-            globalData.secondAPI = null;
-            globalData.mainAPI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
-            if (globalData.overrideAPI != "") {
-                globalData.mainAPI = globalData.overrideAPI;
-            } else if (globalData.fetch == 'google') {
+        <div th:unless="${settings == 'true'}">
+            <script th:inline="javascript">
+                globalData.fetchSource = /*[[${fetchSource}]]*/ "lightHouseNoSave";
+                globalData.strategy = /*[[${strategy}]]*/ "mobile";
+                globalData.overrideAPI = /*[[${overrideAPI}]]*/ "";
+                globalData.date = /*[[${date}]]*/ "mobile";
+                globalData.secondAPI = null;
                 globalData.mainAPI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
-            } else if (globalData.fetch == 'process') {
-                globalData.mainAPI = '/process';
-            } else if (globalData.fetch == 'processAndSave') {
-                globalData.mainAPI = '/processAndSave';
-            }  else if (globalData.fetch == 'repo'){
-                globalData.mainAPI = '/metrics/url';
-            }
+                if (globalData.overrideAPI != "") {
+                    globalData.mainAPI = globalData.overrideAPI;
+                } else if (globalData.fetchSource == 'googleNoSave') {
+                    globalData.mainAPI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+                } else if (globalData.fetchSource == 'lightHouseNoSave') {
+                    globalData.mainAPI = '/lighthouse';
+                } else if (globalData.fetchSource == 'lightHouseAndSave') {
+                    globalData.mainAPI = '/lighthouse';
+                }  else if (globalData.fetchSource == 'repository'){
+                    globalData.mainAPI = '/metrics/url';
+                }
+            </script>
+        </div>
 
-
-
-        </script>
 
             <div class="d-flex container-fluid col-sm-12 justify-content-left">
                <h1 class="crux-headline--standard">Analyze Pagespeed Insight</h1>
@@ -83,7 +86,7 @@
 
                 <div class="report-summary" style="display: none">
                     <div  class="d-flex justify-content-center pt-2 pb-2">
-                        <div id="pi-chart" style="width: 200px; height: 200px;"></div>
+                        <div id="score-chart" style="width: 200px; height: 200px;"></div>
                         <div class="summary-description m-4">
                             <a target="_blank" class="audited-url" data-href="url" data-content="url"></a>
                             <p class="summary-message">The <a
@@ -159,25 +162,6 @@
                     </div>
                 </script>
 
-                <!--
-                            numRequests": 112,
-"numScripts": 29,
-"numStylesheets": 7,
-"numFonts": 8,
-"numTasks": 1665,
-"numTasksOver10ms": 43,
-"numTasksOver25ms": 21,
-"numTasksOver50ms": 14,
-"numTasksOver100ms": 8,
-"numTasksOver500ms": 1,
-"rtt": "0.7549999999999955",
-"throughput": "7594337.695993658",
-"maxRtt": "38.447",
-"maxServerLatency": "217.965",
-"totalByteWeight": "1626135",
-"totalTaskTime": "3368.785999999993",
-"mainDocumentTransferSize": "45201"
-                            -->
 
                 <script type="text/html" id="diagnostics-chart-template">
                     <div class="lh-vars lab-data">
@@ -192,41 +176,41 @@
 
                                 <div class="lh-columns row">
                                     <div class="lh-column">
-                                        <div class="lh-metric" id="numScripts">
+                                        <div class="lh-metric file-type-metrics" id="numScripts">
                                             <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Total Scripts</span>
-                                                <div class="lh-metric__value"></div>
+                                                <span class="lh-metric__title">Scripts</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numScripts"></div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric" id="numFonts">
+                                        <div class="lh-metric file-type-metrics" id="numFonts">
                                             <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Total Fonts</span>
-                                                <div class="lh-metric__value"></div>
+                                                <span class="lh-metric__title">Fonts</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numFonts"></div>
                                             </div>
                                         </div>
+                                        <div class="lh-metric file-type-metrics" id="numStylesheets">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Stylesheets</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numStylesheets"></div>
+                                            </div>
+                                        </div>
+
                                         <div class="lh-metric" id="mainDocumentTransferSize">
                                             <div class="lh-metric__innerwrap">
                                                 <span class="lh-metric__title">Main Document Transfer Size</span>
-                                                <div class="lh-metric__value"></div>
+                                                <div class="lh-metric__value"  data-format="BytesFormatter"  data-format-options="getValue"  data-content="mainDocumentTransferSize"></div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric" id="numTasksOver25ms">
-                                            <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Tasks Over 25 ms</span>
-                                                <div class="lh-metric__value"></div>
-                                            </div>
-                                        </div>
-                                        <div class="lh-metric" id="numTasksOver100ms">
-                                            <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Tasks Over 100 ms</span>
-                                                <div class="lh-metric__value"></div>
-                                            </div>
-                                        </div>
+
+
+
                                         <div class="lh-metric lh-metric--info" id="rtt">
                                             <div class="lh-metric__innerwrap  tooltip-boundary">
                                                 <span class="lh-metric__title">Round Trip Time</span>
                                                 <div class="lh-metric__value" data-toggle="tooltip" data-placement="top"
                                                      data-html="true" data-container="body"
+                                                     data-content="rtt"
+                                                     data-format="TimeMiliSecondFormatter" data-format-options="getValue"
                                                      title='<span>Round trip time (RTT) is the time required for a signal pulse or packet to travel from a specific source such as the computer that initiates the signal, to a specific destination such as a remote computer or system, and back. <a rel="noopener" target="_blank" href="https://developers.google.com/web/tools/lighthouse/audits/first-contentful-paint">Learn more</a>.</span>'></div>
                                             </div>
                                         </div>
@@ -234,13 +218,21 @@
                                         <div class="lh-metric" id="maxRtt">
                                             <div class="lh-metric__innerwrap">
                                                 <span class="lh-metric__title">Maximum Round Trip Time</span>
-                                                <div class="lh-metric__value"></div>
+                                                <div class="lh-metric__value" data-format="TimeMiliSecondFormatter" data-format-options="getValue" data-content="maxRtt"></div>
                                             </div>
                                         </div>
+
+                                        <div class="lh-metric" id="maxServerLatency">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Max Server Latency</span>
+                                                <div class="lh-metric__value" data-format="TimeMiliSecondFormatter" data-format-options="getValue" data-content="maxServerLatency"></div>
+                                            </div>
+                                        </div>
+
                                         <div class="lh-metric" id="totalByteWeight">
                                             <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Total page weight in Kb</span>
-                                                <div class="lh-metric__value"></div>
+                                                <span class="lh-metric__title">Total Page Weight</span>
+                                                <div class="lh-metric__value" data-format="BytesFormatter" data-format-options="getValue"  data-content="totalByteWeight"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -248,58 +240,73 @@
 
 
                                     <div class="lh-column">
-                                        <div class="lh-metric" id="numStylesheets">
+                                        <div class="lh-metric" id="totalTaskTime">
                                             <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Number of stylesheets</span>
-                                                <div class="lh-metric__value"></div>
+                                                <span class="lh-metric__title">Total Task Time</span>
+                                                <div data-format="TimeMiliSecondFormatter" data-format-options="getValue" data-content="totalTaskTime" class="lh-metric__value"></div>
                                             </div>
                                         </div>
+
                                         <div class="lh-metric" id="numTasks">
                                             <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Total tasks</span>
-                                                <div class="lh-metric__value"></div>
+                                                <span class="lh-metric__title">Total Tasks</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numTasks"></div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric" id="numTasksOver10ms">
+
+                                        <div class="lh-metric tasks-metrics" id="numTasksOver10ms">
                                             <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Tasks over 10ms</span>
-                                                <div class="lh-metric__value"></div>
+                                                <span class="lh-metric__title">Tasks Over 10 ms</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numTasksOver10ms"></div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric" id="numTasksOver50ms">
+                                        <div class="lh-metric tasks-metrics" id="numTasksOver25ms">
                                             <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Total Stylesheets</span>
-                                                <div class="lh-metric__value"></div>
+                                                <span class="lh-metric__title">Tasks Over 25 ms</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numTasksOver25ms"></div>
                                             </div>
                                         </div>
-                                        <div class="lh-metric" id="numTasksOver500ms">
+
+                                        <div class="lh-metric tasks-metrics" id="numTasksOver50ms">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Tasks Over 50 ms</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numTasksOver50ms"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric tasks-metrics" id="numTasksOver100ms">
+                                            <div class="lh-metric__innerwrap">
+                                                <span class="lh-metric__title">Tasks Over 100 ms</span>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="numTasksOver100ms"></div>
+                                            </div>
+                                        </div>
+                                        <div class="lh-metric tasks-metrics" id="numTasksOver500ms">
                                             <div class="lh-metric__innerwrap">
                                                 <span class="lh-metric__title">Tasks Over 500 ms</span>
-                                                <div class="lh-metric__value"></div>
+                                                <div class="lh-metric__value" data-format="NumberFormatter"  data-format-options="getValue" data-content="numTasksOver500ms"></div>
                                             </div>
                                         </div>
                                         <div class="lh-metric" id="throughput">
                                             <div class="lh-metric__innerwrap">
                                                 <span class="lh-metric__title">Throughput</span>
-                                                <div class="lh-metric__value"></div>
+                                                <div class="lh-metric__value" data-format="NumberFormatter" data-format-options="getValue" data-content="throughput"></div>
                                             </div>
                                         </div>
 
-                                        <div class="lh-metric" id="maxServerLatency">
-                                            <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Max Server Latency</span>
-                                                <div class="lh-metric__value"></div>
-                                            </div>
-                                        </div>
-                                        <div class="lh-metric" id="totalTaskTime">
-                                            <div class="lh-metric__innerwrap">
-                                                <span class="lh-metric__title">Total Task time</span>
-                                                <div class="lh-metric__value"></div>
-                                            </div>
-                                        </div>
+
+
 
                                     </div>
 
+                                </div>
+
+
+                                <div class="lh-columns row pt-2">
+                                    <div class="lh-column">
+                                        <div id="file-type-chart" style="width: 80%; height: 440px;"></div>
+                                    </div>
+                                    <div class="lh-column">
+                                        <div id="tasks-chart" style="height: 440px;"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

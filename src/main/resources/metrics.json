@@ -1,0 +1,70 @@
+{
+  "numRequests": {
+    "title": "Requests",
+    "description": ""
+  },
+  "numScripts": {
+    "title": "Scripts",
+    "description": ""
+  },
+  "numStylesheets": {
+    "title": "Stylesheets",
+    "description": ""
+  },
+  "numFonts": {
+    "title": "Fonts",
+    "description": ""
+  },
+  "numTasks": {
+    "title": "Total Tasks",
+    "description": ""
+  },
+  "numTasksOver10ms": {
+    "title": "Tasks Over 10 ms",
+    "description": ""
+  },
+  "numTasksOver25ms": {
+    "title": "Tasks Over 25 ms",
+    "description": ""
+  },
+  "numTasksOver50ms": {
+    "title": "Tasks Over 50 ms",
+    "description": ""
+  },
+  "numTasksOver100ms": {
+    "title": "Tasks Over 100 ms",
+    "description": ""
+  },
+  "numTasksOver500ms": {
+    "title": "Tasks Over 500 ms",
+    "description": ""
+  },
+  "rtt": {
+    "title": "Round Trip Time",
+    "description": ""
+  },
+  "throughput": {
+    "title": "Throughput",
+    "description": ""
+  },
+  "maxRtt": {
+    "title": "Maximum Round Trip Time",
+    "description": ""
+  },
+  "maxServerLatency": {
+    "title": "Max Server Latency",
+    "description": ""
+  },
+  "totalByteWeight": {
+    "title": "Total Page Weight",
+    "description": ""
+  },
+  "totalTaskTime": {
+    "title": "Total Task Time",
+    "description": ""
+  },
+  "mainDocumentTransferSize": {
+    "title": "Max Document Transfer Size",
+    "description": ""
+  }
+}

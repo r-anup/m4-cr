@@ -1,34 +1,30 @@
 package org.consumerreports.pagespeed.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.data.annotation.Id;
-
 public class Diagnostics {
 
-    public Integer numRequests;
-    public Integer numScripts;
-    public Integer numStylesheets;
-    public Integer numFonts;
-    public Integer numTasks;
-    public Integer numTasksOver10ms;
-    public Integer numTasksOver25ms;
-    public Integer numTasksOver50ms;
-    public Integer numTasksOver100ms;
-    public Integer numTasksOver500ms;
-    public String rtt;
-    public String throughput;
-    public String maxRtt;
-    public String maxServerLatency;
-    public String totalByteWeight;
-    public String totalTaskTime;
-    public String mainDocumentTransferSize;
+    public DiagnosticsMetricsMeta numRequests;
+    public DiagnosticsMetricsMeta numScripts;
+    public DiagnosticsMetricsMeta numStylesheets;
+    public DiagnosticsMetricsMeta numFonts;
+    public DiagnosticsMetricsMeta numTasks;
+    public DiagnosticsMetricsMeta numTasksOver10ms;
+    public DiagnosticsMetricsMeta numTasksOver25ms;
+    public DiagnosticsMetricsMeta numTasksOver50ms;
+    public DiagnosticsMetricsMeta numTasksOver100ms;
+    public DiagnosticsMetricsMeta numTasksOver500ms;
+    public DiagnosticsMetricsMeta rtt;
+    public DiagnosticsMetricsMeta throughput;
+    public DiagnosticsMetricsMeta maxRtt;
+    public DiagnosticsMetricsMeta maxServerLatency;
+    public DiagnosticsMetricsMeta totalByteWeight;
+    public DiagnosticsMetricsMeta totalTaskTime;
+    public DiagnosticsMetricsMeta mainDocumentTransferSize;
 
     public Diagnostics() {
     }
 
 
-    public Diagnostics(Integer numRequests, Integer numScripts, Integer numStylesheets, Integer numFonts, Integer numTasks, Integer numTasksOver10ms, Integer numTasksOver25ms, Integer numTasksOver50ms, Integer numTasksOver100ms, Integer numTasksOver500ms, String rtt, String throughput, String maxRtt, String maxServerLatency, String totalByteWeight, String totalTaskTime, String mainDocumentTransferSize) {
+    public Diagnostics(DiagnosticsMetricsMeta numRequests, DiagnosticsMetricsMeta numScripts, DiagnosticsMetricsMeta numStylesheets, DiagnosticsMetricsMeta numFonts, DiagnosticsMetricsMeta numTasks, DiagnosticsMetricsMeta numTasksOver10ms, DiagnosticsMetricsMeta numTasksOver25ms, DiagnosticsMetricsMeta numTasksOver50ms, DiagnosticsMetricsMeta numTasksOver100ms, DiagnosticsMetricsMeta numTasksOver500ms, DiagnosticsMetricsMeta rtt, DiagnosticsMetricsMeta throughput, DiagnosticsMetricsMeta maxRtt, DiagnosticsMetricsMeta maxServerLatency, DiagnosticsMetricsMeta totalByteWeight, DiagnosticsMetricsMeta totalTaskTime, DiagnosticsMetricsMeta mainDocumentTransferSize) {
         this.numRequests = numRequests;
         this.numScripts = numScripts;
         this.numStylesheets = numStylesheets;
@@ -48,139 +44,140 @@ public class Diagnostics {
         this.mainDocumentTransferSize = mainDocumentTransferSize;
     }
 
-    public Integer getNumRequests() {
+
+    public DiagnosticsMetricsMeta getNumRequests() {
         return numRequests;
     }
 
-    public void setNumRequests(Integer numRequests) {
+    public void setNumRequests(DiagnosticsMetricsMeta numRequests) {
         this.numRequests = numRequests;
     }
 
-    public Integer getNumScripts() {
+    public DiagnosticsMetricsMeta getNumScripts() {
         return numScripts;
     }
 
-    public void setNumScripts(Integer numScripts) {
+    public void setNumScripts(DiagnosticsMetricsMeta numScripts) {
         this.numScripts = numScripts;
     }
 
-    public Integer getNumStylesheets() {
+    public DiagnosticsMetricsMeta getNumStylesheets() {
         return numStylesheets;
     }
 
-    public void setNumStylesheets(Integer numStylesheets) {
+    public void setNumStylesheets(DiagnosticsMetricsMeta numStylesheets) {
         this.numStylesheets = numStylesheets;
     }
 
-    public Integer getNumFonts() {
+    public DiagnosticsMetricsMeta getNumFonts() {
         return numFonts;
     }
 
-    public void setNumFonts(Integer numFonts) {
+    public void setNumFonts(DiagnosticsMetricsMeta numFonts) {
         this.numFonts = numFonts;
     }
 
-    public Integer getNumTasks() {
+    public DiagnosticsMetricsMeta getNumTasks() {
         return numTasks;
     }
 
-    public void setNumTasks(Integer numTasks) {
+    public void setNumTasks(DiagnosticsMetricsMeta numTasks) {
         this.numTasks = numTasks;
     }
 
-    public Integer getNumTasksOver10ms() {
+    public DiagnosticsMetricsMeta getNumTasksOver10ms() {
         return numTasksOver10ms;
     }
 
-    public void setNumTasksOver10ms(Integer numTasksOver10ms) {
+    public void setNumTasksOver10ms(DiagnosticsMetricsMeta numTasksOver10ms) {
         this.numTasksOver10ms = numTasksOver10ms;
     }
 
-    public Integer getNumTasksOver25ms() {
+    public DiagnosticsMetricsMeta getNumTasksOver25ms() {
         return numTasksOver25ms;
     }
 
-    public void setNumTasksOver25ms(Integer numTasksOver25ms) {
+    public void setNumTasksOver25ms(DiagnosticsMetricsMeta numTasksOver25ms) {
         this.numTasksOver25ms = numTasksOver25ms;
     }
 
-    public Integer getNumTasksOver50ms() {
+    public DiagnosticsMetricsMeta getNumTasksOver50ms() {
         return numTasksOver50ms;
     }
 
-    public void setNumTasksOver50ms(Integer numTasksOver50ms) {
+    public void setNumTasksOver50ms(DiagnosticsMetricsMeta numTasksOver50ms) {
         this.numTasksOver50ms = numTasksOver50ms;
     }
 
-    public Integer getNumTasksOver100ms() {
+    public DiagnosticsMetricsMeta getNumTasksOver100ms() {
         return numTasksOver100ms;
     }
 
-    public void setNumTasksOver100ms(Integer numTasksOver100ms) {
+    public void setNumTasksOver100ms(DiagnosticsMetricsMeta numTasksOver100ms) {
         this.numTasksOver100ms = numTasksOver100ms;
     }
 
-    public Integer getNumTasksOver500ms() {
+    public DiagnosticsMetricsMeta getNumTasksOver500ms() {
         return numTasksOver500ms;
     }
 
-    public void setNumTasksOver500ms(Integer numTasksOver500ms) {
+    public void setNumTasksOver500ms(DiagnosticsMetricsMeta numTasksOver500ms) {
         this.numTasksOver500ms = numTasksOver500ms;
     }
 
-    public String getRtt() {
+    public DiagnosticsMetricsMeta getRtt() {
         return rtt;
     }
 
-    public void setRtt(String rtt) {
+    public void setRtt(DiagnosticsMetricsMeta rtt) {
         this.rtt = rtt;
     }
 
-    public String getThroughput() {
+    public DiagnosticsMetricsMeta getThroughput() {
         return throughput;
     }
 
-    public void setThroughput(String throughput) {
+    public void setThroughput(DiagnosticsMetricsMeta throughput) {
         this.throughput = throughput;
     }
 
-    public String getMaxRtt() {
+    public DiagnosticsMetricsMeta getMaxRtt() {
         return maxRtt;
     }
 
-    public void setMaxRtt(String maxRtt) {
+    public void setMaxRtt(DiagnosticsMetricsMeta maxRtt) {
         this.maxRtt = maxRtt;
     }
 
-    public String getMaxServerLatency() {
+    public DiagnosticsMetricsMeta getMaxServerLatency() {
         return maxServerLatency;
     }
 
-    public void setMaxServerLatency(String maxServerLatency) {
+    public void setMaxServerLatency(DiagnosticsMetricsMeta maxServerLatency) {
         this.maxServerLatency = maxServerLatency;
     }
 
-    public String getTotalByteWeight() {
+    public DiagnosticsMetricsMeta getTotalByteWeight() {
         return totalByteWeight;
     }
 
-    public void setTotalByteWeight(String totalByteWeight) {
+    public void setTotalByteWeight(DiagnosticsMetricsMeta totalByteWeight) {
         this.totalByteWeight = totalByteWeight;
     }
 
-    public String getTotalTaskTime() {
+    public DiagnosticsMetricsMeta getTotalTaskTime() {
         return totalTaskTime;
     }
 
-    public void setTotalTaskTime(String totalTaskTime) {
+    public void setTotalTaskTime(DiagnosticsMetricsMeta totalTaskTime) {
         this.totalTaskTime = totalTaskTime;
     }
 
-    public String getMainDocumentTransferSize() {
+    public DiagnosticsMetricsMeta getMainDocumentTransferSize() {
         return mainDocumentTransferSize;
     }
 
-    public void setMainDocumentTransferSize(String mainDocumentTransferSize) {
+    public void setMainDocumentTransferSize(DiagnosticsMetricsMeta mainDocumentTransferSize) {
         this.mainDocumentTransferSize = mainDocumentTransferSize;
     }
 }

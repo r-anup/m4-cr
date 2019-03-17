@@ -1,9 +1,10 @@
 package org.consumerreports.pagespeed.controllers;
 
 import org.apache.logging.log4j.LogManager;
-import org.consumerreports.PageSpeed;
+import org.consumerreports.pagespeed.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
+import org.consumerreports.pagespeed.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,15 +38,15 @@ public class MetricsController {
         Date parsedDate = null;
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            if (date == null) {
+            if (date == null || date.equals("")) {
                 date = simpleDateFormat.format(new Date());
             }
             parsedDate = simpleDateFormat.parse(date);
 
-            if (deviceType == null) {
+            if (deviceType == null || deviceType.equals("")) {
                 deviceType = "mobile";
             }
-            return repository.findFirstByUrlContainingAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType, parsedDate, MetricsController.addDays(parsedDate, 1));
+            return repository.findFirstByUrlContainingAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType, parsedDate, CommonUtil.addDays(parsedDate, 1));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -55,10 +55,5 @@ public class MetricsController {
     }
 
 
-    public static Date addDays(Date date, int days) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
-        return cal.getTime();
-    }
+
 }

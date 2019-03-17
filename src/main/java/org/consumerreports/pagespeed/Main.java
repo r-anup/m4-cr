@@ -1,17 +1,29 @@
 package org.consumerreports.pagespeed;
 
-import org.consumerreports.PageSpeed;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.consumerreports.pagespeed.controllers.MetricsController;
 import org.consumerreports.pagespeed.models.Urls;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
+import org.consumerreports.pagespeed.util.CommonUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -19,6 +31,28 @@ import java.util.List;
 @ComponentScan(basePackages = {"org.consumerreports.pagespeed"})
 @SpringBootApplication(scanBasePackages = {"org.consumerreports.pagespeed.controllers"})
 public class Main {
+
+    private static final Logger LOG = LogManager.getLogger(Main.class);
+
+    public enum FetchSource  {
+        repository, lightHouseNoSave, lightHouseAndSave, googleNoSave
+    }
+
+    public enum Strategy  {
+        mobile, desktop
+    }
+
+    @Autowired
+    private ObjectMapper mapper;
+
+    @Autowired
+    UrlsRepository urlsRepository;
+
+    @Autowired
+    private MetricsRepository metricsRepository;
+
+    @Autowired
+    MetricsController metricsController;
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Main.class, args);
@@ -36,61 +70,86 @@ public class Main {
         return "reports";
     }
 
-    @RequestMapping("/analyze.html")
+    @RequestMapping(value = "/analyze.html")
     String analyze(
-            @RequestParam(value = "fetch", required = false, defaultValue = "process") String fetch,
-            @RequestParam(value = "apiSource", required = false, defaultValue = "mobile") String apiSource,
-            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String strategy,
+            @RequestParam(value = "fetchSource", required = false, defaultValue = "repository") FetchSource fetchSource,
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Strategy strategy,
             @RequestParam(value = "overrideAPI", required = false, defaultValue = "") String overrideAPI,
+            @RequestParam(value = "date", required = false) String date,
             Model model) {
         model.addAttribute("strategy", strategy);
-        model.addAttribute("fetch", fetch);
-        model.addAttribute("apiSource", apiSource);
+        model.addAttribute("fetchSource", fetchSource);
         model.addAttribute("overrideAPI", overrideAPI);
+        model.addAttribute("date", date);
+        model.addAttribute("settings", "true");
         model.addAttribute("tab", "analyze");
         return "analyze";
     }
 
-    @Autowired
-    UrlsRepository urlsRepository;
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public Object handleMismatchParams(MethodArgumentTypeMismatchException ex, Model model) {
+        String method = ex.getParameter().getMethod().getName();
+        if (method.equals("metrics")) {
+            ObjectNode jo = mapper.createObjectNode();
+            jo.put("status", "failure");
+            jo.put("message", ex.getName() + " can have only one of these values :" + (Arrays.asList(ex.getRequiredType().getEnumConstants())).toString() + ". " + ex.getValue() + " set.");
+            return new ResponseEntity<>(jo, HttpStatus.BAD_REQUEST);
+        } else if (method.equals("analyze")) {
+            model.addAttribute("strategy", "mobile");
+            model.addAttribute("fetchSource", "repository");
+            model.addAttribute("overrideAPI", "");
+            model.addAttribute("settings", "false");
+            model.addAttribute("tab", "analyze");
+            return "analyze";
+        } else {
+            return null;
+        }
+    }
 
-    @Autowired
-    private MetricsRepository metricsRepository;
+
 
 
     @RequestMapping(value = "/metrics.html", method = RequestMethod.GET)
     String metrics(
-            @RequestParam(value = "url", required = false) String url,
-            @RequestParam(value = "strategy", required = false) String strategy,
+            @RequestParam(value = "url", required = false, defaultValue = "https://www.consumerreports.org/cro/index.htm") String url,
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Strategy strategy,
+            @RequestParam(value = "leftDate", required = false) String leftDate,
+            @RequestParam(value = "rightDate", required = false) String rightDate,
             Model model
             ) {
 
-        List<Urls> urls = urlsRepository.findAll();
-        model.addAttribute("urls", urls);
+         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        if (leftDate == null) {
+            leftDate = simpleDateFormat.format(new Date());
+        }
+
+        if (rightDate == null) {
+            rightDate = simpleDateFormat.format(CommonUtil.addDays(new Date(), -1));
+        }
+
+        List<Urls> urlList = urlsRepository.findAll();
+        model.addAttribute("urlList", urlList);
+        model.addAttribute("url", url);
+        model.addAttribute("strategy", strategy);
+        model.addAttribute("leftDate", leftDate);
+        model.addAttribute("rightDate", rightDate);
         model.addAttribute("tab", "metrics");
         return "metrics";
     }
 
-    @RequestMapping(value = "/processAndSave", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/lighthouse", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    String processAndSave(
+    Object lightHouse(
             @RequestParam(value = "url") String url,
-            @RequestParam(value = "apiSource", required = false) String apiSource,
+            @RequestParam(value = "date", required = false) String date,
+            @RequestParam(value = "fetchSource", required = false) String fetchSource,
             @RequestParam(value = "strategy", required = false) String strategy) {
-        PageSpeed pageSpeed = new PageSpeed();
-        JSONObject output = pageSpeed.processRequest(url, strategy, apiSource, metricsRepository);
-        return output.toString();
-    }
+        if (fetchSource.equals("repository")) {
+            return metricsController.getMetrics(url, strategy, date);
+        }
 
-
-    @RequestMapping(value = "/process", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    String process(
-            @RequestParam(value = "url") String url,
-            @RequestParam(value = "apiSource", required = false) String apiSource,
-            @RequestParam(value = "strategy", required = false) String strategy) {
         PageSpeed pageSpeed = new PageSpeed();
-        JSONObject output = pageSpeed.processRequest(url, strategy, apiSource);
+        JSONObject output = pageSpeed.processRequest(url, strategy, fetchSource, metricsRepository);
         return output.toString();
     }
 }

@@ -14,16 +14,29 @@
     <meta name="robots" content="NOINDEX,NOFOLLOW">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.dev.consumerreports.org/crux/styles/2.0/css/main.css" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
 
     <style>
+
+        html {
+            font-size: 10px;
+        }
+
         body {
             font-size: 2rem;
-            font-family: Arial;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        .crux-headline--standard {
+            font-size: 4rem;
+            color: #350d0de6;
+            font-weight: normal;
+            line-height: 1em;
         }
 
 
@@ -102,6 +115,7 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery.loadTemplate.min.js"></script>
+
    <!-- <script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>-->
     <script type="text/javascript" src="/js/echarts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -110,6 +124,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymoutabs"></script>
+
+    <script type="text/javascript" src="/js/common-functions.js"></script>
 
     <!--/* Per-page placeholder for additional links */-->
     <th:block th:replace="${links}" />
