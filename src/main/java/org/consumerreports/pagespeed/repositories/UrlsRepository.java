@@ -6,4 +6,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UrlsRepository extends MongoRepository<Urls, String> {
     Urls findBy_id(ObjectId _id);
+
+    Urls findFirstByUrl(
+            String url
+    );
 }

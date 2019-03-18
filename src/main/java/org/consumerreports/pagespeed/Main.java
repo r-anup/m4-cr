@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -127,6 +128,16 @@ public class Main {
             rightDate = simpleDateFormat.format(CommonUtil.addDays(new Date(), -1));
         }
 
+        try {
+            if (new SimpleDateFormat("MM/dd/yyyy").parse(rightDate).compareTo(new SimpleDateFormat("MM/dd/yyyy").parse(leftDate)) > 0) {
+                String tempDate = leftDate;
+                leftDate = rightDate;
+                rightDate = tempDate;
+            }
+        } catch (ParseException e) {
+            LOG.error("Error parsing date string");
+        }
+
         List<Urls> urlList = urlsRepository.findAll();
         model.addAttribute("urlList", urlList);
         model.addAttribute("url", url);
@@ -149,7 +160,7 @@ public class Main {
         }
 
         PageSpeed pageSpeed = new PageSpeed();
-        JSONObject output = pageSpeed.processRequest(url, strategy, fetchSource, metricsRepository);
+        JSONObject output = pageSpeed.processRequest(url, strategy, fetchSource, metricsRepository, urlsRepository);
         return output.toString();
     }
 }

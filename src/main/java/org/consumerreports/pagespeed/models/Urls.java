@@ -9,25 +9,41 @@ public class Urls {
 
     public String url;
     public String title;
+    public String mobileLatestScore;
+    public String mobilePreviousScore;
+    public String desktopLatestScore;
+    public String desktopPreviousScore;
 
     // Constructors
-    public Urls() {}
+    public Urls() {
+    }
 
-    public Urls(ObjectId _id, String url, String title) {
+    public Urls(ObjectId _id, String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
         this._id = _id;
         this.url = url;
         this.title = title;
+        this.mobileLatestScore = mobileLatestScore;
+        this.mobilePreviousScore = mobilePreviousScore;
+        this.desktopLatestScore = desktopLatestScore;
+        this.desktopPreviousScore = desktopPreviousScore;
     }
 
     // ObjectId needs to be converted to string
-    public String get_id() { return _id.toHexString(); }
-    public void set_id(ObjectId _id) { this._id = _id; }
+    public String get_id() {
+        return _id.toHexString();
+    }
+
+    public void set_id(ObjectId _id) {
+        this._id = _id;
+    }
 
     public String getUrl() {
+
         return url;
     }
 
     public void setUrl(String url) {
+
         this.url = url;
     }
 
@@ -37,5 +53,37 @@ public class Urls {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getMobileLatestScore() {
+        return mobileLatestScore;
+    }
+
+    public void setMobileLatestScore(String mobileLatestScore) {
+        this.mobileLatestScore = mobileLatestScore;
+    }
+
+    public String getMobilePreviousScore() {
+        return mobilePreviousScore;
+    }
+
+    public void setMobilePreviousScore(String mobilePreviousScore) {
+        this.mobilePreviousScore = mobilePreviousScore;
+    }
+
+    public String getDesktopLatestScore() {
+        return desktopLatestScore;
+    }
+
+    public void setDesktopLatestScore(String desktopLatestScore) {
+        this.desktopLatestScore = desktopLatestScore;
+    }
+
+    public String getDesktopPreviousScore() {
+        return desktopPreviousScore;
+    }
+
+    public void setDesktopPreviousScore(String desktopPreviousScore) {
+        this.desktopPreviousScore = desktopPreviousScore;
     }
 }

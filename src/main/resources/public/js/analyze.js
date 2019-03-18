@@ -1,116 +1,4 @@
-function timeMiliSecondFormatter(value) {
-    if (!isNaN(value)) {
-        if (value < 1000) {
-            return (Math.floor(value * 100) / 100).toLocaleString() + ' ms';
-        } else {
-            value = value / 1000;
-            return (Math.floor(value * 100) / 100).toLocaleString() + ' s';
-        }
-    } else {
-        return value;
-    }
-}
 
-function bytesFormatter(value) {
-    if (!isNaN(value)) {
-        if (value < 1024) {
-            return value.toLocaleString() + ' Bytes';
-        } else {
-            value = value / 1024;
-            return Math.round(value).toLocaleString() + ' KB';
-        }
-    } else {
-        return value;
-    }
-}
-
-function getScaleFromScore(score) {
-    var data = {
-        scale: 'pass',
-        score: Math.round(score * 100),
-        color: '#178239'
-    };
-    switch (true) {
-        case data.score <= 49:
-            data.color = "#c7221f";
-            data.scale = 'fail';
-            break;
-        case data.score <= 89:
-            data.color = "#e67700";
-            data.scale = 'average';
-            break;
-        default:
-            data.color = "#178239";
-            data.scale = 'pass';
-    }
-
-    return data;
-}
-
-$.addTemplateFormatter({
-    TimeMiliSecondFormatter: function (value, template) {
-        if (template == "getValue") {
-            value = value.value;
-        }
-        return timeMiliSecondFormatter(value);
-    },
-
-    BytesFormatter: function (value, template) {
-        if (template == "getValue") {
-            value = value.value;
-        }
-        return bytesFormatter(value);
-    },
-
-    NumberFormatter: function (value, template) {
-        if (template == "getValue") {
-            value = value.value;
-        }
-        if (isNaN(value)) {
-            return value;
-        } else {
-            return Number(value).toLocaleString();
-        }
-    },
-
-    GetValue: function (value, template) {
-        console.log(value);
-        return value.value;
-    },
-
-    CategoryFormatter: function (value, template) {
-        var category = 'slow';
-        switch (value) {
-            case 'SLOW':
-                category = 'slow';
-                break;
-            case 'AVERAGE':
-                category = 'average';
-                break;
-            case 'FAST':
-                category = 'fast';
-                break;
-            default:
-                category = 'fast';
-
-        }
-
-        return 'field-metric ' + category;
-
-    },
-
-    FlexGrowStyleFormatter: function (value, template) {
-        value = value * 100;
-        return 'flex-grow: ' + (Math.floor(value)) + ';';
-    },
-
-    PercentageFormatter: function (value, template) {
-        value = value * 100;
-        return (Math.floor(value)) + '%';
-    },
-
-
-});
 
 
 
@@ -254,7 +142,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
                         name: $(this).find(".lh-metric__title").text(),
                         value: $(this).find(".lh-metric__value").text()
                     };
-                }).get(), 'file-type-chart', 'Page weight'
+                }).get(), '#file-type-chart', 'Page weight'
             );
 
             plotFileTypeChart(
@@ -263,7 +151,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
                         name: $(this).find(".lh-metric__title").text(),
                         value: $(this).find(".lh-metric__value").text()
                     };
-                }).get(), 'tasks-chart', 'Page tasks'
+                }).get(), '#tasks-chart', 'Page tasks'
             );
 
         }
@@ -338,50 +226,7 @@ function delayPopoverClose() {
     });
 }
 
-function plotFileTypeChart(data, elem, title) {
 
-    var myChart = echarts.init(document.getElementById(elem));
-
-    var option = {
-        title : {
-            text: title,
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend:
-            {
-                type: 'scroll',
-                orient: 'vertical',
-                right: 10,
-                top: 20,
-                bottom: 20,
-            },
-        series: [
-            {
-                name: title,
-                type: 'pie',
-                radius : '45%',
-                center: ['40%', '50%'],
-                label: {
-                    formatter: "{b}: {c}"
-                },
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                },
-                data: data
-            }
-        ]
-    };
-
-    myChart.setOption(option);
-}
 
 function plotDonutChart(scoreValue) {
     var myChart = echarts.init(document.getElementById('score-chart'));

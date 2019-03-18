@@ -15,10 +15,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.consumerreports.pagespeed.models.*;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
+import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class PageSpeed {
     }
 
 
-    public JSONObject processRequest(String url, String strategy, String fetchSource, MetricsRepository metricsRepository) {
+    public JSONObject processRequest(String url, String strategy, String fetchSource, MetricsRepository metricsRepository, UrlsRepository urlsRepository) {
         if (strategy == null) {
             strategy = "mobile";
         }
@@ -103,6 +103,9 @@ public class PageSpeed {
 
         JSONObject data;
         try {
+
+            JSONObject metricsProperties = PageSpeed.getMetricsProperties();
+
             HttpResponse response = httpClient.execute(request);
             String responseString = EntityUtils.toString(response.getEntity() == null ?
                     new StringEntity(StringUtils.EMPTY) : response.getEntity());
@@ -125,17 +128,20 @@ public class PageSpeed {
             }
 
             JSONObject lighthouseData = new JSONObject();
+            JSONObject lighthouseProperties = metricsProperties.getJSONObject("lighthouse");
 
-            String[] lighthouseDataMetrics = {"first-contentful-paint", "first-meaningful-paint", "interactive", "first-cpu-idle", "estimated-input-latency", "speed-index"};
-            for (String lighthouseDataMetric:lighthouseDataMetrics) {
+            Iterator<String> lighthouseKeys = lighthouseProperties.keys();
+            while (lighthouseKeys.hasNext()) {
+                String lighthouseKey = lighthouseKeys.next();
                 JSONObject jo = new JSONObject();
-                jo.put("displayValue", data.getJSONObject("audits").getJSONObject(lighthouseDataMetric).getString("displayValue"));
-                jo.put("score", data.getJSONObject("audits").getJSONObject(lighthouseDataMetric).getString("score"));
-                lighthouseData.put(lighthouseDataMetric, jo);
+                jo.put("displayValue", data.getJSONObject("audits").getJSONObject(lighthouseKey).getString("displayValue"));
+                jo.put("score", data.getJSONObject("audits").getJSONObject(lighthouseKey).getString("score"));
+                jo.put("title", lighthouseProperties.getJSONObject(lighthouseKey).getString("title"));
+                jo.put("description", lighthouseProperties.getJSONObject(lighthouseKey).getString("description"));
+                lighthouseData.put(lighthouseKey, jo);
             }
 
             lighthouseData.put("score", data.getJSONObject("categories").getJSONObject("performance").getString("score"));
-
             LighthouseResult lighthouseResult = (new ObjectMapper()).readValue(lighthouseData.toString(), LighthouseResult.class);
 
 
@@ -158,13 +164,13 @@ public class PageSpeed {
                  JSONObject diagnosticsDataElements = (data.getJSONObject("audits").getJSONObject("diagnostics").getJSONObject("details").getJSONArray("items")).getJSONObject(0);
                  Iterator<String> keys = diagnosticsDataElements.keys();
 
-                 JSONObject metricsProperties = PageSpeed.getMetricsProperties();
+                 JSONObject diagnosticProperties = metricsProperties.getJSONObject("diagnostics");
                  while (keys.hasNext()) {
                      String key = keys.next();
                      JSONObject diagnosticsMetricsMeta = new JSONObject();
                      diagnosticsMetricsMeta.put("value", diagnosticsDataElements.get(key));
-                     diagnosticsMetricsMeta.put("title", metricsProperties.getJSONObject(key).getString("title"));
-                     diagnosticsMetricsMeta.put("description", metricsProperties.getJSONObject(key).getString("description"));
+                     diagnosticsMetricsMeta.put("title", diagnosticProperties.getJSONObject(key).getString("title"));
+                     diagnosticsMetricsMeta.put("description", diagnosticProperties.getJSONObject(key).getString("description"));
                      diagnosticsData.put(key, diagnosticsMetricsMeta);
                  }
                  diagnostics = (new ObjectMapper()).readValue(diagnosticsData.toString(), Diagnostics.class);
@@ -180,6 +186,16 @@ public class PageSpeed {
                         diagnostics,
                         list);
                 metricsRepository.save(m);
+
+                Urls urls = urlsRepository.findFirstByUrl(url);
+                if (strategy.equals("mobile")) {
+                    urls.setMobilePreviousScore(urls.getMobileLatestScore());
+                    urls.setMobileLatestScore(lighthouseData.getString("score"));
+                } else {
+                    urls.setDesktopPreviousScore(urls.getDesktopLatestScore());
+                    urls.setDesktopLatestScore(lighthouseData.getString("score"));
+                }
+                urlsRepository.save(urls);
             }
             formattedData.put("lighthouseResult", lighthouseData);
             if (diagnostics != null) formattedData.put("diagnostics", diagnosticsData);

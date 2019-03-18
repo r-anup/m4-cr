@@ -1,70 +1,106 @@
 {
-  "numRequests": {
-    "title": "Requests",
-    "description": ""
+  "diagnostics": {
+    "numRequests": {
+      "title": "Requests",
+      "description": ""
+    },
+    "numScripts": {
+      "title": "Scripts",
+      "description": ""
+    },
+    "numStylesheets": {
+      "title": "Stylesheets",
+      "description": ""
+    },
+    "numFonts": {
+      "title": "Fonts",
+      "description": ""
+    },
+    "numTasks": {
+      "title": "Total Tasks",
+      "description": ""
+    },
+    "numTasksOver10ms": {
+      "title": "Tasks Over 10 ms",
+      "description": ""
+    },
+    "numTasksOver25ms": {
+      "title": "Tasks Over 25 ms",
+      "description": ""
+    },
+    "numTasksOver50ms": {
+      "title": "Tasks Over 50 ms",
+      "description": ""
+    },
+    "numTasksOver100ms": {
+      "title": "Tasks Over 100 ms",
+      "description": ""
+    },
+    "numTasksOver500ms": {
+      "title": "Tasks Over 500 ms",
+      "description": ""
+    },
+    "rtt": {
+      "title": "Round Trip Time",
+      "description": ""
+    },
+    "throughput": {
+      "title": "Throughput",
+      "description": ""
+    },
+    "maxRtt": {
+      "title": "Maximum Round Trip Time",
+      "description": ""
+    },
+    "maxServerLatency": {
+      "title": "Max Server Latency",
+      "description": ""
+    },
+    "totalByteWeight": {
+      "title": "Total Page Weight",
+      "description": ""
+    },
+    "totalTaskTime": {
+      "title": "Total Task Time",
+      "description": ""
+    },
+    "mainDocumentTransferSize": {
+      "title": "Max Document Transfer Size",
+      "description": ""
+    }
   },
-  "numScripts": {
-    "title": "Scripts",
-    "description": ""
-  },
-  "numStylesheets": {
-    "title": "Stylesheets",
-    "description": ""
-  },
-  "numFonts": {
-    "title": "Fonts",
-    "description": ""
-  },
-  "numTasks": {
-    "title": "Total Tasks",
-    "description": ""
-  },
-  "numTasksOver10ms": {
-    "title": "Tasks Over 10 ms",
-    "description": ""
-  },
-  "numTasksOver25ms": {
-    "title": "Tasks Over 25 ms",
-    "description": ""
-  },
-  "numTasksOver50ms": {
-    "title": "Tasks Over 50 ms",
-    "description": ""
-  },
-  "numTasksOver100ms": {
-    "title": "Tasks Over 100 ms",
-    "description": ""
-  },
-  "numTasksOver500ms": {
-    "title": "Tasks Over 500 ms",
-    "description": ""
-  },
-  "rtt": {
-    "title": "Round Trip Time",
-    "description": ""
-  },
-  "throughput": {
-    "title": "Throughput",
-    "description": ""
-  },
-  "maxRtt": {
-    "title": "Maximum Round Trip Time",
-    "description": ""
-  },
-  "maxServerLatency": {
-    "title": "Max Server Latency",
-    "description": ""
-  },
-  "totalByteWeight": {
-    "title": "Total Page Weight",
-    "description": ""
-  },
-  "totalTaskTime": {
-    "title": "Total Task Time",
-    "description": ""
-  },
-  "mainDocumentTransferSize": {
-    "title": "Max Document Transfer Size",
-    "description": ""
+  "lighthouse": {
+    "first-contentful-paint": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "description": "First Contentful Paint marks the time at which the first text or image is painted."
+    },
+    "first-meaningful-paint": {
+      "id": "first-meaningful-pain",
+      "title": "First Meaningful Paint",
+      "description": "First Meaningful Paint measures when the primary content of a page is visible."
+
+    },
+    "interactive": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "description": "Time to interactive is the amount of time it takes for the page to become fully interactive."
+
+    },
+    "first-cpu-idle": {
+      "id": "first-cpu-idle",
+      "title": "First CPU Idle",
+      "description": "First CPU Idle marks the first time at which the page's main thread is quiet enough to handle input. "
+    },
+    "estimated-input-latency": {
+      "id": "estimated-input-latency",
+      "title": "Estimated Input Latency",
+      "description": "Estimated Input Latency is an estimate of how long your app takes to respond to user input, in milliseconds, during the busiest 5s window of page load. If your latency is higher than 50 ms, users may perceive your app as laggy."
+    },
+    "speed-index": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "description": "Speed Index shows how quickly the contents of a page are visibly populated. "
+    }
   }
 }

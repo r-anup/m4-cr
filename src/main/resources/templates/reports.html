@@ -1,252 +1,117 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: include(~{::title},~{},~{::style},~{::script},~{::body})}">
-<head>
-  <title>Reports - Consumer Reports</title>
-  <style>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: include(~{::title},~{},~{::style},~{::script},~{::body})}">
+    <head>
+        <title>Reports - Consumer Reports</title>
+        <style>
+            #reports-chart .target td div {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                color: #fff;
+                line-height: 40px;
+                text-align: center;
+                background: #675c5c;
+            }
 
-    body {
-      font-size: 2rem;
-    }
+            #reports-chart tr:hover {
+                cursor: pointer;
+            }
+        </style>
 
-    .score {
-      border-radius: 50%;
-      color: #fff;
-      background-color: #00ae4d;
-      width: 100px;
-      height: 100px;
-      -ms-flex-align: center;
-      align-items: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      display: -ms-flexbox;
-      display: flex;
-      font-size: 50px;
-      margin-left: 30%;
-    }
-    .score.average {
-      background-color: #e67700;;
-    }
-    .score.slow {
-      background-color: #c7221f;;
-    }
-    #table-details .slow {
-      color: #c7221f;;
-    }
-    #table-details .average {
-      color: #e67700;;
-    }
-    #table-details .fast {
-      color: #00ae4d;;
-    }
-  </style>
+        <script>
+            /* reset */
+            $(function () {
+                $(".loading-spinner").show();
 
 
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
-  <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+                $.ajax({
+                    url: "/urls/", success: function (result) {
+                        $("#records_table tbody").html('');
+                        var urlRecords = [];
+                        $.each(result, function (idx, elem) {
+                            urlRecords.push({
+                                    url: elem.url,
+                                    title: elem.title,
+                                    mobileLatestScore: elem.mobileLatestScore,
+                                    mobilePreviousScore: elem.mobilePreviousScore,
+                                    desktopLatestScore: elem.desktopLatestScore,
+                                    desktopPreviousScore: elem.desktopPreviousScore,
+                                    mobileLatestScoreCSS: {background: getScaleFromScore(elem.mobileLatestScore).color},
+                                    mobilePreviousScoreCSS: {background: getScaleFromScore(elem.mobilePreviousScore).color},
+                                    desktopLatestScoreCSS: {background: getScaleFromScore(elem.desktopLatestScore).color},
+                                    desktopPreviousScoreCSS: {background: getScaleFromScore(elem.desktopPreviousScore).color},
+                                }
+                            );
+                        });
 
-  <script type="text/javascript">
-      $(document).ready(function() {
+                        $("#reports-chart").loadTemplate($("#reports-chart-template"), urlRecords, {"append": true});
 
-          function getScale(score) {
-              return score > 3 ? "slow" : score > 1 ? "average" : "fast";
-          }
+                        $("#reports-chart").on("click", ".target", function () {
+                            var url_to_check = $(this).attr("src");
+                            window.location.href = "/analyze.html?url=" + url_to_check;
+                        });
 
-          $.ajax({
-              url: "pagespeed.json", success: function (result) {
-                  $("#records_table tbody").html('');
-                  $.each(result, function (idx, elem) {
-                      $("#records_table tbody").append("<tr class='target' data-url='" + elem.url + "'><td>" + elem.title + "</td><td>" + elem.url + "</td><td>" + elem.score + "</td><td>" + elem.previous_score + "</td><td>" + elem.score + "</td><td>" + elem.previous_score + "</td></tr>");
-                  });
+                       $(".loading-spinner").hide();
+                    }
+                });
 
-                  $( "#records_table" ).on( "click", ".target", function() {
-                      var url_to_check = $(this).data('url');
-                      $.ajax({
-                          url: "http://localhost:3000/bin/pagespeed?url=" + url_to_check, success: function (result) {
-                              $("#details").html('');
-                              lastScore = result[0].score;
-                              scoreClass = lastScore < 50 ? "slow" : lastScore < 90 ? "average" : "fast";
-                              $("#details").append("<div class='score " + scoreClass + "'>" + lastScore + "</div><table id='table-details' border='1'><tr><th>First Contentful Paint</th><th>Speed Index</th><th>Time to Interactive</th>"
-                                  + "<th>First Meaningful Paint</th><th>First CPU Idle</th><th>Estimated Input Latency</th></tr></table>");
-                              $.each(result, function (idx, elem) {
-                                  $("#table-details").append("<tr><td class='" + getScale(elem.first_contentful_paint.split(" ")[0]) + "'>" + elem.first_contentful_paint
-                                      + "</td><td class='" + getScale(elem.speed_index.split(" ")[0]) + "'>" + elem.speed_index
-                                      + "</td><td class='" + getScale(elem.interactive.split(" ")[0]) + "'>" + elem.interactive
-                                      + "</td><td class='" + getScale(elem.first_meaningful_paint.split(" ")[0]) + "'>" + elem.first_meaningful_paint
-                                      + "</td><td class='" + getScale(elem.first_cpu_idle.split(" ")[0]) + "'>" + elem.first_cpu_idle
-                                      + "</td><td class='" + getScale(elem.estimated_input_latency.split(" ")[0] / 100) + "'>" + elem.estimated_input_latency + "</td></tr>");
-                              });
-                              legendData = [];
-                              xAxisData = [];
-                              seriesObj = [];
-                              for (var i = 0; i < result.length; i++) {
-                                  legendData[i] = result[i].url;
-                                  if (legendData[i].includes("https://www.consumerreports.org")) {
-                                      legendData[i] = legendData[i].slice("https://www.consumerreports.org".length, legendData[i].length)
-                                  }
-                                  var obj = [];
-                                  for (var j = 0; j < result[i].scores.length; j++) {
-                                      obj.push([new Date(result[i].scores[j].timestamp), result[i].scores[j].score, result[i].scores[j].first_contentful_paint,
-                                          result[i].scores[j].speed_index, result[i].scores[j].interactive, result[i].scores[j].first_meaningful_paint,
-                                          result[i].scores[j].first_cpu_idle, result[i].scores[j].estimated_input_latency]);
-                                      xAxisData.push(result[i].scores[j].timestamp);
-                                  }
-                                  seriesObj[i] = {
-                                      name: legendData[i],
-                                      type: 'line',
-                                      showAllSymbol: true,
-                                      symbolSize: function (value) {
-                                          return Math.round(value[1] / 10) + 2;
-                                      },
-                                      data: obj
-                                  };
-                              }
-
-                              selectedData = {};
-                              selectedData[legendData[0]] = true;
-                              for (var x = 1; x < result.length; x++) {
-                                  selectedData[legendData[x]] = false;
-                              }
-
-                              var dom = document.getElementById("container");
-                              var myChart = echarts.init(dom);
-                              var app = {};
-                              option = null;
-                              option = {
-                                  title: {
-                                      text: 'PageSpeed',
-                                      subtext: 'for decktop'
-                                  },
-                                  tooltip: {
-                                      trigger: 'item',
-                                      formatter: function (params) {
-                                          var date = new Date(params.value[0]);
-                                          data = date.getFullYear() + '-'
-                                              + (date.getMonth() + 1) + '-'
-                                              + date.getDate() + ' '
-                                              + date.getHours() + ':'
-                                              + date.getMinutes();
-                                          return data + '<br/>'
-                                              + 'Score: ' + params.value[1] + '<br/>'
-                                              + 'First Contentful Paint: ' + params.value[2] + '<br/>'
-                                              + 'Speed Index: ' + params.value[3] + '<br/>'
-                                              + 'Time to Interactive: ' + params.value[4] + '<br/>'
-                                              + 'First Meaningful Paint: ' + params.value[5] + '<br/>'
-                                              + 'First CPU Idle: ' + params.value[6] + '<br/>'
-                                              + 'Estimated Input Latency: ' + params.value[7];
-                                      }
-                                  },
-                                  toolbox: {
-                                      show: true,
-                                      feature: {
-                                          mark: {show: true},
-                                          dataView: {show: true, readOnly: true, title: "View data"},
-                                          restore: {show: true, title: "Refresh"},
-                                          saveAsImage: {show: true, title: "Save"}
-                                      }
-                                  },
-                                  dataZoom: {
-                                      show: true,
-                                      start: 0,
-                                      end: 100
-                                  },
-                                  legend: {
-                                      selected: selectedData,
-                                      data: legendData
-                                  },
-                                  xAxis: [
-                                      {
-                                          type: 'time',
-                                          splitNumber: 20,
-                                          name: 'Time',
-                                      }
-                                  ],
-                                  yAxis: [
-                                      {
-                                          type: 'value',
-                                          name: 'Score',
-                                      }
-                                  ],
-                                  series: seriesObj
-                              };
-                              ;
-                              if (option && typeof option === "object") {
-                                  myChart.setOption(option, true);
-                              }
-                          }
-                      });
-                  });
-              }
-          });
-      });
-  </script>
-
-</head>
-<body>
+            });
+        </script>
 
 
-  <div class="d-flex container-fluid col-sm-12 justify-content-left">
-    <h1 class="crux-headline--standard">Latest Score Report</h1>
-  </div>
+    </head>
+    <body>
 
 
-
-  <div class="d-flex container-fluid col-sm-12 pt-4">
-    <table id="records_table" class="table table-striped table-hover">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col" colspan="2"></th>
-        <th scope="col" colspan="2" style="text-align: center">Mobile</th>
-        <th scope="col" colspan="2" style="text-align: center">Desktop</th>
-      </tr>
-      <tr>
-        <th scope="col">TITLE</th>
-        <th scope="col">URL</th>
-        <th scope="col">LATEST SCORE</th>
-        <th scope="col">PREVIOUS SCORE</th>
-        <th scope="col">LATEST SCORE</th>
-        <th scope="col">PREVIOUS SCORE</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr><td colspan="4"><div class="d-flex justify-content-center p-4">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+        <div class="d-flex container-fluid col-sm-12 justify-content-left">
+            <h1 class="crux-headline--standard">Latest Score Report</h1>
         </div>
-      </div></td></tr>
 
+        <script type="text/html" id="reports-chart-template">
+            <tr class="target" data-src="url">
+                <td data-content="title"></td>
+                <td data-content="url"></td>
+                <td><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></td>
+                <td><div data-css="mobilePreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobilePreviousScore"></div></td>
+                <td><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></td>
+                <td><div data-css="desktopPreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopPreviousScore"></div></td>
+            </tr>
+        </script>
 
-      <!--<tr class="target" data-url="https://www.consumerreports.org/cro/index.htm">
-          <td>Homepage</td>
-          <td>https://www.consumerreports.org/cro/index.htm</td>
-          <td>98</td>
-          <td>81</td>
-      </tr>
-      <tr class="target" data-url="https://www.consumerreports.org/cro/blenders.htm">
-          <td>Blenders</td>
-          <td>https://www.consumerreports.org/cro/blenders.htm</td>
-          <td>72</td>
-          <td>72</td>
-      </tr>
-      <tr class="target"
-          data-url="https://www.consumerreports.org/privacy/how-to-delete-online-accounts-you-no-longer-need/">
-          <td></td>
-          <td>https://www.consumerreports.org/privacy/how-to-delete-online-accounts-you-no-longer-need/</td>
-          <td>31</td>
-          <td>31</td>
-      </tr>-->
-      </tbody>
-    </table>
-  </div>
-  <div id="details" style="padding: 20px 0 20px 0;"></div>
-  <div id="container" style="height: 100%"></div>
-
-</body>
+        <div class="d-flex container-fluid col-sm-12 pt-4">
+            <table id="records_table" class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" colspan="2"></th>
+                        <th scope="col" colspan="2" style="text-align: center">Mobile</th>
+                        <th scope="col" colspan="2" style="text-align: center">Desktop</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">TITLE</th>
+                        <th scope="col">URL</th>
+                        <th scope="col">LATEST SCORE</th>
+                        <th scope="col">PREVIOUS SCORE</th>
+                        <th scope="col">LATEST SCORE</th>
+                        <th scope="col">PREVIOUS SCORE</th>
+                    </tr>
+                </thead>
+                <tbody id="reports-chart">
+                    <tr>
+                        <td colspan="6">
+                            <div class="d-flex justify-content-center p-4">
+                                <div class="loading-spinner" style="display: none; line-height: 300px;">
+                                    <div class="text-center">
+                                        <div class="spinner-grow spinner" style="width: 6rem; height: 6rem;" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
 </html>
