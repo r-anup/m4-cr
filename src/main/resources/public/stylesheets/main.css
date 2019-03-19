@@ -127,6 +127,19 @@
   color: var(--informative-color);
 }
 
+.metric-bg--average {
+  background: var(--average-color) !important;
+}
+
+.metric-bg--fail {
+  background: var(--fail-color) !important;
+}
+
+.metric-bg--pass {
+  background: var(--pass-color) !important;
+}
+
+
 .loading-spinner .text-center {
   color: red;
   animation: changecolor 3s linear infinite;

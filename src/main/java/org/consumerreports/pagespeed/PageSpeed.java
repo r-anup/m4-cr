@@ -176,7 +176,7 @@ public class PageSpeed {
                  diagnostics = (new ObjectMapper()).readValue(diagnosticsData.toString(), Diagnostics.class);
              }
 
-            if (fetchSource.equals("lightHouseAndSave")) {
+            if (fetchSource.equalsIgnoreCase("lightHouseAndSave")) {
                 Metrics m = new Metrics(
                         url,
                         strategy,

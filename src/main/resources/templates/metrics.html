@@ -45,7 +45,6 @@
 
         }
 
-
         .nochange {
             color: #a2a2a2;
         }
@@ -87,6 +86,17 @@
             height: 300px;
             padding-left: 0;
             margin-left: 60px;
+        }
+
+        .chart-lighthouse-score {
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            border-radius: 50%;
+            background: var(--fail-color);
+            text-align: center;
+            color: #fff;
+            float: right;
         }
 
 
@@ -132,6 +142,7 @@
 
         }
         $( function() {
+
             datepicker("date-left", "date-left-text", globalData.leftDate);
             datepicker("date-right", "date-right-text", globalData.rightDate);
             var urlParams = new URLSearchParams(window.location.search);
@@ -191,11 +202,41 @@
 
                 var metricsData = [];
                 Object.keys(leftdata['lighthouseResult']).forEach(function (key) {
-                    if (key == 'score') return;
+                    if (key == 'score') {
+                        var compare = getDifferenceInPercentage(leftdata['lighthouseResult'].score, rightdata['lighthouseResult'].score);
+
+                        var compareArrowClass = "oi-arrow-thick-top";
+                        var compareColorClass = "good";
+                        if (compare < 0) {
+                            compareArrowClass = "oi-arrow-thick-bottom";
+                            compareColorClass = "bad";
+                        } else if (compare == 0) {
+                            compareArrowClass = "oi-minus";
+                            compareColorClass = "average";
+                        }
+
+                        var compareValue = Math.abs(compare) + '%';
+                        if (Math.abs(compare) == 0) {
+                            compareValue = "";
+                        }
+
+                        metricsData.push({
+                            "title": "Lighthouse Score",
+                            "sub-title": "",
+                            "left-value": percentageFormatter(leftdata['lighthouseResult'].score),
+                            "chart__stat-number--compare-left-class": "chart-lighthouse-score metric-bg--" + getScaleFromScore(leftdata['lighthouseResult'].score).scale,
+                            "chart__stat-number--compare-right-class": "chart-lighthouse-score metric-bg--" + getScaleFromScore(leftdata['lighthouseResult'].score).scale,
+                            "compare": compareValue,
+                            'compare-arrow-class': compareArrowClass,
+                            'compare-color-class': compareColorClass,
+                            "right-value": percentageFormatter(rightdata['lighthouseResult'].score),
+                            "description": "",
+                        });
+
+                        return;
+                    }
                     var leftValue = leftdata['lighthouseResult'][key].displayValue;
                     var rightValue = rightdata['lighthouseResult'][key].displayValue;
-                    //var compare = getDifferenceInPercentage(leftdata['lighthouseResult'][key].displayValue, rightdata['lighthouseResult'][key].displayValue);
-
                     var compareMeta = getCompareMeta(leftdata['lighthouseResult'][key], rightdata['lighthouseResult'][key]);
                     var compareArrowClass = "oi-arrow-thick-top";
                     var compareColorClass = "bad";
@@ -242,8 +283,6 @@
                     "right-class": "tasks-chart",
                     "description": "",
                 });
-
-
 
 
                 Object.keys(leftdata['diagnostics']).forEach(function (key) {
@@ -345,14 +384,12 @@
         <button style="display: none;" id="submit-form" type="button" class="btn btn-info go-submit">Go</button>
     </div>
 
-
-
     <script type="text/html" id="metrics-chart-template">
         <div class="chart__stat--compare" style="color:#fdbc60;">
             <div class="chart__stat-metric chart__stat-metric-title metric-title-column"><span data-content="title">Render time</span><br><span data-content="description" class="chart__stat-metric-title-description"></span></div>
-            <div data-class="left-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare"  data-content="left-value">1.1s</div></div>
+            <div data-class="left-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-class="chart__stat-number--compare-left-class" data-content="left-value">1.1s</div></div>
             <div class="chart__stat-metric">&nbsp;<div class="chart__stat-number--compare" data-class="compare-color-class"><span data-content="compare">9%</span> <i data-class="compare-arrow-class" class="oi"></i></div></div>
-            <div data-class="right-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-content="right-value">1.2s</div></div>
+            <div data-class="right-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-class="chart__stat-number--compare-right-class"  data-content="right-value">1.2s</div></div>
         </div>
     </script>
 
@@ -363,46 +400,6 @@
             <div class="chart__stat-metric">Change</div>
             <div class="chart__stat-metric">Latest <br><span id="date-left-header"></span></div>
         </div>
-
-
-    </div>
-
-
-
-
-    <!--<div class="d-flex container-fluid col-sm-12 stats pt-4 metrics-chart">
-        <div class="chart__stat&#45;&#45;compare" style="text-align: right; font-weight: 800; background-color: #ccc;">
-            <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Metric</div>
-            <div class="chart__stat-metric">Previous <br><span id="date-to-header"></span></div>
-            <div class="chart__stat-metric">Change</div>
-            <div class="chart__stat-metric">Latest <br><span id="date-left-header"></span></div>
-        </div>
-
-
-        <div class="chart__stat&#45;&#45;compare" style="color:#fdbc60;">
-            <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Render time</div>
-            <div class="chart__stat-metric">Consumerreports<div class="chart__stat-number&#45;&#45;compare">1.1s</div></div>
-            <div class="chart__stat-metric">&nbsp;<div class="chart__stat-number&#45;&#45;compare bad">9% <i class="oi oi-arrow-thick-top"></i></div></div>
-            <div class="chart__stat-metric">Consumerreports<div class="chart__stat-number&#45;&#45;compare">1.2s</div></div>
-        </div>
-        <div class="chart__stat&#45;&#45;compare" style="color:#32a1da;">
-            <div class="chart__stat-metric chart__stat-metric-title">Render time</div>
-            <div class="chart__stat-metric">amazon<div class="chart__stat-number&#45;&#45;compare">0.8s</div></div>
-            <div class="chart__stat-metric">&nbsp;<div class="chart__stat-number&#45;&#45;compare bad">12% <i class="oi oi-arrow-thick-top"></i></div></div>
-            <div class="chart__stat-metric">amazon<div class="chart__stat-number&#45;&#45;compare">0.9s</div></div>
-        </div>
-        <div class="chart__stat&#45;&#45;compare" style="color:#44b75e;">
-            <div class="chart__stat-metric chart__stat-metric-title">Render time</div>
-            <div class="chart__stat-metric">cnet <div class="chart__stat-number&#45;&#45;compare">1s</div></div>
-            <div class="chart__stat-metric">&nbsp;<div class="chart__stat-number&#45;&#45;compare nochange">12% <i class="oi oi-minus"></i></div></div>
-            <div class="chart__stat-metric">cnet<div class="chart__stat-number&#45;&#45;compare">1s</div></div>
-        </div>
-    </div>
--->
-
-    <div style="display:none;" th:each="url : *{urls}">
-        <h2 th:text="${url.title}"></h2>
-        <p th:text="${url.url}"></p>
     </div>
 </body>
 </html>

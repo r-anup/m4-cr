@@ -73,11 +73,12 @@ public class Main {
 
     @RequestMapping(value = "/analyze.html")
     String analyze(
-            @RequestParam(value = "fetchSource", required = false, defaultValue = "repository") FetchSource fetchSource,
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Strategy strategy,
             @RequestParam(value = "overrideAPI", required = false, defaultValue = "") String overrideAPI,
             @RequestParam(value = "date", required = false) String date,
+            @RequestParam(value = "fetchSource", required = false, defaultValue = "repository") FetchSource fetchSource,
             Model model) {
+        LOG.info("came here");
         model.addAttribute("strategy", strategy);
         model.addAttribute("fetchSource", fetchSource);
         model.addAttribute("overrideAPI", overrideAPI);

@@ -35,6 +35,7 @@ function getScoreEntities(response) {
 
 /* Formatters */
 function isTimeInMiliseconds(value) {
+    value = (value+"").replace(/,/g, "");
     if (!isNaN(value)) return false;
     if (value.endsWith("ms")) {
         return true;
@@ -42,6 +43,7 @@ function isTimeInMiliseconds(value) {
     return false;
 }
 function isTimeInSeconds(value) {
+    value = (value+"").replace(/,/g, "");
     if (!isNaN(value)) return false;
     if (value.endsWith("s") && !value.endsWith("ms")) {
         return true;
@@ -50,6 +52,8 @@ function isTimeInSeconds(value) {
 }
 
 function getDifferenceInPercentage(value1, value2) {
+    value1 = (value1+"").replace(/,/g, "");
+    value2 = (value2+"").replace(/,/g, "");
     if (isTimeInMiliseconds(value1)) {
         if (!isTimeInMiliseconds(value2) && isTimeInSeconds(value2)) {
             value2 = value2+1000;
@@ -103,6 +107,8 @@ function isValueImproved(score1, score2) {
 
 
 function timeMiliSecondFormatter(value) {
+    value = (value+"").replace(/,/g, "");
+    value = parseFloat(value);
     if (!isNaN(value)) {
         if (value < 1000) {
             return (Math.round(value * 100) / 100).toLocaleString() + ' ms';
@@ -116,6 +122,8 @@ function timeMiliSecondFormatter(value) {
 }
 
 function bytesFormatter(value) {
+    value = (value+"").replace(/,/g, "");
+    value = parseFloat(value);
     if (!isNaN(value)) {
         if (value < 1024) {
             return value.toLocaleString() + ' Bytes';
@@ -129,6 +137,8 @@ function bytesFormatter(value) {
 }
 
 function bytesPerSecondFormatter(value) {
+    value = (value+"").replace(/,/g, "");
+    value = parseFloat(value);
     if (!isNaN(value)) {
         if (value < 1024) {
             return value.toLocaleString() + ' Bps';
@@ -145,12 +155,15 @@ function bytesPerSecondFormatter(value) {
 }
 
 function percentageFormatter(value) {
+    value = (value+"").replace(/,/g, "");
+    value = parseFloat(value);
     if (isNaN(value)) return value;
     value = value * 100;
     return (Math.round(value));
 }
 
 function getScaleFromScore(score) {
+    score = (score+"").replace(/,/g, "");
     score = parseFloat(score);
     var data = {
         scale: 'pass',
@@ -207,6 +220,7 @@ $.addTemplateFormatter({
         if (isNaN(value)) {
             return value;
         } else {
+            value = (value+"").replace(/,/g, "");
             return Number(value).toLocaleString();
         }
     },
@@ -237,6 +251,10 @@ $.addTemplateFormatter({
     },
 
     FlexGrowStyleFormatter: function (value, template) {
+        if (value == null || isNaN(value)) {
+            return '';
+        }
+        value = parseFloat((value+"").replace(/,/g, ""));
         value = value * 100;
         return 'flex-grow: ' + (Math.round(value)) + ';';
     },
