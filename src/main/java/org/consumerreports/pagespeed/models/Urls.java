@@ -18,14 +18,18 @@ public class Urls {
     public Urls() {
     }
 
-    public Urls(ObjectId _id, String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
-        this._id = _id;
+    public Urls(String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
         this.url = url;
         this.title = title;
         this.mobileLatestScore = mobileLatestScore;
         this.mobilePreviousScore = mobilePreviousScore;
         this.desktopLatestScore = desktopLatestScore;
         this.desktopPreviousScore = desktopPreviousScore;
+    }
+
+    public Urls(String url, String title) {
+        this.url = url;
+        this.title = title;
     }
 
     // ObjectId needs to be converted to string

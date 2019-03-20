@@ -74,6 +74,10 @@
             cursor: pointer;
             color: #3939fd;
         }
+
+        .btn-group {
+            vertical-align: inherit !important;
+        }
         
         .ui-datepicker-trigger {
             visibility: hidden;
@@ -85,7 +89,17 @@
         .file-type-chart, .tasks-chart {
             height: 300px;
             padding-left: 0;
-            margin-left: 60px;
+            margin-left: 0;
+        }
+
+        .file-type-chart {
+            margin-left: -60px;
+            margin-right: -60px;
+        }
+
+        .tasks-chart {
+            margin-left: -140px;
+            margin-right: 0;
         }
 
         .chart-lighthouse-score {
@@ -99,25 +113,41 @@
             float: right;
         }
 
+        .lighthouse-chart {
+            height: 200px;
+        }
+
 
         .go-submit {
             margin-left: 1rem;
             font-size: 2rem;
             margin-top: -8px;
         }
+
+        .dropdown-menu {
+            font-size: 1.8rem;
+            line-height: 3rem;
+        }
+
+        #dropdown-menu-strategy-id, .dropdown-menu-strategy-container button{
+            text-transform: capitalize;
+        }
+
+
     </style>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script th:inline="javascript">
         var globalData = {};
         globalData.url = /*[[${url} ?: 'https://www.consumerreports.org/cro/index.htm']]*/ "";
+        globalData.title = /*[[${pageTitle} ?: 'Homepage']]*/ "Homepage";
         globalData.strategy = /*[[${strategy} ?: 'mobile']]*/ "mobile";
         globalData.leftDate = /*[[${leftDate ?: new Date(Date.now()).toLocaleDateString()}]]*/ "";
         globalData.rightDate = /*[[${rightDate  ?: new Date(Date.now() - 864e5).toLocaleDateString()}]]*/ "";
   </script>
 
     <script>
-        var datepicker = function(dateId, textId, date) {
+        var datepicker = function(dateId, textId, id, date) {
             $("#"+dateId).datepicker({
                 altField: "#"+textId,
                 showOn: "button",
@@ -127,6 +157,7 @@
                 maxDate: 0,
                 onSelect: function(dateText, inst) {
                     $("#"+textId).html(dateText).addClass('edited');
+                    globalData[id] = dateText;
                     $("#submit-form").show();
                 },
                 beforeShow: function (event, ui) {
@@ -139,12 +170,45 @@
             });
 
             setDateStats(dateId, date, textId);
-
         }
+
+        var urlpicker = function() {
+            $("#dropdown-menu-url-id").html(globalData.title);
+            $(document).on("click", ".dropdown-menu-url-container button", function () {
+                $("#dropdown-menu-url-id").html($(this).text());
+                $("#dropdown-menu-url-id").addClass('edited');
+                globalData.url = $(this).data('url');
+                globalData.title = $(this).text();
+                $("#submit-form").show();
+            });
+        }
+
+        var strategypicker = function() {
+            $("#dropdown-menu-strategy-id").html(globalData.strategy);
+            $(document).on("click", ".dropdown-menu-strategy-container button", function () {
+                $("#dropdown-menu-strategy-id").html($(this).text());
+                $("#dropdown-menu-strategy-id").addClass('edited');
+                globalData.strategy = $(this).data('strategy');
+                $("#submit-form").show();
+            });
+        }
+
+        $(document).on("click", "#submit-form", function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('url', globalData.url);
+            urlParams.set('strategy', globalData.strategy);
+            urlParams.set('leftDate', globalData.leftDate);
+            urlParams.set('rightDate', globalData.rightDate);
+            window.location.href = window.location.origin + window.location.pathname + "?" + urlParams.toString();
+        });
+
         $( function() {
 
-            datepicker("date-left", "date-left-text", globalData.leftDate);
-            datepicker("date-right", "date-right-text", globalData.rightDate);
+            datepicker("date-left", "date-left-text", "leftDate", globalData.leftDate);
+            datepicker("date-right", "date-right-text", "rightDate", globalData.rightDate);
+            urlpicker();
+            strategypicker();
+
             var urlParams = new URLSearchParams(window.location.search);
             urlParams.set('url',globalData.url);
             urlParams.set('strategy',globalData.strategy);
@@ -157,7 +221,6 @@
 
         } );
 
-
         var setDateStats = function(dateId, date, textId) {
             if (date != undefined && date != "") {
                 $("#"+dateId).datepicker("setDate", date);
@@ -167,6 +230,10 @@
                 $("#"+dateId).datepicker("show");
             });
             $("#" + dateId + "-header").text(new Date(date).toLocaleString('en-us', { day: 'numeric', month: 'long' }));
+        }
+
+        var setStrategyStats = function(text) {
+            $("#date-strategy-text").html(text);
         }
 
 
@@ -200,6 +267,10 @@
                 var leftdata = getScoreEntities(leftDateResponse);
                 var rightdata = getScoreEntities(rightDateResponse);
 
+                if (leftdata == null || rightdata == null) {
+                    return;
+                }
+
                 var metricsData = [];
                 Object.keys(leftdata['lighthouseResult']).forEach(function (key) {
                     if (key == 'score') {
@@ -232,6 +303,24 @@
                             "right-value": percentageFormatter(rightdata['lighthouseResult'].score),
                             "description": "",
                         });
+
+
+                        metricsData.push({
+                            "title": "Score Chart",
+                            "sub-title": "",
+                            "left-value": "",
+                            "compare": "",
+                            'compare-arrow-class': "",
+                            'compare-color-class': "",
+                            "right-value": "",
+                            "left-class": "lighthouse-chart",
+                            "right-class": "",
+                            "description": "",
+                        });
+
+
+
+
 
                         return;
                     }
@@ -366,20 +455,55 @@
                     }), '.tasks-chart', 'Page tasks', false
                 );
 
+                $(".lighthouse-chart").siblings().not('.metric-title-column').remove();
+                $(".lighthouse-chart").parent().css({'grid-template-columns': '1fr 3fr 0fr 0fr'});
+
+
+                $.ajax({
+                    data: {
+                        url: url,
+                        strategy: strategy,
+                    },
+                    dataType: 'json',
+                    method: 'GET',
+                    url: "/metrics/url/score",
+                    success: function(response) {
+                        var data = {days: [], values: []};
+                        $.each(response.reverse(), function (idx, item) {
+                            var dt = new Date(item.fetchTime);
+                            data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
+                            data.values.push(Math.round(item.lighthouseResult.score*100));
+                        });
+                        plotLighthouseChart(data, '.lighthouse-chart');
+                    }
+                });
+
             });
         }
     </script>
 </head>
 
 <body>
-    <div class="d-flex container-fluid col-sm-12 justify-content-left">
+    <div class="d-flex justify-content-left">
         <h1 class="crux-headline--standard">Page Performance Metrics</h1>
     </div>
 
-    <div class="d-flex container-fluid col-sm-12 justify-content-left pt-4">
-        <h2>For <span class="dotted-underline">Consumerreports.org [Home]</span>
+    <div class="d-flex justify-content-left pt-4">
+        <h2>For <span class="btn-group"><span class="dotted-underline" id="dropdown-menu-url-id" data-toggle="dropdown">Homepage</span>
+            <div class="dropdown-menu dropdown-menu-url-container" aria-labelledby="dropdown-menu-url-id">
+                <span th:each="url : *{urlList}" th:remove="tag">
+                     <button class="dropdown-item" type="button" th:attr="data-url=${url.url}" th:text="${url.title}"></button>
+                </span>
+             </div>
+        </span>
             on <span id="date-left-text" class="dotted-underline"></span><input type="hidden" id="date-left">
             compared to <span id="date-right-text" class="dotted-underline">03/08/2019</span><input type="hidden" id="date-right">
+
+            for <span class="btn-group"><span id="dropdown-menu-strategy-id" class="dotted-underline" data-toggle="dropdown">mobile</span>
+            <div class="dropdown-menu dropdown-menu-strategy-container" aria-labelledby="dropdown-menu-strategy-id">
+                <button class="dropdown-item" type="button" data-strategy="mobile">mobile</button>
+                <button class="dropdown-item" type="button" data-strategy="desktop">desktop</button>
+            </div></span>
         </h2>
         <button style="display: none;" id="submit-form" type="button" class="btn btn-info go-submit">Go</button>
     </div>
@@ -393,7 +517,7 @@
         </div>
     </script>
 
-    <div class="d-flex container-fluid col-sm-12 stats pt-4 metrics-chart lh-vars lab-data" id="metrics-chart">
+    <div class="d-flex stats pt-4 metrics-chart lh-vars lab-data" id="metrics-chart">
         <div class="chart__stat--compare" style="text-align: right; font-weight: 800; background-color: #ccc;">
             <div class="chart__stat-metric metric-title-column">Metric</div>
             <div class="chart__stat-metric">Previous <br><span id="date-right-header"></span></div>

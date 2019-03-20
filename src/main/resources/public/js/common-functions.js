@@ -1,4 +1,7 @@
 function getScoreEntities(response) {
+    if (response.status == 'failure') {
+        return null;
+    }
     var data = {};
 
     if (response.isDataFormatted) {
@@ -322,6 +325,41 @@ function plotFileTypeChart(data, elem, title, showLegends) {
                 },
                 data: data
             }
+        ]
+    };
+
+    myChart.setOption(option);
+}
+
+
+
+function plotLighthouseChart(data, elem) {
+    var myChart = echarts.init($(elem)[0]);
+
+    var option = {
+        color: ['#61a0a8'],
+        tooltip: {
+            trigger: 'item',
+            formatter: "{b}: {c}"
+        },
+        xAxis: {
+            type: 'category',
+            data: data.days,
+            splitLine: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
+        },
+        yAxis: {
+            show: false
+        },
+        series: [{
+            data: data.values,
+            type: 'line',
+            smooth: true,
+        }
         ]
     };
 

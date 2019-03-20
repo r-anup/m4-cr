@@ -78,7 +78,6 @@ public class Main {
             @RequestParam(value = "date", required = false) String date,
             @RequestParam(value = "fetchSource", required = false, defaultValue = "repository") FetchSource fetchSource,
             Model model) {
-        LOG.info("came here");
         model.addAttribute("strategy", strategy);
         model.addAttribute("fetchSource", fetchSource);
         model.addAttribute("overrideAPI", overrideAPI);
@@ -114,6 +113,7 @@ public class Main {
     @RequestMapping(value = "/metrics.html", method = RequestMethod.GET)
     String metrics(
             @RequestParam(value = "url", required = false, defaultValue = "https://www.consumerreports.org/cro/index.htm") String url,
+            @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Strategy strategy,
             @RequestParam(value = "leftDate", required = false) String leftDate,
             @RequestParam(value = "rightDate", required = false) String rightDate,
@@ -140,6 +140,14 @@ public class Main {
         }
 
         List<Urls> urlList = urlsRepository.findAll();
+
+        Urls urls = urlsRepository.findFirstByUrl(url);
+        if (urls != null) {
+            model.addAttribute("pageTitle", urls.title);
+        } else {
+            model.addAttribute("pageTitle", title);
+        }
+
         model.addAttribute("urlList", urlList);
         model.addAttribute("url", url);
         model.addAttribute("strategy", strategy);

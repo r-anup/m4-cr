@@ -8,6 +8,7 @@ import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +38,7 @@ public class MetricsController {
     @RequestMapping(value = "/url", method = RequestMethod.GET, produces = "application/json")
     public Object getMetrics(
             @RequestParam(value = "url") String url,
-            @RequestParam(value = "strategy", required = false) String deviceType,
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType,
             @RequestParam(value = "date", required = false) String date
     ) {
         Date parsedDate;
@@ -49,9 +50,6 @@ public class MetricsController {
             }
             parsedDate = simpleDateFormat.parse(date);
 
-            if (deviceType == null || deviceType.equals("")) {
-                deviceType = "mobile";
-            }
             metrics = metricsRepository.findFirstByUrlContainingAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType, parsedDate, CommonUtil.addDays(parsedDate, 1));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -69,12 +67,10 @@ public class MetricsController {
     @RequestMapping(value = "/url/score", method = RequestMethod.GET, produces = "application/json")
     public Object getUrlsAndScore(
             @RequestParam(value = "url") String url,
-            @RequestParam(value = "strategy", required = false) String deviceType
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType
     ) {
-        Urls metrics = null;
-       /* metrics = urlsRepository.findFirstByUrl(url);
-        metrics.setDesktopLatestScore();
-        urlsRepository.save();*/
+        List<Metrics> metrics;
+        metrics = metricsRepository.findByUrlContainingAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 6));
 
         if (metrics != null) {
             return metrics;

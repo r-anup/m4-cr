@@ -1,171 +1,162 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="include(title,links,styles,scripts,body)">
+    <head>
+        <title th:replace="${title}">Pagespeed</title>
+
+        <!-- Common styles and scripts -->
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1">
+        <meta name="robots" content="NOINDEX,NOFOLLOW">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
+        <style>
+
+            html {
+                font-size: 10px;
+            }
+
+            body {
+                font-size: 2rem;
+                font-family: 'Roboto', Arial, sans-serif;
+            }
+
+            .crux-headline--standard {
+                font-size: 3.6rem;
+                color: #504f4f;
+                font-weight: normal;
+                line-height: 1em;
+            }
 
 
 
-<head>
+            #table-details .slow {
+                color: #c7221f;;
+            }
 
-    <title th:replace="${title}">The awesome application</title>
+            #table-details .average {
+                color: #e67700;;
+            }
 
-    <!-- Common styles and scripts -->
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1">
-    <meta name="robots" content="NOINDEX,NOFOLLOW">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
+            #table-details .fast {
+                color: #00ae4d;;
+            }
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+            .main-action {
+                padding: 4rem 0 0;
+                background: #4285f4;
+                line-height: 4rem;
+                margin-top: 3rem;
+                margin-bottom: 3rem;
+            }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
-    <style>
+            .main-action div.url-and-analyze {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
 
-        html {
-            font-size: 10px;
-        }
+            .main-action input[name=url] {
+                color: rgba(0, 0, 0, 0.87);
+                border: none;
+                font-size: 14px;
+                height: auto;
+                padding: 0 16px;
+                width: 40%;
+            }
 
-        body {
-            font-size: 2rem;
-            font-family: 'Roboto', Arial, sans-serif;
-        }
-
-        .crux-headline--standard {
-            font-size: 3.6rem;
-            color: #212121;
-            font-weight: normal;
-            line-height: 1em;
-        }
-
-
-        #table-details .slow {
-            color: #c7221f;;
-        }
-
-        #table-details .average {
-            color: #e67700;;
-        }
-
-        #table-details .fast {
-            color: #00ae4d;;
-        }
-
-        .main-action {
-            padding: 4rem 0 0;
-            background: #4285f4;
-            line-height: 4rem;
-            margin-top: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .main-action div.url-and-analyze {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .main-action input[name=url] {
-            color: rgba(0, 0, 0, 0.87);
-            border: none;
-            font-size: 14px;
-            height: auto;
-            padding: 0 16px;
-            width: 40%;
-        }
-
-        input[type="text"] {
-            border: 1px solid #ebebeb;
-            border-radius: 2px;
-            color: #212121;
-            font: 16px/20px Roboto, sans-serif;
-            margin: 0;
-            max-width: 100%;
-            outline: 0;
-            padding: 7px;
-            transition: border-color .2s;
-            vertical-align: middle;
-        }
+            input[type="text"], input[type="email"] {
+                border: 1px solid #ebebeb;
+                border-radius: 2px;
+                color: #212121;
+                font: 16px/20px Roboto, sans-serif;
+                margin: 0;
+                max-width: 100%;
+                outline: 0;
+                padding: 7px;
+                transition: border-color .2s;
+                vertical-align: middle;
+            }
 
 
-        .footer {
-            border-top: solid 1px #999;
-            /*box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2), 0 1px 0 0 rgba(0,0,0,0.01);*/
-            margin: 4rem 0 2rem 0;
-            font-size: 1.5rem;
-            font-weight: 300;
-            line-height: 4rem;
-        }
+            .footer {
+                border-top: solid 1px #999;
+                /*box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2), 0 1px 0 0 rgba(0,0,0,0.01);*/
+                margin: 4rem 0 2rem 0;
+                font-size: 1.5rem;
+                font-weight: 300;
+                line-height: 4rem;
+            }
 
-        .fixed-header {
-            position: fixed;
-            height: 6rem;
-            left: 0;
-            top: 0;
-            width: 100%;
-            background: #fff;
-            -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-            box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-            z-index: 999;
-        }
+            .fixed-header {
+                position: fixed;
+                height: 6rem;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: #fff;
+                -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+                box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+                z-index: 999;
+            }
 
 
-    </style>
+        </style>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.loadTemplate.min.js"></script>
+        <link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.loadTemplate.min.js"></script>
+        <script type="text/javascript" src="/js/echarts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymoutabs"></script>
+        <script type="text/javascript" src="/js/common-functions.js"></script>
 
-   <!-- <script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>-->
-    <script type="text/javascript" src="/js/echarts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymoutabs"></script>
+        <!--/* Per-page placeholder for additional links */-->
+        <th:block th:replace="${links}" />
+        <th:block th:replace="${styles}" />
+        <th:block th:replace="${scripts}" />
+    </head>
 
-    <script type="text/javascript" src="/js/common-functions.js"></script>
+    <body>
+        <div class="container-fluid" style="max-width: 1280px; min-height: 800px">
+            <header class="d-flex justify-content-between p-3 fixed-header">
+                <div class="p2"><img src="images/cr-logo.svg"></div>
 
-    <!--/* Per-page placeholder for additional links */-->
-    <th:block th:replace="${links}" />
-    <th:block th:replace="${styles}" />
-    <th:block th:replace="${scripts}" />
-
-</head>
-
-<body>
-<div class="container-fluid">
-    <div class="d-flex justify-content-between p-3 fixed-header">
-        <div class="p2"><img src="images/cr-logo.svg"></div>
-
-        <div class="p2">
-            <ul class="nav justify-content-end nav-pills">
-                <li class="nav-item">
-                    <a th:class="${tab} == 'reports' ? 'nav-link active' : 'nav-link'" href="reports.html">Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a th:class="${tab} == 'analyze' ? 'nav-link active' : 'nav-link'" href="analyze.html">Analysis</a>
-                </li>
-                <li class="nav-item">
-                    <a th:class="${tab} == 'metrics' ? 'nav-link active' : 'nav-link'" href="metrics.html">Metrics</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="config.html">Settings</a>
-                </li>
-
-            </ul>
+                <div class="p2">
+                    <ul class="nav justify-content-end nav-pills">
+                        <li class="nav-item">
+                            <a th:class="${tab} == 'reports' ? 'nav-link active' : 'nav-link'" href="reports.html">Reports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:class="${tab} == 'analyze' ? 'nav-link active' : 'nav-link'" href="analyze.html">Analysis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:class="${tab} == 'metrics' ? 'nav-link active' : 'nav-link'" href="metrics.html">Metrics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:class="${tab} == 'settings' ? 'nav-link active' : 'nav-link'" href="settings.html">Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <div style="padding-top: 8rem;">
+                <th:block th:replace="${body}" />
+            </div>
 
         </div>
-    </div>
-    <div style="padding-top: 8rem;">
-        <th:block th:replace="${body}" />
-    </div>
-    <div class="footer container-fluid d-flex">
-        For questions please email at arai@consumer.org
-    </div>
 
-</div>
-
-
-<body>
+        <footer class="container-fluid d-flex">
+            <span class="footer  container-fluid">For questions please email at arai@consumer.org</span>
+        </footer>
+    </body>
+</html>
