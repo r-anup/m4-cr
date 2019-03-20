@@ -121,16 +121,16 @@ public class Main {
             ) {
 
          SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        if (leftDate == null) {
-            leftDate = simpleDateFormat.format(new Date());
+        if (rightDate == null) {
+            rightDate = simpleDateFormat.format(new Date());
         }
 
-        if (rightDate == null) {
-            rightDate = simpleDateFormat.format(CommonUtil.addDays(new Date(), -1));
+        if (leftDate == null) {
+            leftDate = simpleDateFormat.format(CommonUtil.addDays(new Date(), -1));
         }
 
         try {
-            if (new SimpleDateFormat("MM/dd/yyyy").parse(rightDate).compareTo(new SimpleDateFormat("MM/dd/yyyy").parse(leftDate)) > 0) {
+            if (new SimpleDateFormat("MM/dd/yyyy").parse(leftDate).compareTo(new SimpleDateFormat("MM/dd/yyyy").parse(rightDate)) > 0) {
                 String tempDate = leftDate;
                 leftDate = rightDate;
                 rightDate = tempDate;
