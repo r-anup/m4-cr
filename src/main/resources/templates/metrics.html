@@ -243,7 +243,8 @@
                     data: {
                         url: url,
                         strategy: strategy,
-                        date: date
+                        date: date,
+                        timezone: new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1],
 
                     },
                     dataType: 'json',

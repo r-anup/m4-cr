@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 
 @RestController
@@ -39,12 +40,15 @@ public class MetricsController {
     public Object getMetrics(
             @RequestParam(value = "url") String url,
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType,
-            @RequestParam(value = "date", required = false) String date
+            @RequestParam(value = "date", required = false) String date,
+            @RequestParam(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone
     ) {
         Date parsedDate;
         Metrics metrics;
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
+
             if (date == null || date.equals("")) {
                 date = simpleDateFormat.format(new Date());
             }

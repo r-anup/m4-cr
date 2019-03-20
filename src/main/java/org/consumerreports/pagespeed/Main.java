@@ -162,10 +162,11 @@ public class Main {
     Object lightHouse(
             @RequestParam(value = "url") String url,
             @RequestParam(value = "date", required = false) String date,
+            @RequestParam(value = "timezone", required = false) String timezone,
             @RequestParam(value = "fetchSource", required = false) String fetchSource,
             @RequestParam(value = "strategy", required = false) String strategy) {
         if (fetchSource.equals("repository")) {
-            return metricsController.getMetrics(url, strategy, date);
+            return metricsController.getMetrics(url, strategy, date, timezone);
         }
 
         PageSpeed pageSpeed = new PageSpeed();
