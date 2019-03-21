@@ -167,14 +167,19 @@ public class Main {
             @RequestParam(value = "url") String url,
             @RequestParam(value = "date", required = false) String date,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
-            @RequestParam(value = "fetchSource", required = false) String fetchSource,
+            @RequestParam(value = "fetchSource", required = false) FetchSource fetchSource,
             @RequestParam(value = "strategy", required = false) String strategy) {
-        if (fetchSource.equals("repository")) {
+
+        if (fetchSource.equals(FetchSource.repository)) {
             return metricsController.getMetrics(url, strategy, date, timezone);
         }
 
         PageSpeed pageSpeed = new PageSpeed();
         JSONObject output = pageSpeed.processRequest(url, strategy, fetchSource, metricsRepository, urlsRepository);
-        return output.toString();
+        if (output != null) {
+            return output.toString();
+        } else {
+            return "{\"status\": \"failure\", \"message\": \"No Data\"}";
+        }
     }
 }

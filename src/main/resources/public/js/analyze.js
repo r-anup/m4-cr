@@ -59,7 +59,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
     $("#diagnostics-chart").html('');
     $('.report-summary').hide();
     $("#screenshots").html('');
-
+    $(".error-message").hide();
     $(".loading-spinner").show();
     /!* reset DOM *!/
 
@@ -92,6 +92,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
     });
 
     $.when.apply(this, requests).then(function (mainAPIResponseArr, secondAPIResponseArr) {
+        $(".loading-spinner").hide();
         var mainAPIResponse = {};
         var secondAPIResponse = {};
         if (typeof(secondAPIResponseArr) === 'undefined' || secondAPIResponseArr == null || secondAPIResponseArr == 'success') {
@@ -101,6 +102,18 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
             secondAPIResponse = secondAPIResponseArr[0];
         }
 
+
+        if (secondAPIResponse.status == "failure") {
+            if (globalData.fetchSource == "repository") {
+                var urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('fetchSource','lightHouseNoSave');
+                window.location.href = window.location.origin +  window.location.pathname  + "?" + urlParams.toString();
+            } else {
+                $("#analysis-chart").html("");
+                $(".error-message").show();
+            }
+            return;
+        }
 
         var data = getScoreEntities(secondAPIResponse);
 
@@ -170,7 +183,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
         responseData = mainAPIResponse;
 
         $('.report-summary').show();
-        $(".loading-spinner").hide();
+
     })
         .fail(function () {
             if (globalData.fetchSource == "repository") {
@@ -179,7 +192,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
                 window.location.href = window.location.origin +  window.location.pathname  + "?" + urlParams.toString();
             } else {
                 $("#analysis-chart").html("");
-                //$("#analysis-chart").html("there was an error");
+                $(".error-message").show();
                 $(".loading-spinner").hide();
             }
         });

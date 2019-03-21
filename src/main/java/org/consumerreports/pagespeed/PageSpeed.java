@@ -83,13 +83,13 @@ public class PageSpeed {
     }
 
 
-    public JSONObject processRequest(String url, String strategy, String fetchSource, MetricsRepository metricsRepository, UrlsRepository urlsRepository) {
+    public JSONObject processRequest(String url, String strategy, Main.FetchSource fetchSource, MetricsRepository metricsRepository, UrlsRepository urlsRepository) {
         if (strategy == null) {
             strategy = "mobile";
         }
 
         if (fetchSource == null) {
-            fetchSource = "repository";
+            fetchSource = Main.FetchSource.repository;
         }
 
         String api = String.format(PAGE_SPEED_API_LOCAL, url, strategy, "");
@@ -176,7 +176,7 @@ public class PageSpeed {
                  diagnostics = (new ObjectMapper()).readValue(diagnosticsData.toString(), Diagnostics.class);
              }
 
-            if (fetchSource.equalsIgnoreCase("lightHouseAndSave")) {
+            if (fetchSource.equals(Main.FetchSource.lightHouseAndSave)) {
                 Metrics m = new Metrics(
                         url,
                         strategy,

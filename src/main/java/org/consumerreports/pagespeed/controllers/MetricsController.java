@@ -24,8 +24,6 @@ public class MetricsController {
     @Autowired
     private MetricsRepository metricsRepository;
 
-    @Autowired
-    private UrlsRepository urlsRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Metrics> getAllMetrics() {
@@ -72,7 +70,7 @@ public class MetricsController {
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType
     ) {
         List<Metrics> metrics;
-        metrics = metricsRepository.findByUrlContainingAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 6));
+        metrics = metricsRepository.findByUrlContainingAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 7));
 
         if (metrics != null) {
             return metrics;

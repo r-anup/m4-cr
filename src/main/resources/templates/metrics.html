@@ -264,12 +264,12 @@
                 }
 
 
-
                 var leftdata = getScoreEntities(leftDateResponse);
                 var rightdata = getScoreEntities(rightDateResponse);
 
                 if (leftdata == null || rightdata == null) {
                     $(".error-message").show();
+                    $("#metrics-chart").remove();
                     return;
                 }
 
@@ -519,17 +519,17 @@
     <div class="container-fluid loading-spinner">
         <div style="margin: 200px 0 200px 0;">
             <div class="text-center">
-                <div class="spinner-grow spinner" style="width: 6rem; height: 6rem;" role="status">
+                <div class="spinner-grow spinner" style="width: 9rem; height: 9rem;" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid error-message" style="display: none;">
+    <div class="error-message" style="display: none;">
         <div style="margin: 20px 0 0 0">
             <div class="text-left">
-                <div>No records match your search criteria.</div>
+                <div class="alert alert-danger" role="alert">No records match your search criteria. <br /> Please adjust filters and try again.</div>
             </div>
         </div>
     </div>
