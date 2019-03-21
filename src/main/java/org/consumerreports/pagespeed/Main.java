@@ -125,6 +125,7 @@ public class Main {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         simpleDateFormat.setTimeZone(timezone);
+        LOG.error(timezone.toString());
         if (rightDate == null) {
             rightDate = simpleDateFormat.format(new Date());
         }
