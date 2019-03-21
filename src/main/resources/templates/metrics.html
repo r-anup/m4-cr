@@ -135,6 +135,17 @@
         }
 
 
+        .screenshots div {
+            padding: 2rem;
+            display: grid;
+        }
+
+        .screenshots div span {
+            font-size: 1.2rem;
+            text-align: center;
+            color: #ff002b;
+        }
+
     </style>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -230,7 +241,7 @@
             $("#"+textId).click(function() {
                 $("#"+dateId).datepicker("show");
             });
-            $("#" + dateId + "-header").text(new Date(date).toLocaleString('en-us', { day: 'numeric', month: 'long' }));
+            $("." + dateId + "-header").text(new Date(date).toLocaleString('en-us', { day: 'numeric', month: 'long' }));
         }
 
         var setStrategyStats = function(text) {
@@ -457,7 +468,6 @@
                 $(".lighthouse-chart").siblings().not('.metric-title-column').remove();
                 $(".lighthouse-chart").parent().css({'grid-template-columns': '1fr 3fr 0fr 0fr', 'border-top': '0 none'});
 
-
                 $.ajax({
                     data: {
                         url: url,
@@ -476,6 +486,17 @@
                         plotLighthouseChart(data, '.lighthouse-chart');
                     }
                 });
+
+                leftdata['screenshots'].forEach(function (screenshot) {
+                    $(".screenshots-left").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
+                });
+
+                rightdata['screenshots'].forEach(function (screenshot) {
+                    $(".screenshots-right").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
+                });
+
+
+
 
             });
         }
@@ -537,9 +558,27 @@
     <div class="d-flex stats pt-4 metrics-chart lh-vars lab-data" id="metrics-chart">
         <div class="chart__stat--compare" style="text-align: right; font-weight: 800; background-color: #ccc;">
             <div class="chart__stat-metric metric-title-column">Metric</div>
-            <div class="chart__stat-metric">Previous <br><span id="date-left-header"></span></div>
+            <div class="chart__stat-metric">Previous <br><span class="date-left-header"></span></div>
             <div class="chart__stat-metric">Change</div>
-            <div class="chart__stat-metric">Latest <br><span id="date-right-header"></span></div>
+            <div class="chart__stat-metric">Latest <br><span class="date-right-header"></span></div>
+        </div>
+    </div>
+
+    <div class="d-flex stats pt-4 screenshots-chart lh-vars lab-data" id="screenshots-chart">
+        <div class="chart__stat--compare" style="color:#fdbc60; grid-template-columns: 1fr 3fr 0fr 0fr;">
+            <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-left-header"></span></div>
+            <div class="chart__stat-metric" style="overflow-x: scroll;">
+                <div class="screenshots screenshots-left container-fluid d-flex pt-2 pb-2"></div>
+            </div>
+
+        </div>
+
+        <div class="chart__stat--compare" style="color:#fdbc60; grid-template-columns: 1fr 3fr 0fr 0fr;">
+            <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-right-header">2</span></div>
+            <div class="chart__stat-metric" style="overflow-x: scroll;">
+                <div class="screenshots screenshots-right container-fluid d-flex pt-2 pb-2"></div>
+            </div>
+
         </div>
     </div>
 </body>
