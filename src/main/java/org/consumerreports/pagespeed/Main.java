@@ -119,13 +119,12 @@ public class Main {
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Strategy strategy,
             @RequestParam(value = "leftDate", required = false) String leftDate,
             @RequestParam(value = "rightDate", required = false) String rightDate,
-            TimeZone timezone,
+            @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
             Model model
             ) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        simpleDateFormat.setTimeZone(timezone);
-        LOG.error(timezone.toString());
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
         if (rightDate == null) {
             rightDate = simpleDateFormat.format(new Date());
         }
@@ -167,7 +166,7 @@ public class Main {
     Object lightHouse(
             @RequestParam(value = "url") String url,
             @RequestParam(value = "date", required = false) String date,
-            TimeZone timezone,
+            @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
             @RequestParam(value = "fetchSource", required = false) String fetchSource,
             @RequestParam(value = "strategy", required = false) String strategy) {
         if (fetchSource.equals("repository")) {

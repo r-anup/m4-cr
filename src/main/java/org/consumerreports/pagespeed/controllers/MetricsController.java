@@ -9,10 +9,8 @@ import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,13 +39,13 @@ public class MetricsController {
             @RequestParam(value = "url") String url,
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType,
             @RequestParam(value = "date", required = false) String date,
-            TimeZone timezone
+            @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone
     ) {
         Date parsedDate;
         Metrics metrics;
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            simpleDateFormat.setTimeZone(timezone);
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
 
             if (date == null || date.equals("")) {
                 date = simpleDateFormat.format(new Date());

@@ -119,6 +119,13 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymoutabs"></script>
+        <script src="/js/cookie.js"></script>
+        <script>
+            /* local timezone is not available server size */
+            if (!Cookies.get('timezone')) {
+                Cookies.set('timezone', new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1]);
+            }
+        </script>
         <script type="text/javascript" src="/js/common-functions.js"></script>
 
         <!--/* Per-page placeholder for additional links */-->
