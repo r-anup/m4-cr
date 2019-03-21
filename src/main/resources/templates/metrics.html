@@ -17,6 +17,7 @@
             grid-template-columns: 1fr 1fr 1fr 1fr;
             border-top: 1px solid #888;
             text-align: right;
+            font-size: 1.7rem;
         }
 
         .edited {
@@ -24,7 +25,7 @@
         }
 
         .chart__stat-metric {
-            padding: 10px 10px 10px 60px;
+            padding: 10px 10px 10px 30px;
         }
 
         .chart__stat-number--compare {
@@ -144,7 +145,7 @@
         globalData.strategy = /*[[${strategy} ?: 'mobile']]*/ "mobile";
         globalData.leftDate = /*[[${leftDate ?: new Date(Date.now()).toLocaleDateString()}]]*/ "";
         globalData.rightDate = /*[[${rightDate  ?: new Date(Date.now() - 864e5).toLocaleDateString()}]]*/ "";
-  </script>
+    </script>
 
     <script>
         var datepicker = function(dateId, textId, id, date) {
@@ -254,6 +255,7 @@
             });
 
             $.when.apply(this, requests).then(function (leftDateResponseArr, rightDateResponseArr) {
+                $(".loading-spinner").hide();
                 var leftDateResponse = {};
                 var rightDateResponse = {};
                 if (typeof(rightDateResponseArr) === 'undefined' || rightDateResponseArr == null || rightDateResponseArr == 'success') {
@@ -269,6 +271,7 @@
                 var rightdata = getScoreEntities(rightDateResponse);
 
                 if (leftdata == null || rightdata == null) {
+                    $(".error-message").show();
                     return;
                 }
 
@@ -293,7 +296,7 @@
                         }
 
                         metricsData.push({
-                            "title": "Lighthouse Score",
+                            "title": "Lighthouse Pagespeed Score",
                             "sub-title": "",
                             "left-value": percentageFormatter(leftdata['lighthouseResult'].score),
                             "chart__stat-number--compare-left-class": "chart-lighthouse-score metric-bg--" + getScaleFromScore(leftdata['lighthouseResult'].score).scale,
@@ -307,7 +310,7 @@
 
 
                         metricsData.push({
-                            "title": "Score Chart",
+                            "title": "",
                             "sub-title": "",
                             "left-value": "",
                             "compare": "",
@@ -318,13 +321,10 @@
                             "right-class": "",
                             "description": "",
                         });
-
-
-
-
-
                         return;
                     }
+
+
                     var leftValue = leftdata['lighthouseResult'][key].displayValue;
                     var rightValue = rightdata['lighthouseResult'][key].displayValue;
                     var compareMeta = getCompareMeta(leftdata['lighthouseResult'][key], rightdata['lighthouseResult'][key]);
@@ -457,7 +457,7 @@
                 );
 
                 $(".lighthouse-chart").siblings().not('.metric-title-column').remove();
-                $(".lighthouse-chart").parent().css({'grid-template-columns': '1fr 3fr 0fr 0fr'});
+                $(".lighthouse-chart").parent().css({'grid-template-columns': '1fr 3fr 0fr 0fr', 'border-top': '0 none'});
 
 
                 $.ajax({
@@ -517,6 +517,24 @@
             <div data-class="right-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-class="chart__stat-number--compare-right-class"  data-content="right-value">1.2s</div></div>
         </div>
     </script>
+
+    <div class="container-fluid loading-spinner">
+        <div style="margin: 200px 0 200px 0;">
+            <div class="text-center">
+                <div class="spinner-grow spinner" style="width: 6rem; height: 6rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid error-message" style="display: none;">
+        <div style="margin: 20px 0 0 0">
+            <div class="text-left">
+                <div>No records match your search criteria.</div>
+            </div>
+        </div>
+    </div>
 
     <div class="d-flex stats pt-4 metrics-chart lh-vars lab-data" id="metrics-chart">
         <div class="chart__stat--compare" style="text-align: right; font-weight: 800; background-color: #ccc;">

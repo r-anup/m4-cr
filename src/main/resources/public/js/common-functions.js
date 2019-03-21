@@ -337,6 +337,9 @@ function plotLighthouseChart(data, elem) {
     var myChart = echarts.init($(elem)[0]);
 
     var option = {
+        grid: {
+            width: '100%',
+        },
         color: ['#61a0a8'],
         tooltip: {
             trigger: 'item',
@@ -350,6 +353,11 @@ function plotLighthouseChart(data, elem) {
             },
             axisTicks: {
                 show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#888'
+                }
             }
         },
         yAxis: {
@@ -359,6 +367,12 @@ function plotLighthouseChart(data, elem) {
             data: data.values,
             type: 'line',
             smooth: true,
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top'
+                }
+            },
         }
         ]
     };

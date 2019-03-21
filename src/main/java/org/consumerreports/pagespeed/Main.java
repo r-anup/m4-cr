@@ -61,7 +61,8 @@ public class Main {
 
     @RequestMapping("/")
     String index() {
-        return "index";
+
+        return "redirect:/reports.html";
     }
 
 
