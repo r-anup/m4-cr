@@ -84,7 +84,6 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
                 strategy: globalData.strategy,
                 fetchSource: globalData.fetchSource,
                 date: globalData.date,
-                timezone: new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1],
             },
             dataType: 'json',
             method: 'GET',
