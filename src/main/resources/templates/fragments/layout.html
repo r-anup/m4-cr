@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="include(title,links,styles,scripts,body)">
     <head>
         <title th:replace="${title}">Pagespeed</title>
-
         <!-- Common styles and scripts -->
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -137,7 +136,7 @@
     <body>
         <div class="container-fluid" style="max-width: 1280px; min-height: 800px">
             <header class="d-flex justify-content-between p-3 fixed-header">
-                <div class="p2"><img src="images/cr-logo.svg"> <img style="height: 42px;" src="images/m4.png"></div>
+                <div class="p2"><img class="hidden-sm-down" src="images/cr-logo.svg"> <img style="height: 42px;" src="images/m4.png"></div>
 
                 <div class="p2">
                     <ul class="nav justify-content-end nav-pills">

@@ -94,7 +94,7 @@ public class PageSpeed {
 
         String api = String.format(PAGE_SPEED_API_LOCAL, url, strategy, "");
 
-        if (fetchSource != null && fetchSource.equals("googleNoSave")) {
+        if (fetchSource != null && fetchSource.equals(Main.FetchSource.googleNoSave)) {
             api = String.format(PAGE_SPEED_API_GOOGLE, url, strategy, KEY);
         }
 
@@ -188,14 +188,16 @@ public class PageSpeed {
                 metricsRepository.save(m);
 
                 Urls urls = urlsRepository.findFirstByUrl(url);
-                if (strategy.equals("mobile")) {
-                    urls.setMobilePreviousScore(urls.getMobileLatestScore());
-                    urls.setMobileLatestScore(lighthouseData.getString("score"));
-                } else {
-                    urls.setDesktopPreviousScore(urls.getDesktopLatestScore());
-                    urls.setDesktopLatestScore(lighthouseData.getString("score"));
+                if (urls != null && urls.getDesktopLatestScore() != null) {
+                    if (strategy.equals("mobile")) {
+                        urls.setMobilePreviousScore(urls.getMobileLatestScore());
+                        urls.setMobileLatestScore(lighthouseData.getString("score"));
+                    } else {
+                        urls.setDesktopPreviousScore(urls.getDesktopLatestScore());
+                        urls.setDesktopLatestScore(lighthouseData.getString("score"));
+                    }
+                   urlsRepository.save(urls);
                 }
-                urlsRepository.save(urls);
             }
             formattedData.put("lighthouseResult", lighthouseData);
             if (diagnostics != null) formattedData.put("diagnostics", diagnosticsData);

@@ -3,10 +3,41 @@
     <head>
         <title>Analyze - Consumer Reports</title>
         <link rel="stylesheet" href="/stylesheets/analyze.css" type="text/css">
+        <script src="/js/typeahead.jquery.js"></script>
         <script src="/js/analyze.js"></script>
         <script>
             var globalData = {};
-            // /*[[${settings}]]*/
+            var substringMatcher = function(strs) {
+                return function findMatches(q, cb) {
+                    var matches, substringRegex;
+                    matches = [];
+                    substrRegex = new RegExp(q, 'i');
+                    $.each(strs, function(i, str) {
+                        if (substrRegex.test(str)) {
+                            matches.push(str);
+                        }
+                    });
+                    cb(matches);
+                };
+            };
+
+           /* $.ajax({
+                dataType: 'json',
+                method: 'GET',
+                url: "/urls/list",
+                success: function(urllist) {
+                    $('.url-and-analyze .typeahead').typeahead({
+                            hint: true,
+                            highlight: true,
+                            minLength: 1
+                        },
+                        {
+                            name: 'urls',
+                            source: substringMatcher(urllist)
+                        });
+
+                }
+            });*/
         </script>
     </head>
 
@@ -41,7 +72,7 @@
 
             <div class="main-action pt-4">
                 <form>
-                    <div class="url-and-analyze"><input type="text" name="url" class="url label-input-label"
+                    <div class="url-and-analyze"><input  type="text" name="url" class="url label-input-label typeahead"
                                                         placeholder="Enter a web page URL"
                                                         aria-label="Enter a web page URL">
                         <div class="analyze-cell">

@@ -2,6 +2,7 @@ org/consumerreports/pagespeed/Main$Strategy.class
 org/consumerreports/pagespeed/models/Diagnostics.class
 org/consumerreports/pagespeed/controllers/SettingsController.class
 org/consumerreports/pagespeed/models/LighthouseResult.class
+org/consumerreports/pagespeed/converters/EnumConverter.class
 org/consumerreports/pagespeed/Main.class
 org/consumerreports/pagespeed/repositories/EmailsRepository.class
 org/consumerreports/pagespeed/controllers/MetricsController.class

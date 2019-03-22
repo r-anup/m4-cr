@@ -152,10 +152,12 @@
     <script th:inline="javascript">
         var globalData = {};
         globalData.url = /*[[${url} ?: 'https://www.consumerreports.org/cro/index.htm']]*/ "";
+        globalData.benchmarkurl = /*[[${benchmarkurl}]]*/ "";
         globalData.title = /*[[${pageTitle} ?: 'Homepage']]*/ "Homepage";
         globalData.strategy = /*[[${strategy} ?: 'mobile']]*/ "mobile";
-        globalData.leftDate = /*[[${leftDate ?: new Date(Date.now()).toLocaleDateString()}]]*/ "";
-        globalData.rightDate = /*[[${rightDate  ?: new Date(Date.now() - 864e5).toLocaleDateString()}]]*/ "";
+        globalData.date = /*[[${date}]]*/ "";
+        globalData.leftDate = /*[[${leftDate}]]*/ "";
+        globalData.rightDate = /*[[${rightDate}]]*/ "";
     </script>
 
     <script>
@@ -208,29 +210,43 @@
         $(document).on("click", "#submit-form", function () {
             var urlParams = new URLSearchParams(window.location.search);
             urlParams.set('url', globalData.url);
+            if (globalData.benchmarkurl != null) urlParams.set('benchmarkurl', globalData.benchmarkurl);
             urlParams.set('strategy', globalData.strategy);
-            urlParams.set('leftDate', globalData.leftDate);
-            urlParams.set('rightDate', globalData.rightDate);
+            if (globalData.leftDate != null) urlParams.set('leftDate', globalData.leftDate);
+            if (globalData.rightDate != null) urlParams.set('rightDate', globalData.rightDate);
+            if (globalData.date != null) urlParams.set('date', globalData.date);
             window.location.href = window.location.origin + window.location.pathname + "?" + urlParams.toString();
         });
 
         $( function() {
+            if (globalData.leftDate) {
+                datepicker("date-left", "date-left-text", "leftDate", globalData.leftDate);
+            }
 
-            datepicker("date-left", "date-left-text", "leftDate", globalData.leftDate);
-            datepicker("date-right", "date-right-text", "rightDate", globalData.rightDate);
+            if (globalData.rightDate) {
+                datepicker("date-right", "date-right-text", "rightDate", globalData.rightDate);
+            }
+            if (globalData.date) {
+                datepicker("date-right", "date-right-text", "rightDate", globalData.date);
+            }
+
             urlpicker();
             strategypicker();
 
             var urlParams = new URLSearchParams(window.location.search);
             urlParams.set('url',globalData.url);
+            if (globalData.benchmarkurl != null) urlParams.set('benchmarkurl', globalData.benchmarkurl);
             urlParams.set('strategy',globalData.strategy);
-            urlParams.set('leftDate',globalData.leftDate);
-            urlParams.set('rightDate',globalData.rightDate);
+            if (globalData.leftDate != null) urlParams.set('leftDate',globalData.leftDate);
+            if (globalData.rightDate != null) urlParams.set('rightDate',globalData.rightDate);
+            if (globalData.date != null) urlParams.set('date', globalData.date);
             window.history.pushState(null, null, window.location.origin +  window.location.pathname + "?" + urlParams.toString());
 
-
-            displayMetricsData(globalData.url, globalData.strategy, globalData.leftDate, globalData.rightDate);
-
+            if(globalData.benchmarkurl != null && globalData.date != null) {
+                displayMetricsData([globalData.url, globalData.benchmarkurl], [globalData.date], globalData.strategy);
+            } else if(globalData.leftDate != null && globalData.rightDate != null) {
+                displayMetricsData([globalData.url], [globalData.leftDate, globalData.rightDate], globalData.strategy);
+            }
         } );
 
         var setDateStats = function(dateId, date, textId) {
@@ -248,9 +264,8 @@
             $("#date-strategy-text").html(text);
         }
 
-
-        var displayMetricsData = function(url, strategy, leftDate, rightDate) {
-            var requests = [leftDate, rightDate].map(function (date) {
+        var generateRequests = function(urls, dates, strategy) {
+            var generateRequest = function(url, strategy, date) {
                 return $.ajax({
                     data: {
                         url: url,
@@ -261,8 +276,21 @@
                     method: 'GET',
                     url: '/metrics/url',
                 })
-            });
+            }
+            if (urls.length > 1) {
+                return urls.map(function (url) {
+                    return generateRequest(url, strategy, dates[0]);
+                });
+            } else if (dates.length > 1) {
+                return dates.map(function (date) {
+                    return generateRequest(urls[0], strategy, date);
+                });
+            }
+        }
 
+
+        var displayMetricsData = function(urls, dates, strategy) {
+            var requests = generateRequests(urls, dates, strategy);
             $.when.apply(this, requests).then(function (leftDateResponseArr, rightDateResponseArr) {
                 $(".loading-spinner").hide();
                 var leftDateResponse = {};
@@ -281,6 +309,7 @@
                 if (leftdata == null || rightdata == null) {
                     $(".error-message").show();
                     $("#metrics-chart").remove();
+                    $("#screenshots-chart").remove();
                     return;
                 }
 
@@ -470,7 +499,7 @@
 
                 $.ajax({
                     data: {
-                        url: url,
+                        url: urls[0],
                         strategy: strategy,
                     },
                     dataType: 'json',
@@ -494,6 +523,8 @@
                 rightdata['screenshots'].forEach(function (screenshot) {
                     $(".screenshots-right").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
                 });
+
+                $("#screenshots-chart").show();
 
 
 
