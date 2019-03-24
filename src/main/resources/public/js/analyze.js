@@ -17,14 +17,14 @@ if (urlStr != null) {
 
 
     $(function () {
-        $(".main-action .url").val(url);
+        $(".main-action input[name='url']").val(url);
         generateReport(url, globalData.strategy, globalData.mainAPI);
     });
 }
 //031319124857622
 
 $(document).on("click", ".main-submit", function () {
-    var inputURL = $(".main-action .url");
+    var inputURL = $(".main-action input[name='url']");
     var inputURLStr = inputURL.val();
     if (!inputURLStr.startsWith('http', 0)) {
         inputURLStr = "http://" + inputURLStr;

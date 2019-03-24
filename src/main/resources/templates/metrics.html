@@ -38,6 +38,7 @@
             font-weight: 600;
             line-height: 1.6rem;
             text-align: left;
+            position: relative;
         }
 
         .chart__stat-metric-title-description {
@@ -118,6 +119,10 @@
             height: 200px;
         }
 
+        /*.lighthouse-chart:not(.chart-score) {
+            display: none;
+        }*/
+
 
         .go-submit {
             margin-left: 1rem;
@@ -144,6 +149,14 @@
             font-size: 1.2rem;
             text-align: center;
             color: #ff002b;
+        }
+
+        .expand {
+            position: absolute;
+            padding-top: 12px;
+            left: 0;
+            color: #610e0e;
+            cursor: pointer;
         }
 
     </style>
@@ -344,6 +357,7 @@
                             'compare-color-class': compareColorClass,
                             "right-value": percentageFormatter(rightdata['lighthouseResult'].score),
                             "description": "",
+                            "hideExpand": "d-none",
                         });
 
 
@@ -355,9 +369,10 @@
                             'compare-arrow-class': "",
                             'compare-color-class': "",
                             "right-value": "",
-                            "left-class": "lighthouse-chart",
+                            "left-class": "lighthouse-chart chart-score",
                             "right-class": "",
                             "description": "",
+                            "hideExpand": "d-none",
                         });
                         return;
                     }
@@ -396,6 +411,21 @@
                         "left-class": "chart__stat-metric metric--"+compareMeta.left.scale,
                         "right-class": "chart__stat-metric metric--"+compareMeta.right.scale,
                         "description": leftdata['lighthouseResult'][key].description,
+                        "collapseAnchor" : "#chart-"+key,
+                    });
+
+                    metricsData.push({
+                        "title": "",
+                        "sub-title": "",
+                        "left-value": "",
+                        "compare": "",
+                        'compare-arrow-class': "",
+                        'compare-color-class': "",
+                        "right-value": "",
+                        "left-class": "lighthouse-chart chart-"+key,
+                        "right-class": "",
+                        "description": "",
+                        "hideExpand": "d-none",
                     });
                 });
 
@@ -410,6 +440,7 @@
                     "left-class": "file-type-chart",
                     "right-class": "tasks-chart",
                     "description": "",
+                    "hideExpand": "d-none",
                 });
 
 
@@ -461,6 +492,7 @@
                         "left-class": "metric--info",
                         "right-class": "metric--info",
                         "description": "",
+                        "hideExpand": "d-none",
                     });
                 });
 
@@ -496,6 +528,17 @@
 
                 $(".lighthouse-chart").siblings().not('.metric-title-column').remove();
                 $(".lighthouse-chart").parent().css({'grid-template-columns': '1fr 3fr 0fr 0fr', 'border-top': '0 none'});
+                $(".lighthouse-chart").not(".chart-score").parent().addClass("collapse");
+
+                $('.expand').on('click', function(){
+                    $(this).toggleClass('oi-expand-down oi-collapse-up');
+                });
+
+
+                $(".lighthouse-chart").parent().on('shown.bs.collapse', function () {
+                       var id = $(this).find(".lighthouse-chart").attr('_echarts_instance_');
+                        window.echarts.getInstanceById(id).resize();
+                    });
 
                 $.ajax({
                     data: {
@@ -506,13 +549,28 @@
                     method: 'GET',
                     url: "/metrics/url/score",
                     success: function(response) {
-                        var data = {days: [], values: []};
+                        var data = {days: [], scores: {}};
                         $.each(response.reverse(), function (idx, item) {
                             var dt = new Date(item.fetchTime);
                             data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
-                            data.values.push(Math.round(item.lighthouseResult.score*100));
+                            Object.keys(item.lighthouseResult).forEach(function (key) {
+                                if (!data.scores[key]) data.scores[key] = [];
+                                var itemValue = item.lighthouseResult[key].displayValue;
+                                if (itemValue) {
+                                    itemValue = timeMiliSecondSanitize(itemValue);
+                                } else {
+                                    itemValue = Math.round(item.lighthouseResult[key]*100);
+                                }
+                                data.scores[key].push(itemValue);
+                            });
                         });
-                        plotLighthouseChart(data, '.lighthouse-chart');
+
+                        Object.keys(data.scores).forEach(function (key) {
+                            $('.chart-' + key).parent().attr('id', 'chart-' + key);
+                            plotLineChart({days: data.days, values: data.scores[key]}, '.chart-' + key);
+
+                        });
+
                     }
                 });
 
@@ -561,7 +619,7 @@
 
     <script type="text/html" id="metrics-chart-template">
         <div class="chart__stat--compare" style="color:#fdbc60;">
-            <div class="chart__stat-metric chart__stat-metric-title metric-title-column"><span data-content="title">Render time</span><br><span data-content="description" class="chart__stat-metric-title-description"></span></div>
+            <div class="chart__stat-metric chart__stat-metric-title metric-title-column"><span data-toggle="collapse" aria-expanded="false" data-href="collapseAnchor" data-class="hideExpand" class="expand oi oi-expand-down"></span><span data-content="title">Render time</span><br><span data-content="description" class="chart__stat-metric-title-description"></span></div>
             <div data-class="left-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-class="chart__stat-number--compare-left-class" data-content="left-value">1.1s</div></div>
             <div class="chart__stat-metric">&nbsp;<div class="chart__stat-number--compare" data-class="compare-color-class"><span data-content="compare">9%</span> <i data-class="compare-arrow-class" class="oi"></i></div></div>
             <div data-class="right-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-class="chart__stat-number--compare-right-class"  data-content="right-value">1.2s</div></div>

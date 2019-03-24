@@ -1,3 +1,23 @@
+.main-action {
+    padding: 4rem 0 0;
+    background: #4285f4;
+    line-height: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.main-action div.url-and-analyze {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+
+.main-action div.url-and-analyze .url {
+    width: 600px;
+    height: auto;
+    padding-left: 8px;
+}
 
 .main-action div.analyze-cell {
     border: none;

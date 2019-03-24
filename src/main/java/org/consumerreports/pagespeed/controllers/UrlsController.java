@@ -1,9 +1,10 @@
 package org.consumerreports.pagespeed.controllers;
 
+import org.consumerreports.pagespeed.models.CompetitorUrls;
 import org.consumerreports.pagespeed.models.Urls;
+import org.consumerreports.pagespeed.repositories.CompetitorsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,18 +16,33 @@ import java.util.List;
 @RequestMapping("/urls")
 public class UrlsController {
     @Autowired
-    private UrlsRepository repository;
+    private UrlsRepository urlsRepository;
+
+    @Autowired
+    private CompetitorsRepository competitorsRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Urls> getAllUrls() {
-        return repository.findAll();
+        return urlsRepository.findAll();
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/cro-list", method = RequestMethod.GET)
     public List<Urls> getAllUrlsOnly() {
-        List<Urls> urls = repository.findAllUrls();
+        List<Urls> urls = urlsRepository.findAllUrls();
         List urllist = new ArrayList();
         for (Urls url : urls) {
+            urllist.add(url.getUrl());
+        }
+
+        return urllist;
+    }
+
+
+    @RequestMapping(value = "/competitor-list", method = RequestMethod.GET)
+    public List<Urls> getAllCompetitorUrlsOnly() {
+        List<CompetitorUrls> urls = competitorsRepository.findAllUrls();
+        List urllist = new ArrayList();
+        for (CompetitorUrls url : urls) {
             urllist.add(url.getUrl());
         }
 

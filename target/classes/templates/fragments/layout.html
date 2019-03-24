@@ -34,7 +34,6 @@
             }
 
 
-
             #table-details .slow {
                 color: #c7221f;;
             }
@@ -47,41 +46,59 @@
                 color: #00ae4d;;
             }
 
-            .main-action {
-                padding: 4rem 0 0;
-                background: #4285f4;
-                line-height: 4rem;
-                margin-top: 2rem;
-                margin-bottom: 3rem;
-            }
-
-            .main-action div.url-and-analyze {
-                display: flex;
-                justify-content: center;
-                width: 100%;
-            }
-
-            .main-action input[name=url] {
-                color: rgba(0, 0, 0, 0.87);
-                border: none;
-                font-size: 14px;
-                height: auto;
-                padding: 0 16px;
-                width: 40%;
-            }
 
             input[type="text"], input[type="email"] {
-                border: 1px solid #ebebeb;
-                border-radius: 2px;
                 color: #212121;
-                font: 16px/20px Roboto, sans-serif;
                 margin: 0;
                 max-width: 100%;
                 outline: 0;
-                padding: 7px;
                 transition: border-color .2s;
                 vertical-align: middle;
+                font-size: 1.4rem;
             }
+
+            .tt-menu {
+                font-size: 1.4rem;
+                background: #fff;
+                width: 100%;
+                padding: 8px 0;
+                border: 1px solid #ccc;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                border-radius: 8px;
+                -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+                -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+                box-shadow: 0 5px 10px rgba(0,0,0,.2);
+            }
+
+            .tt-suggestion {
+                padding: 3px 8px;
+            }
+
+            .tt-suggestion.tt-cursor {
+                color: #fff;
+                background-color: #0097cf;
+
+            }
+
+            .tt-suggestion p {
+                margin: 0;
+            }
+
+
+
+            .tt-suggestion:hover {
+                cursor: pointer;
+                color: #fff;
+                background-color: #0097cf;
+                width: 100%;
+            }
+
+            .tt-hint {
+                color: #bbb;
+            }
+
 
 
             .footer {
@@ -111,6 +128,7 @@
         <link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript" src="/js/jquery.loadTemplate.min.js"></script>
+        <script src="/js/typeahead.jquery.js"></script>
         <script type="text/javascript" src="/js/echarts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
                 integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"

@@ -188,7 +188,7 @@ public class PageSpeed {
                 metricsRepository.save(m);
 
                 Urls urls = urlsRepository.findFirstByUrl(url);
-                if (urls != null && urls.getDesktopLatestScore() != null) {
+                if (urls != null) {
                     if (strategy.equals("mobile")) {
                         urls.setMobilePreviousScore(urls.getMobileLatestScore());
                         urls.setMobileLatestScore(lighthouseData.getString("score"));

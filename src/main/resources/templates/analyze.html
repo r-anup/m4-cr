@@ -3,7 +3,6 @@
     <head>
         <title>Analyze - Consumer Reports</title>
         <link rel="stylesheet" href="/stylesheets/analyze.css" type="text/css">
-        <script src="/js/typeahead.jquery.js"></script>
         <script src="/js/analyze.js"></script>
         <script>
             var globalData = {};
@@ -21,23 +20,26 @@
                 };
             };
 
-           /* $.ajax({
-                dataType: 'json',
-                method: 'GET',
-                url: "/urls/list",
-                success: function(urllist) {
-                    $('.url-and-analyze .typeahead').typeahead({
-                            hint: true,
-                            highlight: true,
-                            minLength: 1
-                        },
-                        {
-                            name: 'urls',
-                            source: substringMatcher(urllist)
-                        });
+            $( function() {
+                $.ajax({
+                    dataType: 'json',
+                    method: 'GET',
+                    url: "/urls/list",
+                    success: function (urllist) {
+                        $('.url-and-analyze .typeahead').typeahead({
+                                hint: true,
+                                highlight: true,
+                                minLength: 0,
+                            },
+                            {
+                                name: 'urls',
+                                source: substringMatcher(urllist),
+                                limit: 10,
+                            });
 
-                }
-            });*/
+                    }
+                });
+            });
         </script>
     </head>
 

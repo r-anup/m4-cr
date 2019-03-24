@@ -3,12 +3,11 @@ package org.consumerreports.pagespeed.models;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-public class Urls {
+public class CompetitorUrls {
     @Id
     public ObjectId _id;
-
     public String url;
-    public ObjectId associatedCompetitorId;
+    public ObjectId associatedCROId;
     public String title;
     public String mobileLatestScore;
     public String mobilePreviousScore;
@@ -16,10 +15,10 @@ public class Urls {
     public String desktopPreviousScore;
 
     // Constructors
-    public Urls() {
+    public CompetitorUrls() {
     }
 
-    public Urls(String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
+    public CompetitorUrls(String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
         this.url = url;
         this.title = title;
         this.mobileLatestScore = mobileLatestScore;
@@ -28,7 +27,7 @@ public class Urls {
         this.desktopPreviousScore = desktopPreviousScore;
     }
 
-    public Urls(String url, String title) {
+    public CompetitorUrls(String url, String title) {
         this.url = url;
         this.title = title;
     }
@@ -52,16 +51,13 @@ public class Urls {
         this.url = url;
     }
 
-
-    public ObjectId getAssociatedCompetitorId() {
-        return associatedCompetitorId;
+    public ObjectId getAssociatedCROId() {
+        return associatedCROId;
     }
 
-    public void setAssociatedCompetitorId(ObjectId associatedCompetitorId) {
-        this.associatedCompetitorId = associatedCompetitorId;
+    public void setAssociatedCROId(ObjectId associatedCROId) {
+        this.associatedCROId = associatedCROId;
     }
-
-
 
     public String getTitle() {
         return title;

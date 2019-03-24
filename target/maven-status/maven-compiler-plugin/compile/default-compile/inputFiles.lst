@@ -7,9 +7,11 @@
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/PageSpeed.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/Diagnostics.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/LighthouseResult.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/repositories/CompetitorsRepository.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/Metrics.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/util/CommonUtil.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/converters/EnumConverter.java
+/usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/CompetitorUrls.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/controllers/SettingsController.java
 /usr/local/serverless/heroku/m4-cr/src/main/java/org/consumerreports/pagespeed/models/Urls.java

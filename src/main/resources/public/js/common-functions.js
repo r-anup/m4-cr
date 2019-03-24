@@ -107,7 +107,19 @@ function isValueImproved(score1, score2) {
     }
 }
 
-
+function timeMiliSecondSanitize(value) {
+    var inSeconds = isTimeInSeconds(value);
+    value = (value + "").replace(/,/g, "");
+    value = parseFloat(value);
+    if (!isNaN(value)) {
+        if (inSeconds) {
+            value = value * 1000;
+        }
+        return (Math.round(value * 100) / 100);
+    } else {
+        return value;
+    }
+}
 
 function timeMiliSecondFormatter(value) {
     value = (value+"").replace(/,/g, "");
@@ -333,12 +345,13 @@ function plotFileTypeChart(data, elem, title, showLegends) {
 
 
 
-function plotLighthouseChart(data, elem) {
+function plotLineChart(data, elem) {
     var myChart = echarts.init($(elem)[0]);
 
     var option = {
         grid: {
             width: '100%',
+            right: '10',
         },
         color: ['#61a0a8'],
         tooltip: {
@@ -370,7 +383,12 @@ function plotLighthouseChart(data, elem) {
             label: {
                 normal: {
                     show: true,
-                    position: 'top'
+                    position: 'top',
+                    formatter: function(params) {
+                        var value = params.value;
+                        value = value.toLocaleString();
+                        return value;
+                    }
                 }
             },
         }

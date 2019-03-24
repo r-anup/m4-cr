@@ -1,7 +1,9 @@
 package org.consumerreports.pagespeed.controllers;
 
+import org.consumerreports.pagespeed.models.CompetitorUrls;
 import org.consumerreports.pagespeed.models.Emails;
 import org.consumerreports.pagespeed.models.Urls;
+import org.consumerreports.pagespeed.repositories.CompetitorsRepository;
 import org.consumerreports.pagespeed.repositories.EmailsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class SettingsController {
     private UrlsRepository urlsRepository;
 
     @Autowired
+    private CompetitorsRepository competitorsRepository;
+
+    @Autowired
     private EmailsRepository emailsRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
@@ -33,6 +38,9 @@ public class SettingsController {
 
         List<Urls> urlList = urlsRepository.findAll();
         model.addAttribute("urlList", urlList);
+
+        List<CompetitorUrls> competitorList = competitorsRepository.findAll();
+        model.addAttribute("competitorList", competitorList);
 
         List<Emails> emailList = emailsRepository.findAll();
         model.addAttribute("emailList", emailList);
@@ -45,8 +53,10 @@ public class SettingsController {
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
     public Object processSettings(
-            @RequestParam(value = "url", required = false) String url,
-            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "cro-url", required = false) String croUurl,
+            @RequestParam(value = "cro-title", required = false) String croTitle,
+            @RequestParam(value = "competitor-url", required = false) String competitorUrl,
+            @RequestParam(value = "competitor-title", required = false) String competitorTitle,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "email", required = false) String email,
             Model model
@@ -64,9 +74,18 @@ public class SettingsController {
         }
 
         try {
-            if (url != null && !url.equals("") && title != null && !title.equals("")) {
-                Urls urls = new Urls(url, title);
+            if (croUurl != null && !croUurl.equals("") && croTitle != null && !croTitle.equals("")) {
+                Urls urls = new Urls(croUurl, croTitle);
                 urlsRepository.save(urls);
+            }
+        } catch(org.springframework.dao.DuplicateKeyException dk) {
+            errors.add("URL already exists.");
+        }
+
+        try {
+            if (competitorUrl != null && !competitorUrl.equals("") && competitorTitle != null && !competitorTitle.equals("")) {
+                CompetitorUrls urls = new CompetitorUrls(competitorUrl, competitorTitle);
+                competitorsRepository.save(urls);
             }
         } catch(org.springframework.dao.DuplicateKeyException dk) {
             errors.add("URL already exists.");
@@ -78,6 +97,9 @@ public class SettingsController {
 
         List<Urls> urlList = urlsRepository.findAll();
         model.addAttribute("urlList", urlList);
+
+        List<CompetitorUrls> competitorList = competitorsRepository.findAll();
+        model.addAttribute("competitorList", competitorList);
 
         List<Emails> emailList = emailsRepository.findAll();
         model.addAttribute("emailList", emailList);
