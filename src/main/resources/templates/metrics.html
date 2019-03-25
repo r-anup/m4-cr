@@ -159,6 +159,10 @@
             cursor: pointer;
         }
 
+        .metrics-title {
+            cursor: pointer;
+        }
+
     </style>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -260,7 +264,7 @@
             } else if(globalData.leftDate != null && globalData.rightDate != null) {
                 displayMetricsData([globalData.url], [globalData.leftDate, globalData.rightDate], globalData.strategy);
             }
-        } );
+        });
 
         var setDateStats = function(dateId, date, textId) {
             if (date != undefined && date != "") {
@@ -412,6 +416,7 @@
                         "right-class": "chart__stat-metric metric--"+compareMeta.right.scale,
                         "description": leftdata['lighthouseResult'][key].description,
                         "collapseAnchor" : "#chart-"+key,
+                        "metricsTitle": "metrics-title",
                     });
 
                     metricsData.push({
@@ -534,11 +539,17 @@
                     $(this).toggleClass('oi-expand-down oi-collapse-up');
                 });
 
+                $(".metrics-title").on('click', function(){
+                    $(this).siblings(".expand").trigger("click");
+                });
+
 
                 $(".lighthouse-chart").parent().on('shown.bs.collapse', function () {
                        var id = $(this).find(".lighthouse-chart").attr('_echarts_instance_');
                         window.echarts.getInstanceById(id).resize();
                     });
+
+
 
                 $.ajax({
                     data: {
@@ -619,7 +630,7 @@
 
     <script type="text/html" id="metrics-chart-template">
         <div class="chart__stat--compare" style="color:#fdbc60;">
-            <div class="chart__stat-metric chart__stat-metric-title metric-title-column"><span data-toggle="collapse" aria-expanded="false" data-href="collapseAnchor" data-class="hideExpand" class="expand oi oi-expand-down"></span><span data-content="title">Render time</span><br><span data-content="description" class="chart__stat-metric-title-description"></span></div>
+            <div class="chart__stat-metric chart__stat-metric-title metric-title-column"><span data-toggle="collapse" aria-expanded="false" data-href="collapseAnchor" data-class="hideExpand" class="expand oi oi-expand-down"></span><span data-class="metricsTitle" data-content="title">Render time</span><br><span data-content="description" class="chart__stat-metric-title-description"></span></div>
             <div data-class="left-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-class="chart__stat-number--compare-left-class" data-content="left-value">1.1s</div></div>
             <div class="chart__stat-metric">&nbsp;<div class="chart__stat-number--compare" data-class="compare-color-class"><span data-content="compare">9%</span> <i data-class="compare-arrow-class" class="oi"></i></div></div>
             <div data-class="right-class" class="chart__stat-metric"><span data-content="sub-title">Consumerreports</span><div class="chart__stat-number--compare" data-class="chart__stat-number--compare-right-class"  data-content="right-value">1.2s</div></div>

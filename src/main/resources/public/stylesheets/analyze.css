@@ -6,13 +6,6 @@
     margin-bottom: 3rem;
 }
 
-.main-action div.url-and-analyze {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-
 .main-action div.url-and-analyze .url {
     width: 600px;
     height: auto;
@@ -33,6 +26,15 @@
     box-shadow: none;
     padding: 8px 16px;
     cursor: pointer;
+}
+
+.main-action .form-check-input {
+   margin-top: 1.2rem;
+    margin-left: -2rem;
+}
+
+.main-action .form-check-label {
+    color: #fff;
 }
 
 .report-summary {

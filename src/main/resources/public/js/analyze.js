@@ -15,8 +15,10 @@ if (urlStr != null) {
         url = "http://" + url;
     }
 
-
     $(function () {
+        if (urlParams.get('fetchSource') != null && urlParams.get('fetchSource') == "lightHouseAndSave") {
+            $("#lightHouseAndSave").prop('checked',  true);
+        }
         $(".main-action input[name='url']").val(url);
         generateReport(url, globalData.strategy, globalData.mainAPI);
     });
@@ -29,6 +31,10 @@ $(document).on("click", ".main-submit", function () {
     if (!inputURLStr.startsWith('http', 0)) {
         inputURLStr = "http://" + inputURLStr;
         inputURL.val(inputURLStr);
+    }
+
+    if ($("#lightHouseAndSave").prop('checked')) {
+        globalData.fetchSource = "lightHouseAndSave";
     }
 
     generateReport(inputURLStr, 'mobile', globalData.mainAPI);

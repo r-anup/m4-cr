@@ -7,6 +7,7 @@ import org.consumerreports.pagespeed.repositories.CompetitorsRepository;
 import org.consumerreports.pagespeed.repositories.EmailsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ public class SettingsController {
     ) {
         model.addAttribute("tab", "settings");
 
-        List<Urls> urlList = urlsRepository.findAll();
+        List<Urls> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
         model.addAttribute("urlList", urlList);
 
         List<CompetitorUrls> competitorList = competitorsRepository.findAll();
@@ -57,6 +58,7 @@ public class SettingsController {
             @RequestParam(value = "cro-title", required = false) String croTitle,
             @RequestParam(value = "competitor-url", required = false) String competitorUrl,
             @RequestParam(value = "competitor-title", required = false) String competitorTitle,
+            @RequestParam(value = "competitor-brand", required = false) String competitorBrand,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "email", required = false) String email,
             Model model
@@ -83,8 +85,8 @@ public class SettingsController {
         }
 
         try {
-            if (competitorUrl != null && !competitorUrl.equals("") && competitorTitle != null && !competitorTitle.equals("")) {
-                CompetitorUrls urls = new CompetitorUrls(competitorUrl, competitorTitle);
+            if (competitorUrl != null && !competitorUrl.equals("") && competitorTitle != null && !competitorTitle.equals("")  && competitorBrand != null && !competitorBrand.equals("")) {
+                CompetitorUrls urls = new CompetitorUrls(competitorUrl, competitorTitle, competitorBrand);
                 competitorsRepository.save(urls);
             }
         } catch(org.springframework.dao.DuplicateKeyException dk) {
@@ -95,7 +97,7 @@ public class SettingsController {
 
         model.addAttribute("tab", "settings");
 
-        List<Urls> urlList = urlsRepository.findAll();
+        List<Urls> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
         model.addAttribute("urlList", urlList);
 
         List<CompetitorUrls> competitorList = competitorsRepository.findAll();

@@ -68,7 +68,7 @@ function getDifferenceInPercentage(value1, value2) {
     }
     value1 = parseFloat(value1);
     value2 = parseFloat(value2);
-    if (isNaN(value1) || isNaN(value2)) {
+    if (isNaN(value1) || isNaN(value2) || value1 == 0) {
         return false;
     } else {
         return Math.round(((value2-value1)/value1)*100)
@@ -347,7 +347,10 @@ function plotFileTypeChart(data, elem, title, showLegends) {
 
 function plotLineChart(data, elem) {
     var myChart = echarts.init($(elem)[0]);
-
+    var convertToSec = false;
+    if (Math.min(...data.values) > 1000) {
+        convertToSec = true;
+    }
     var option = {
         grid: {
             width: '100%',
@@ -356,7 +359,14 @@ function plotLineChart(data, elem) {
         color: ['#61a0a8'],
         tooltip: {
             trigger: 'item',
-            formatter: "{b}: {c}"
+            formatter: function(params) {
+                var value = params.value;
+                if (convertToSec) {
+                    value = (Math.round(value / 10) / 100);
+                }
+                value = value.toLocaleString();
+                return params.name+": "+ value;
+            }
         },
         xAxis: {
             type: 'category',
@@ -386,6 +396,9 @@ function plotLineChart(data, elem) {
                     position: 'top',
                     formatter: function(params) {
                         var value = params.value;
+                        if (convertToSec) {
+                            value = (Math.round(value / 10) / 100);
+                        }
                         value = value.toLocaleString();
                         return value;
                     }

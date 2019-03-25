@@ -4,20 +4,6 @@
     <head>
         <title>Settings - Consumer Reports</title>
         <style>
-            #reports-chart .target td div {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                color: #fff;
-                line-height: 40px;
-                text-align: center;
-                background: #675c5c;
-            }
-
-            #reports-chart tr:hover {
-                cursor: pointer;
-            }
-
             table {
                 margin-bottom: 0 !important;
             }
@@ -42,6 +28,10 @@
 
             .settings .twitter-typeahead {
                 width: 100%;
+            }
+
+            #settings-form tbody {
+                font-size: 1.6rem;
             }
 
 
@@ -216,6 +206,7 @@
 
                 <div class="justify-content-left p-2">
                     <button data-toggle="collapse" data-target="#url-add-form-input" type="button" data-alt-text="Remove New Template" class="btn btn-info url-settings-add-btn">Add New Template</button>
+                    <button type="submit" class="btn btn-lg btn-primary submit-btn">Submit</button>
                     <button type="button" class="btn btn-warning remove-btn" data-alt-text="Cancel Removal">Remove</button>
                     <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
                 </div>
@@ -226,11 +217,12 @@
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
-                            <th  style="background: #4b93b1;" colspan="3" scope="col">Competitor to Monitor</th>
+                            <th  style="background: #4b93b1;" colspan="3" scope="col">Competitors to Monitor</th>
                         </tr>
                         <tr>
                             <th class="checkbox-col" scope="col"></th>
                             <th scope="col">Title</th>
+                            <th scope="col">Brand</th>
                             <th scope="col">URL</th>
                         </tr>
                         </thead>
@@ -238,12 +230,16 @@
                         <tr th:each="competitor : *{competitorList}">
                             <td  class="checkbox-col"><input class="form-check-input" type="checkbox" value=""></td>
                             <td th:text="${competitor.title}"></td>
+                            <td th:text="${competitor.brand}"></td>
                             <td th:text="${competitor.url}"></td>
                         </tr>
                         <tr class="collapse add-form-input" id="competitor-add-form-input">
                             <td class="checkbox-col"></td>
                             <td><input name="competitor-title" type="text" placeholder="Enter Title" class="form-control data-required">
                                 <div class="invalid-feedback">Please provide a Title.</div>
+                            </td>
+                            <td><input name="competitor-brand" type="text" placeholder="Enter Brand" class="form-control data-required">
+                                <div class="invalid-feedback">Please provide a Brand.</div>
                             </td>
                             <td><input name="competitor-url" type="text" placeholder="Enter URL" class="form-control data-required">
                                 <div class="invalid-feedback">Please provide a URL.</div>
@@ -255,6 +251,7 @@
 
                 <div class="justify-content-left p-2">
                     <button data-toggle="collapse" data-target="#competitor-add-form-input" type="button" data-alt-text="Remove New Competitor" class="btn btn-info competitor-settings-add-btn">Add New Competitor</button>
+                    <button type="submit" class="btn btn-lg btn-primary submit-btn">Submit</button>
                     <button type="button" class="btn btn-warning remove-btn" data-alt-text="Cancel Removal">Remove</button>
                     <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
                 </div>
@@ -296,6 +293,7 @@
 
                 <div class="justify-content-left p-2">
                     <button data-toggle="collapse" data-target="#competitor-mapping-add-form-input" type="button" data-alt-text="Remove New Mapping" class="btn btn-info mapping-settings-add-btn">Add New Mapping</button>
+                    <button type="submit" class="btn btn-lg btn-primary submit-btn">Submit</button>
                     <button type="button" class="btn btn-warning remove-btn" data-alt-text="Cancel Removal">Remove</button>
                     <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
                 </div>
@@ -335,17 +333,18 @@
                 </div>
                 <div class="justify-content-left p-2">
                     <button data-toggle="collapse" data-target="#email-add-form-input" type="button" class="btn btn-info email-settings-add-btn" data-alt-text="Cancel Adding Email">Add New Email</button>
+                    <button type="submit" class="btn btn-lg btn-primary submit-btn">Submit</button>
                     <button type="button" class="btn btn-warning remove-btn" data-alt-text="Cancel Removal">Remove</button>
                     <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
                 </div>
             </div>
 
 
-            <div  class="d-flex flex-column pt-5">
+       <!--     <div  class="d-flex flex-column pt-5">
                 <div class="justify-content-left p-2">
                     <button  type="submit" class="btn btn-lg btn-primary submit-btn">Submit</button>
                 </div>
-            </div>
+            </div>-->
         </form>
 
 

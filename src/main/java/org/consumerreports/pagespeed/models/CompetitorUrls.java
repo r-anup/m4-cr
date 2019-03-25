@@ -9,6 +9,7 @@ public class CompetitorUrls {
     public String url;
     public ObjectId associatedCROId;
     public String title;
+    public String brand;
     public String mobileLatestScore;
     public String mobilePreviousScore;
     public String desktopLatestScore;
@@ -18,18 +19,20 @@ public class CompetitorUrls {
     public CompetitorUrls() {
     }
 
-    public CompetitorUrls(String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
+    public CompetitorUrls(String url, String title, String brand, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
         this.url = url;
         this.title = title;
+        this.brand = brand;
         this.mobileLatestScore = mobileLatestScore;
         this.mobilePreviousScore = mobilePreviousScore;
         this.desktopLatestScore = desktopLatestScore;
         this.desktopPreviousScore = desktopPreviousScore;
     }
 
-    public CompetitorUrls(String url, String title) {
+    public CompetitorUrls(String url, String title, String brand) {
         this.url = url;
         this.title = title;
+        this.brand = brand;
     }
 
     // ObjectId needs to be converted to string
@@ -49,6 +52,14 @@ public class CompetitorUrls {
     public void setUrl(String url) {
 
         this.url = url;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public ObjectId getAssociatedCROId() {

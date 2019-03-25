@@ -15,6 +15,6 @@ public interface UrlsRepository extends MongoRepository<Urls, String> {
     );
 
 
-    @Query(value="{}", fields="{url: 1}")
+    @Query(value="{}", fields="{url: 1}", sort = "{sortOrder: 1}")
     List<Urls> findAllUrls();
 }

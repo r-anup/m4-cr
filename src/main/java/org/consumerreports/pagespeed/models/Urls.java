@@ -10,6 +10,7 @@ public class Urls {
     public String url;
     public ObjectId associatedCompetitorId;
     public String title;
+    public Integer sortOrder;
     public String mobileLatestScore;
     public String mobilePreviousScore;
     public String desktopLatestScore;
@@ -31,6 +32,7 @@ public class Urls {
     public Urls(String url, String title) {
         this.url = url;
         this.title = title;
+        this.sortOrder = sortOrder;
     }
 
     // ObjectId needs to be converted to string
@@ -69,6 +71,14 @@ public class Urls {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public String getMobileLatestScore() {

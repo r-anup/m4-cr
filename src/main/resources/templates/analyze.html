@@ -24,7 +24,7 @@
                 $.ajax({
                     dataType: 'json',
                     method: 'GET',
-                    url: "/urls/list",
+                    url: "/urls/cro-list",
                     success: function (urllist) {
                         $('.url-and-analyze .typeahead').typeahead({
                                 hint: true,
@@ -41,9 +41,6 @@
                 });
             });
         </script>
-    </head>
-
-    <body>
         <div th:unless="${settings == 'true'}">
             <script th:inline="javascript">
                 globalData.fetchSource = /*[[${fetchSource}]]*/ "lightHouseNoSave";
@@ -65,6 +62,10 @@
                 }
             </script>
         </div>
+    </head>
+
+    <body>
+
 
 
             <div class="d-flex justify-content-left">
@@ -74,15 +75,34 @@
 
             <div class="main-action pt-4">
                 <form>
-                    <div class="url-and-analyze"><input  type="text" name="url" class="url label-input-label typeahead"
-                                                        placeholder="Enter a web page URL"
-                                                        aria-label="Enter a web page URL">
-                        <div class="analyze-cell">
-                            <div class="button button-red analyze jfk-button main-submit" role="button" tabindex="0"
-                                 style="user-select: none;"> ANALYZE
+                    <div class="url-and-analyze">
+
+                        <div class="d-flex justify-content-center">
+                            <input  type="text" name="url" class="url label-input-label typeahead"
+                                                            placeholder="Enter a web page URL"
+                                                            aria-label="Enter a web page URL">
+
+                            <div class="analyze-cell">
+                                <div class="button button-red analyze jfk-button main-submit" role="button" tabindex="0"
+                                     style="user-select: none;"> ANALYZE
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex justify-content-center" style="margin-left: -560px;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="lightHouseAndSave">
+                                <label class="form-check-label" for="lightHouseAndSave">
+                                    Save results.
+                                </label>
                             </div>
                         </div>
+
+
+
                     </div>
+
                 </form>
 
 
@@ -142,6 +162,7 @@
                                     class="range average">50-89 (average)</span><span
                                     class="range slow">0-49 (slow)</span></div>
                         </div>
+
                     </div>
                 </div>
 
