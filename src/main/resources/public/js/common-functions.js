@@ -306,7 +306,7 @@ function plotFileTypeChart(data, elem, title, showLegends) {
             text: title,
             x:'center',
             textStyle: {
-                color: '#0c50c7',
+                color: '#007bff',
                 fontWeight: 300
             }
         },
@@ -324,7 +324,7 @@ function plotFileTypeChart(data, elem, title, showLegends) {
                 bottom: 20,
                 show: showLegends,
                 textStyle: {
-                    color: '#820f8a',
+                    color: '#007bff',
                 }
             },
         series: [
