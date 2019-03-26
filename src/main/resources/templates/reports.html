@@ -26,6 +26,7 @@
         <script>
             /* reset */
             $(function () {
+                loadDarkMode();
                 $(".loading-spinner").show();
 
 
@@ -76,16 +77,16 @@
             <tr class="target" data-src="url">
                 <td data-content="title"></td>
                 <td data-content="url"></td>
-                <td style="background-color: #d2d0d0;"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span></td>
+                <td style="background-color: #868686;"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span></td>
                 <td><span class="d-flex justify-content-center"><div data-css="mobilePreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobilePreviousScore"></div></span></td>
-                <td style="background-color: #d2d0d0;"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span></td>
+                <td style="background-color: #868686;"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span></td>
                 <td><span class="d-flex justify-content-center"><div data-css="desktopPreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopPreviousScore"></div></span></td>
             </tr>
         </script>
 
         <div class="d-flex pt-4">
             <table id="records_table" class="table table-striped table-hover">
-                <thead class="thead-dark">
+                <thead class="thead-light">
                     <tr>
                         <th scope="col" colspan="2"></th>
                         <th scope="col" colspan="2" style="text-align: center">Mobile</th>

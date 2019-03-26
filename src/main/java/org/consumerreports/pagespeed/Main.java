@@ -71,7 +71,14 @@ public class Main {
 
 
     @RequestMapping("/reports.html")
-    String reports(Model model) {
+    String reports(
+            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
+            Model model) {
+        boolean isDarkMode = false;
+        if (darkMode.equalsIgnoreCase("on")) {
+            isDarkMode = true;
+        }
+        model.addAttribute("isDarkMode", isDarkMode);
         model.addAttribute("tab", "reports");
         return "reports";
     }
@@ -83,12 +90,20 @@ public class Main {
             @RequestParam(value = "overrideAPI", required = false, defaultValue = "") String overrideAPI,
             @RequestParam(value = "date", required = false) String date,
             @RequestParam(value = "fetchSource", required = false, defaultValue = "repository") FetchSource fetchSource,
+            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
             Model model) {
+
+        boolean isDarkMode = false;
+        if (darkMode.equalsIgnoreCase("on")) {
+            isDarkMode = true;
+        }
+
         model.addAttribute("strategy", strategy);
         model.addAttribute("fetchSource", fetchSource);
         model.addAttribute("overrideAPI", overrideAPI);
         model.addAttribute("date", date);
         model.addAttribute("settings", "true");
+        model.addAttribute("isDarkMode", isDarkMode);
         model.addAttribute("tab", "analyze");
         return "analyze";
     }

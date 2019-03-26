@@ -26,6 +26,32 @@
                 font-family: 'Roboto', Arial, sans-serif;
             }
 
+            .dark-mode-theme {
+                background: #1d1d1d !important;
+                color: #ddd !important;
+            }
+
+            .dark-mode-theme-header {
+                -webkit-box-shadow: 0 4px 5px 0 rgba(255, 255, 255, 0), 0 1px 10px 0 rgba(255,255,255,0.12), 0 2px 4px -1px rgba(255,255,255,0.2) !important;
+                box-shadow: 0 4px 5px 0 rgba(255, 255, 255, 0), 0 1px 10px 0 rgba(255,255,255,0.12), 0 2px 4px -1px rgba(255,255,255, 0.2) !important;
+                background: #1d1d1d !important;
+                color: #ddd !important;
+            }
+
+            .dark-mode-button {
+                right: 2rem;
+                bottom: 2rem;
+            }
+
+            .dark-mode-button i {
+                font-size: 3rem;
+                cursor: pointer;
+            }
+
+            .dark-mode-button-green i{
+                color: green;
+            }
+
             .crux-headline--standard {
                 font-size: 3.6rem;
                 font-weight: normal;
@@ -69,6 +95,7 @@
                 -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
                 -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
                 box-shadow: 0 5px 10px rgba(0,0,0,.2);
+                color: #333;
             }
 
             .tt-suggestion {
@@ -141,6 +168,33 @@
             if (!Cookies.get('timezone')) {
                 Cookies.set('timezone', new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1]);
             }
+
+            var loadDarkMode = function() {
+                if (Cookies.get('dark-mode') == "on") {
+                    $(".dark-mode-button").addClass("dark-mode-button-green");
+                    $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
+                    $("body").addClass("dark-mode-theme");
+                    $(".fixed-header").addClass("dark-mode-theme-header");
+                    $(".table").addClass("table-dark");
+                    $(".table thead").removeClass("thead-light").addClass("thead-dark");
+                }
+
+                $(".dark-mode-button").on("click", function(){
+                    $(this).toggleClass("dark-mode-button-green");
+                    if ($(this).hasClass("dark-mode-button-green")) {
+                        Cookies.set('dark-mode', "on", { expires: 365 });
+                        $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
+                        $(".table thead").removeClass("thead-light").addClass("thead-dark");
+                    } else {
+                        Cookies.remove('dark-mode');
+                        $(".cr-logo").attr("src", "images/cr-logo.svg");
+                        $(".table thead").removeClass("thead-dark").addClass("thead-light");
+                    }
+                    $("body").toggleClass("dark-mode-theme");
+                    $(".fixed-header").toggleClass("dark-mode-theme-header");
+                    $(".table").toggleClass("table-dark");
+                });
+            }
         </script>
         <script type="text/javascript" src="/js/common-functions.js"></script>
 
@@ -177,7 +231,7 @@
             </div>
 
         </div>
-
+        <div class="position-fixed dark-mode-button" title="Dark Mode"><i class="material-icons">visibility</i></div>
         <footer class="container-fluid d-flex">
             <span class="footer container-fluid">For questions or suggestions, please email <a href="mailto:arai@consumer.org">arai@consumer.org</a></span>
         </footer>

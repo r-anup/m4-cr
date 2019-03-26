@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,8 +34,14 @@ public class SettingsController {
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public Object loadSettings(
+            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
             Model model
     ) {
+        boolean isDarkMode = false;
+        if (darkMode.equalsIgnoreCase("on")) {
+            isDarkMode = true;
+        }
+
         model.addAttribute("tab", "settings");
 
         List<Urls> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
@@ -45,6 +52,8 @@ public class SettingsController {
 
         List<Emails> emailList = emailsRepository.findAll();
         model.addAttribute("emailList", emailList);
+
+        model.addAttribute("isDarkMode", isDarkMode);
 
         if (urlList == null || emailList == null) {
             return "{\"status\": \"failure\", \"message\": \"No Data\"}";
