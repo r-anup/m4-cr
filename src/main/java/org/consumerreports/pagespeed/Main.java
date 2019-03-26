@@ -126,6 +126,7 @@ public class Main {
             @RequestParam(value = "leftDate", required = false) String leftDate,
             @RequestParam(value = "rightDate", required = false) String rightDate,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
+            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
             Model model
             ) {
 
@@ -162,6 +163,11 @@ public class Main {
             model.addAttribute("pageTitle", title);
         }
 
+        boolean isDarkMode = false;
+        if (darkMode.equalsIgnoreCase("on")) {
+            isDarkMode = true;
+        }
+
         model.addAttribute("urlList", urlList);
         model.addAttribute("url", url);
         model.addAttribute("benchmarkurl", benchmarkurl);
@@ -169,6 +175,7 @@ public class Main {
         model.addAttribute("leftDate", leftDate);
         model.addAttribute("rightDate", rightDate);
         model.addAttribute("date", date);
+        model.addAttribute("isDarkMode", isDarkMode);
         model.addAttribute("tab", "metrics");
         return "metrics";
     }

@@ -304,8 +304,20 @@ function plotFileTypeChart(data, elem, title, showLegends) {
     var option = {
         title : {
             text: title,
-            x:'center'
+            x:'center',
+            textStyle: {
+                color: '#0c50c7',
+            }
         },
+        color: ['#b75c45'
+            ,'#558ba9',
+            '#da70d6',
+            '#32cd32',
+            '#3d52ed',
+            '#ff69b4',
+            '#ba55d3','#cd5c5c','#ffa500','#40e0d0',
+            '#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700',
+            '#6699FF','#ff6666','#3cb371','#b8860b','#30e0e0'],
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -318,6 +330,9 @@ function plotFileTypeChart(data, elem, title, showLegends) {
                 top: 20,
                 bottom: 20,
                 show: showLegends,
+                textStyle: {
+                    color: '#820f8a',
+                }
             },
         series: [
             {
