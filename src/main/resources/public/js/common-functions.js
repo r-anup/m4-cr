@@ -351,7 +351,14 @@ function plotFileTypeChart(data, elem, title, showLegends) {
     myChart.setOption(option);
 }
 
-
+function EMACalc(mArray,mRange) {
+    var k = 2/(mRange + 1);
+    var emaArray = [mArray[0]];
+    for (var i = 1; i < mArray.length; i++) {
+        emaArray.push(Math.round(mArray[i] * k + emaArray[i - 1] * (1 - k)));
+    }
+    return emaArray;
+}
 
 function plotLineChart(data, elem) {
     var myChart = echarts.init($(elem)[0]);
@@ -361,10 +368,10 @@ function plotLineChart(data, elem) {
     }
     var option = {
         grid: {
-            width: '100%',
-            right: '10',
+            width: '90%',
+            right: '0',
         },
-        color: ['#61a0a8'],
+        color: ['#61a0a8', '#a862a5'],
         tooltip: {
             trigger: 'item',
             formatter: function(params) {
@@ -392,11 +399,40 @@ function plotLineChart(data, elem) {
             }
         },
         yAxis: {
-            show: false
+            show: false,
+            type: 'value'
         },
         series: [{
+            name: 'Standard',
             data: data.values,
             type: 'line',
+            stack: 'Standard',
+            smooth: true,
+            label: {
+                normal: {
+                    show: true,
+                    position: 'bottom',
+                    formatter: function(params) {
+                        var value = params.value;
+                        if (convertToSec) {
+                            value = (Math.round(value / 10) / 100);
+                        }
+                        value = value.toLocaleString();
+                        return value;
+                    }
+                }
+            },
+        }
+
+        ]
+    };
+
+    if (globalData.showEMA) {
+        option.series.push({
+            data: EMACalc(data.values, 6),
+            name: 'EMA',
+            type: 'line',
+            stack: 'Standard',
             smooth: true,
             label: {
                 normal: {
@@ -412,9 +448,26 @@ function plotLineChart(data, elem) {
                     }
                 }
             },
-        }
-        ]
-    };
+        });
+        option.legend =  {
+            color: '#0946ff',
+                data:[
+                {
+                    name: 'Standard',
+                    textStyle: {
+                        color: '#0946ff'
+                    }
+                },{
+                    name: 'EMA',
+                    textStyle: {
+                        color: '#0946ff'
+                    }
+                }],
+                orient: 'vertical',
+                left: 0,
+                top: 20,
+        };
+    }
 
     myChart.setOption(option);
 }

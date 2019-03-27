@@ -33,7 +33,7 @@
             }
 
             .chart__stat-metric {
-                padding: 10px 10px 10px 30px;
+                padding: 10px 10px 0 30px;
             }
 
             .chart__stat-number--compare {
@@ -173,7 +173,6 @@
             .metrics-title, .chart__stat-metric-title-description {
                 cursor: pointer;
             }
-
         </style>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -186,6 +185,7 @@
             globalData.date = /*[[${date}]]*/ "";
             globalData.leftDate = /*[[${leftDate}]]*/ "";
             globalData.rightDate = /*[[${rightDate}]]*/ "";
+            globalData.showEMA = /*[[${showEMA}]]*/ "";
         </script>
 
         <script>
@@ -317,6 +317,13 @@
                         return generateRequest(urls[0], strategy, date);
                     });
                 }
+            }
+
+            var plotAllineChart = function(days, scores) {
+                Object.keys(scores).forEach(function (key) {
+                    $('.chart-' + key).parent().attr('id', 'chart-' + key);
+                    plotLineChart({days: days, values: scores[key]}, '.chart-' + key);
+                });
             }
 
 
@@ -557,13 +564,32 @@
                         $(this).siblings(".expand").trigger("click");
                     });
 
-
                     $(".lighthouse-chart").parent().on('shown.bs.collapse', function () {
-                           var id = $(this).find(".lighthouse-chart").attr('_echarts_instance_');
-                            window.echarts.getInstanceById(id).resize();
+                        $.each($(this).find(".lighthouse-chart"), function(i, item) {
+                            window.echarts.getInstanceById($(item).attr('_echarts_instance_')).resize();
                         });
+                    });
 
 
+
+
+                    $("#showEMA").change(function() {
+                        if (this.checked) {
+                            Cookies.set('showEMA', true, {expires: 365});
+                        } else {
+                            Cookies.set('showEMA', false, {expires: 365});
+                        }
+                        globalData.showEMA = this.checked;
+                        $.each($(".lighthouse-chart"), function(i, item) {
+                            window.echarts.getInstanceById($(item).attr('_echarts_instance_')).clear();
+                        });
+                        plotAllineChart(globalData.days, globalData.scores);
+
+                    });
+
+                    if (globalData.showEMA) {
+                        $("#showEMA").prop("checked", true);
+                    }
 
                     $.ajax({
                         data: {
@@ -590,11 +616,9 @@
                                 });
                             });
 
-                            Object.keys(data.scores).forEach(function (key) {
-                                $('.chart-' + key).parent().attr('id', 'chart-' + key);
-                                plotLineChart({days: data.days, values: data.scores[key]}, '.chart-' + key);
-
-                            });
+                            globalData.scores = data.scores;
+                            globalData.days = data.days;
+                            plotAllineChart(globalData.days, globalData.scores);
 
                         }
                     });
@@ -608,9 +632,6 @@
                     });
 
                     $("#screenshots-chart").show();
-
-
-
 
                 });
             }
@@ -671,7 +692,14 @@
 
         <div class="d-flex stats pt-4 metrics-chart lh-vars lab-data" id="metrics-chart">
             <div class="chart__stat--compare metric-title-container">
-                <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Metric</div>
+                <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Metric <br><br>
+                    <div class="form-group">
+                      <span class="switch switch-md">
+                        <input type="checkbox" class="switch" id="showEMA">
+                        <label for="showEMA">Display EMA</label>
+                      </span>
+                    </div>
+                </div>
                 <div class="chart__stat-metric">Previous <br><span class="date-left-header"></span></div>
                 <div class="chart__stat-metric">Change</div>
                 <div class="chart__stat-metric">Latest <br><span class="date-right-header"></span></div>

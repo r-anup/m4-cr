@@ -142,6 +142,7 @@ public class Main {
             @RequestParam(value = "rightDate", required = false) String rightDate,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
             @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
+            @CookieValue(value = "showEMA", required = false, defaultValue = "false") boolean showEMA,
             Model model
             ) {
 
@@ -191,6 +192,7 @@ public class Main {
         model.addAttribute("rightDate", rightDate);
         model.addAttribute("date", date);
         model.addAttribute("isDarkMode", isDarkMode);
+        model.addAttribute("showEMA", showEMA);
         model.addAttribute("tab", "metrics");
         return "metrics";
     }

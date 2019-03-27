@@ -34,16 +34,64 @@
                 font-size: 1.6rem;
             }
 
+            .spin {
+                -webkit-animation: spin .4s infinite linear;
+                -moz-animation: spin .4s infinite linear;
+                -o-animation: spin .4s infinite linear;
+                animation: spin .4s infinite linear;
+                -webkit-transform-origin: 50% 50%;
+                transform-origin:50% 50%;
+                -ms-transform-origin:50% 50%; /* IE 9 */
+            }
 
+            @-moz-keyframes spin {rom {-moz-transform: rotate(0deg);} to { -moz-transform: rotate(360deg);}}
+            @-webkit-keyframes spin {from {-webkit-transform: rotate(0deg); } to {-webkit-transform: rotate(360deg); }}
+            @keyframes spin {from {transform: rotate(0deg);}to {transform: rotate(360deg);}}
         </style>
 
+        <script th:inline="javascript">
+            var globalData = {};
+            globalData.urlList = /*[[${urlList}]]*/ "";
+            globalData.competitorList = /*[[${competitorList}]]*/ "";
+        </script>
+
         <script>
+            globalData.croURLs = $.map(globalData.urlList, function(url, i){
+                return url.url;
+            });
+
+            globalData.competitorURLs = $.map(globalData.competitorList, function(url, i){
+                return url.url;
+            });
+
             /* reset */
             var resetAll = function(parent) {
                 $(parent + " tbody .checkbox-col input").parent().parent().css({'text-decoration': 'inherit'});
                 $(parent).closest('form')[0].reset();
                 $(parent + " .checkbox-col").hide();
                 $(parent + " .add-form-input").removeClass('show');
+            }
+            /* reset */
+
+            function startTimeSpent() {
+                var dt = new Date();
+                var ss = $(".run-time").html().split(":");
+                dt.setHours(0);
+                dt.setMinutes(ss[0]);
+                dt.setSeconds(ss[1]);
+                var dt2 = new Date(dt.valueOf() + 1000);
+                var temp = dt2.toTimeString().split(" ");
+                var ts = temp[0].split(":");
+                $(".run-time").html(ts[1]+":"+ts[2]);
+                if (globalData.runTimeEvent == null) {
+                    globalData.runTimeEvent = setInterval(startTimeSpent, 1000);
+                }
+            }
+
+            function clearTimeSpent() {
+                clearInterval(globalData.runTimeEvent);
+                globalData.runTimeEvent = null;
+                $(".run-time").html("00:00");
             }
 
             $(function () {
@@ -111,48 +159,95 @@
 
             $( function() {
                 loadDarkMode();
-                $.ajax({
-                    dataType: 'json',
-                    method: 'GET',
-                    url: "/urls/cro-list",
-                    success: function (urllist) {
-                        $('#competitor-mapping-settings .url-cro').typeahead({
-                                hint: true,
-                                highlight: true,
-                                minLength: 0,
-                            },
-                            {
-                                name: 'urls',
-                                source: substringMatcher(urllist),
-                                limit: 10,
-                            }).blur(function () {
-                                if ($.inArray($(this).val(), urllist) === -1)
-                                    console.log('Error : element not in list!');
-                        });
-
-                    }
+                $('#competitor-mapping-settings .url-cro').typeahead({
+                        hint: true,
+                        highlight: true,
+                        minLength: 0,
+                    },
+                    {
+                        name: 'urls',
+                        source: substringMatcher(globalData.croURLs),
+                        limit: 10,
+                    }).blur(function () {
+                    if ($.inArray($(this).val(), globalData.croURLs) === -1)
+                        console.log('Error : element not in list!');
                 });
 
-                $.ajax({
-                    dataType: 'json',
-                    method: 'GET',
-                    url: "/urls/competitor-list",
-                    success: function (urllist) {
-                        $('#competitor-mapping-settings .url-competitor').typeahead({
-                                hint: true,
-                                highlight: true,
-                                minLength: 0,
-                            },
-                            {
-                                name: 'urls',
-                                source: substringMatcher(urllist),
-                                limit: 10,
-                            }).blur(function () {
-                            if ($.inArray($(this).val(), urllist) === -1)
-                                console.log('Error : element not in list!');
-                        });
+                $('#competitor-mapping-settings .url-competitor').typeahead({
+                        hint: true,
+                        highlight: true,
+                        minLength: 0,
+                    },
+                    {
+                        name: 'urls',
+                        source: substringMatcher(globalData.competitorURLs),
+                        limit: 10,
+                    }).blur(function () {
+                    if ($.inArray($(this).val(), globalData.competitorURLs) === -1)
+                        console.log('Error : element not in list!');
+                });
 
+
+
+                var processIndex = -1;
+                var processStrategy = "mobile";
+                var processURLsLength = globalData.croURLs.length;
+                var stopProcessing = false;
+                $("#process-lighthouse-reports").on("click", function() {
+                    $(this).html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop Processing...');
+                    if (processIndex >= 0) {
+                        clearTimeSpent();
+                        stopProcessing = true;
+                        $("#process-lighthouse-reports").html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopping...');
+                        return;
                     }
+                    processIndex = 0;
+                    startTimeSpent();
+                    var processURL = function () {
+                        if (stopProcessing) {
+                            $(".run-status").hide();
+                            $("#process-lighthouse-reports").html("Process Lighthouse reports");
+                            return;
+                        }
+                        if (processStrategy == "mobile" && processIndex == processURLsLength) {
+                            processStrategy = "desktop";
+                            processIndex = 0;
+                        }
+                        if (processStrategy == "desktop" && processIndex == processURLsLength) {
+                            $(".run-status").hide();
+                            $("#process-lighthouse-reports").html("Process Lighthouse reports");
+                            return;
+                        }
+
+                        $(".run-url").html(globalData.croURLs[processIndex]);
+                        $(".run-strategy").html(processStrategy);
+                        $(".run-current-number").html((processStrategy == "mobile")?processIndex+1:processURLsLength+processIndex+1);
+                        $(".run-total").html((processStrategy == "mobile")?2*processURLsLength:processURLsLength);
+
+                        $.ajax({
+                            data: {
+                                url: globalData.croURLs[processIndex],
+                                strategy: processStrategy,
+                                category: 'performance',
+                                locale: 'en_US',
+                                fetchSource: 'lightHouseAndSave',
+                            },
+                            dataType: 'json',
+                            method: 'GET',
+                            url: "/lighthouse",
+                            success: function (response) {
+                                processIndex++;
+                                processURL();
+                            },
+                            error: function(response) {
+                                processIndex++;
+                                processURL();
+                            }
+                        });
+                    }
+                    processURL();
+                    $(".run-status").show();
+
                 });
             });
         </script>
@@ -340,12 +435,51 @@
                 </div>
             </div>
 
+            <div  class="d-flex flex-column pt-5">
 
-       <!--     <div  class="d-flex flex-column pt-5">
-                <div class="justify-content-left p-2">
-                    <button  type="submit" class="btn btn-lg btn-primary submit-btn">Submit</button>
+                <div class="run-status" style="font-size: 1.4rem; display: none;">
+                    <div><strong>Currently processing for... </strong></div>
+                    <div class="d-block-flex">
+                        <div>
+                            <strong>Processing: </strong><span class="run-current-number"></span> of <span class="run-total"></span>
+                        </div>
+                        <div>
+                             <strong>URL: </strong><span class="run-url"></span>
+                         </div>
+                        <div>
+                            <strong>Strategy: </strong><span class="run-strategy"></span>
+                        </div>
+                        <div>
+                            <strong>Time spent: </strong><span class="run-time">00:00</span>
+                        </div>
+                    </div>
                 </div>
-            </div>-->
+                <div class="justify-content-left pt-4">
+                    <button id="process-lighthouse-reports" type="button" class="btn btn-lg btn-primary submit-btn">Process Lighthouse reports</button>
+                </div>
+            </div>
+
+
         </form>
+
+        <div id="modal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
