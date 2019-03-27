@@ -34,15 +34,10 @@ public class SettingsController {
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public Object loadSettings(
-            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
+            @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
+            @CookieValue(value = "isEditAllowed", required = false, defaultValue = "false") boolean isEditAllowed,
             Model model
     ) {
-        boolean isDarkMode = false;
-        if (darkMode.equalsIgnoreCase("on")) {
-            isDarkMode = true;
-        }
-
-        model.addAttribute("tab", "settings");
 
         List<Urls> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
         model.addAttribute("urlList", urlList);
@@ -54,7 +49,8 @@ public class SettingsController {
         model.addAttribute("emailList", emailList);
 
         model.addAttribute("isDarkMode", isDarkMode);
-
+        model.addAttribute("isEditAllowed", isEditAllowed);
+        model.addAttribute("tab", "settings");
         if (urlList == null || emailList == null) {
             return "{\"status\": \"failure\", \"message\": \"No Data\"}";
         }

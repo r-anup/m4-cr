@@ -72,12 +72,8 @@ public class Main {
 
     @RequestMapping("/reports.html")
     String reports(
-            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
+            @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
             Model model) {
-        boolean isDarkMode = false;
-        if (darkMode.equalsIgnoreCase("on")) {
-            isDarkMode = true;
-        }
         model.addAttribute("isDarkMode", isDarkMode);
         model.addAttribute("tab", "reports");
         return "reports";
@@ -90,13 +86,8 @@ public class Main {
             @RequestParam(value = "overrideAPI", required = false, defaultValue = "") String overrideAPI,
             @RequestParam(value = "date", required = false) String date,
             @RequestParam(value = "fetchSource", required = false, defaultValue = "repository") FetchSource fetchSource,
-            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
+            @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
             Model model) {
-
-        boolean isDarkMode = false;
-        if (darkMode.equalsIgnoreCase("on")) {
-            isDarkMode = true;
-        }
 
         model.addAttribute("strategy", strategy);
         model.addAttribute("fetchSource", fetchSource);
@@ -141,8 +132,8 @@ public class Main {
             @RequestParam(value = "leftDate", required = false) String leftDate,
             @RequestParam(value = "rightDate", required = false) String rightDate,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
-            @CookieValue(value = "dark-mode", required = false, defaultValue = "off") String darkMode,
-            @CookieValue(value = "showEMA", required = false, defaultValue = "false") boolean showEMA,
+            @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
+            @CookieValue(value = "isDisplayEMA", required = false, defaultValue = "false") boolean isDisplayEMA,
             Model model
             ) {
 
@@ -179,11 +170,6 @@ public class Main {
             model.addAttribute("pageTitle", title);
         }
 
-        boolean isDarkMode = false;
-        if (darkMode.equalsIgnoreCase("on")) {
-            isDarkMode = true;
-        }
-
         model.addAttribute("urlList", urlList);
         model.addAttribute("url", url);
         model.addAttribute("benchmarkurl", benchmarkurl);
@@ -192,7 +178,7 @@ public class Main {
         model.addAttribute("rightDate", rightDate);
         model.addAttribute("date", date);
         model.addAttribute("isDarkMode", isDarkMode);
-        model.addAttribute("showEMA", showEMA);
+        model.addAttribute("isDisplayEMA", isDisplayEMA);
         model.addAttribute("tab", "metrics");
         return "metrics";
     }

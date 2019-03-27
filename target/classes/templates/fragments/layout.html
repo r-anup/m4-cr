@@ -170,7 +170,7 @@
             }
 
             var loadDarkMode = function() {
-                if (Cookies.get('dark-mode') == "on") {
+                if (Cookies.get('isDarkMode')) {
                     $(".dark-mode-button").addClass("dark-mode-button-green");
                     $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
                     $("body").addClass("dark-mode-theme");
@@ -182,11 +182,11 @@
                 $(".dark-mode-button").on("click", function(){
                     $(this).toggleClass("dark-mode-button-green");
                     if ($(this).hasClass("dark-mode-button-green")) {
-                        Cookies.set('dark-mode', "on", { expires: 365 });
+                        Cookies.set('isDarkMode', "on", { expires: 365 });
                         $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
                         $(".table thead").removeClass("thead-light").addClass("thead-dark");
                     } else {
-                        Cookies.remove('dark-mode');
+                        Cookies.remove('isDarkMode');
                         $(".cr-logo").attr("src", "images/cr-logo.svg");
                         $(".table thead").removeClass("thead-dark").addClass("thead-light");
                     }

@@ -185,7 +185,7 @@
             globalData.date = /*[[${date}]]*/ "";
             globalData.leftDate = /*[[${leftDate}]]*/ "";
             globalData.rightDate = /*[[${rightDate}]]*/ "";
-            globalData.showEMA = /*[[${showEMA}]]*/ "";
+            globalData.isDisplayEMA = /*[[${isDisplayEMA}]]*/ "";
         </script>
 
         <script>
@@ -575,11 +575,11 @@
 
                     $("#showEMA").change(function() {
                         if (this.checked) {
-                            Cookies.set('showEMA', true, {expires: 365});
+                            Cookies.set('isDisplayEMA', true, {expires: 365});
                         } else {
-                            Cookies.set('showEMA', false, {expires: 365});
+                            Cookies.set('isDisplayEMA', false, {expires: 365});
                         }
-                        globalData.showEMA = this.checked;
+                        globalData.isDisplayEMA = this.checked;
                         $.each($(".lighthouse-chart"), function(i, item) {
                             window.echarts.getInstanceById($(item).attr('_echarts_instance_')).clear();
                         });
@@ -587,7 +587,7 @@
 
                     });
 
-                    if (globalData.showEMA) {
+                    if (globalData.isDisplayEMA) {
                         $("#showEMA").prop("checked", true);
                     }
 

@@ -427,7 +427,7 @@ function plotLineChart(data, elem) {
         ]
     };
 
-    if (globalData.showEMA) {
+    if (globalData.isDisplayEMA) {
         option.series.push({
             data: EMACalc(data.values, 6),
             name: 'EMA',
