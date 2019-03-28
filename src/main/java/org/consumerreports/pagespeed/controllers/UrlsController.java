@@ -1,7 +1,7 @@
 package org.consumerreports.pagespeed.controllers;
 
-import org.consumerreports.pagespeed.models.CompetitorUrls;
-import org.consumerreports.pagespeed.models.Urls;
+import org.consumerreports.pagespeed.models.CompetitorUrl;
+import org.consumerreports.pagespeed.models.CroUrl;
 import org.consumerreports.pagespeed.repositories.CompetitorsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +23,15 @@ public class UrlsController {
     private CompetitorsRepository competitorsRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<Urls> getAllUrls() {
+    public List<CroUrl> getAllUrls() {
         return urlsRepository.findAll(Sort.by("sortOrder"));
     }
 
     @RequestMapping(value = "/cro-list", method = RequestMethod.GET)
-    public List<Urls> getAllUrlsOnly() {
-        List<Urls> urls = urlsRepository.findAllUrls();
+    public List<CroUrl> getAllUrlsOnly() {
+        List<CroUrl> urls = urlsRepository.findAllUrls();
         List urllist = new ArrayList();
-        for (Urls url : urls) {
+        for (CroUrl url : urls) {
             urllist.add(url.getUrl());
         }
 
@@ -40,10 +40,10 @@ public class UrlsController {
 
 
     @RequestMapping(value = "/competitor-list", method = RequestMethod.GET)
-    public List<Urls> getAllCompetitorUrlsOnly() {
-        List<CompetitorUrls> urls = competitorsRepository.findAllUrls();
+    public List<CroUrl> getAllCompetitorUrlsOnly() {
+        List<CompetitorUrl> urls = competitorsRepository.findAllUrls();
         List urllist = new ArrayList();
-        for (CompetitorUrls url : urls) {
+        for (CompetitorUrl url : urls) {
             urllist.add(url.getUrl());
         }
 

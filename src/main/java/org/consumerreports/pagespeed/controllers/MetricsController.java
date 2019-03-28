@@ -3,7 +3,7 @@ package org.consumerreports.pagespeed.controllers;
 import org.apache.logging.log4j.LogManager;
 import org.consumerreports.pagespeed.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
-import org.consumerreports.pagespeed.models.Urls;
+import org.consumerreports.pagespeed.models.CroUrl;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;

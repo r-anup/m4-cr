@@ -2,12 +2,12 @@ package org.consumerreports.pagespeed.models;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
-public class CompetitorUrls {
+public class CompetitorUrl {
     @Id
     public ObjectId _id;
     public String url;
-    public ObjectId associatedCROId;
     public String title;
     public String brand;
     public String mobileLatestScore;
@@ -16,10 +16,10 @@ public class CompetitorUrls {
     public String desktopPreviousScore;
 
     // Constructors
-    public CompetitorUrls() {
+    public CompetitorUrl() {
     }
 
-    public CompetitorUrls(String url, String title, String brand, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
+    public CompetitorUrl(String url, String title, String brand, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
         this.url = url;
         this.title = title;
         this.brand = brand;
@@ -29,7 +29,7 @@ public class CompetitorUrls {
         this.desktopPreviousScore = desktopPreviousScore;
     }
 
-    public CompetitorUrls(String url, String title, String brand) {
+    public CompetitorUrl(String url, String title, String brand) {
         this.url = url;
         this.title = title;
         this.brand = brand;
@@ -60,14 +60,6 @@ public class CompetitorUrls {
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public ObjectId getAssociatedCROId() {
-        return associatedCROId;
-    }
-
-    public void setAssociatedCROId(ObjectId associatedCROId) {
-        this.associatedCROId = associatedCROId;
     }
 
     public String getTitle() {

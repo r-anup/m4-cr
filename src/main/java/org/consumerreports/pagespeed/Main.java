@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.consumerreports.pagespeed.controllers.MetricsController;
-import org.consumerreports.pagespeed.converters.EnumConverter;
-import org.consumerreports.pagespeed.models.Urls;
+import org.consumerreports.pagespeed.models.CroUrl;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -161,11 +159,11 @@ public class Main {
             }
         }
 
-        List<Urls> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
+        List<CroUrl> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
 
-        Urls urls = urlsRepository.findFirstByUrl(url);
-        if (urls != null) {
-            model.addAttribute("pageTitle", urls.title);
+        CroUrl croUrl = urlsRepository.findFirstByUrl(url);
+        if (croUrl != null) {
+            model.addAttribute("pageTitle", croUrl.title);
         } else {
             model.addAttribute("pageTitle", title);
         }

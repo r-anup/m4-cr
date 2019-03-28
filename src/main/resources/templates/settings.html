@@ -53,7 +53,7 @@
             var globalData = {};
             globalData.urlList = /*[[${urlList}]]*/ "";
             globalData.competitorList = /*[[${competitorList}]]*/ "";
-            globalData.allowEdit = /*[[${allowEdit}]]*/ "";
+            globalData.isEditAllowed = /*[[${isEditAllowed}]]*/ "";
         </script>
 
         <script>
@@ -160,7 +160,7 @@
 
             $( function() {
                 loadDarkMode();
-                $('#competitor-mapping-settings .url-cro').typeahead({
+                $('#competitor-mapping-settings .mapping-url-cro').typeahead({
                         hint: true,
                         highlight: true,
                         minLength: 0,
@@ -174,7 +174,7 @@
                         console.log('Error : element not in list!');
                 });
 
-                $('#competitor-mapping-settings .url-competitor').typeahead({
+                $('#competitor-mapping-settings .mapping-url-competitor').typeahead({
                         hint: true,
                         highlight: true,
                         minLength: 0,
@@ -223,7 +223,7 @@
                         $(".run-url").html(globalData.croURLs[processIndex]);
                         $(".run-strategy").html(processStrategy);
                         $(".run-current-number").html((processStrategy == "mobile")?processIndex+1:processURLsLength+processIndex+1);
-                        $(".run-total").html((processStrategy == "mobile")?2*processURLsLength:processURLsLength);
+                        $(".run-total").html(2*processURLsLength);
 
                         $.ajax({
                             data: {
@@ -368,18 +368,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="mapping : *{competitorMappingList}">
+                            <tr th:each="url : *{urlList}">
+                                <span th:if="${url.competitorUrl!= null}" th:remove="tag">
                                 <td  class="checkbox-col"><input class="form-check-input" type="checkbox" value=""></td>
-                                <td th:text="${mapping.competitor}"></td>
-                                <td th:text="${mapping.cro}"></td>
+                                <td th:text="${url.competitorUrl.url}"></td>
+                                <td th:text="${url.url}"></td>
+                                </span>
                             </tr>
                             <tr class="collapse add-form-input" id="competitor-mapping-add-form-input">
                                 <td class="checkbox-col"></td>
 
-                                <td><input name="url-competitor" type="text" placeholder="Select Competitor URL" class="form-control data-required url-competitor typeahead">
+                                <td><input name="mapping-url-competitor" type="text" placeholder="Select Competitor URL" class="form-control data-required mapping-url-competitor typeahead">
                                     <div class="invalid-feedback">Please provide a URL.</div>
                                 </td>
-                                <td><input name="url-cro" type="text" placeholder="Select CRO URL" class="form-control data-required url-cro typeahead">
+                                <td><input name="mapping-url-cro" type="text" placeholder="Select CRO URL" class="form-control data-required mapping-url-cro typeahead">
                                     <div class="invalid-feedback">Please provide a CRO URL to associate with competitor.</div>
                                 </td>
                             </tr>

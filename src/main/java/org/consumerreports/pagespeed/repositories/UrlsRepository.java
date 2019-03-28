@@ -1,20 +1,20 @@
 package org.consumerreports.pagespeed.repositories;
 
-import org.consumerreports.pagespeed.models.Urls;
+import org.consumerreports.pagespeed.models.CroUrl;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface UrlsRepository extends MongoRepository<Urls, String> {
-    Urls findBy_id(ObjectId _id);
+public interface UrlsRepository extends MongoRepository<CroUrl, String> {
+    CroUrl findBy_id(ObjectId _id);
 
-    Urls findFirstByUrl(
+    CroUrl findFirstByUrl(
             String url
     );
 
 
     @Query(value="{}", fields="{url: 1}", sort = "{sortOrder: 1}")
-    List<Urls> findAllUrls();
+    List<CroUrl> findAllUrls();
 }

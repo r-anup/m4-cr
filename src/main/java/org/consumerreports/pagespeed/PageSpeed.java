@@ -187,16 +187,16 @@ public class PageSpeed {
                         list);
                 metricsRepository.save(m);
 
-                Urls urls = urlsRepository.findFirstByUrl(url);
-                if (urls != null) {
+                CroUrl croUrl = urlsRepository.findFirstByUrl(url);
+                if (croUrl != null) {
                     if (strategy.equals("mobile")) {
-                        urls.setMobilePreviousScore(urls.getMobileLatestScore());
-                        urls.setMobileLatestScore(lighthouseData.getString("score"));
+                        croUrl.setMobilePreviousScore(croUrl.getMobileLatestScore());
+                        croUrl.setMobileLatestScore(lighthouseData.getString("score"));
                     } else {
-                        urls.setDesktopPreviousScore(urls.getDesktopLatestScore());
-                        urls.setDesktopLatestScore(lighthouseData.getString("score"));
+                        croUrl.setDesktopPreviousScore(croUrl.getDesktopLatestScore());
+                        croUrl.setDesktopLatestScore(lighthouseData.getString("score"));
                     }
-                   urlsRepository.save(urls);
+                   urlsRepository.save(croUrl);
                 }
             }
             formattedData.put("lighthouseResult", lighthouseData);

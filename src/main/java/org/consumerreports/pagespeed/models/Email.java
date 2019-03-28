@@ -3,7 +3,7 @@ package org.consumerreports.pagespeed.models;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-public class Emails {
+public class Email {
     @Id
     public ObjectId _id;
 
@@ -12,10 +12,10 @@ public class Emails {
     public Boolean active;
 
     // Constructors
-    public Emails() {
+    public Email() {
     }
 
-    public Emails(String name, String email, Boolean active) {
+    public Email(String name, String email, Boolean active) {
         this._id = _id;
         this.name = name;
         this.email = email;

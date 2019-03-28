@@ -2,13 +2,16 @@ package org.consumerreports.pagespeed.models;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
-public class Urls {
+public class CroUrl {
     @Id
     public ObjectId _id;
 
     public String url;
-    public ObjectId associatedCompetitorId;
+
+    @DBRef
+    public CompetitorUrl competitorUrl;
     public String title;
     public Integer sortOrder;
     public String mobileLatestScore;
@@ -17,10 +20,10 @@ public class Urls {
     public String desktopPreviousScore;
 
     // Constructors
-    public Urls() {
+    public CroUrl() {
     }
 
-    public Urls(String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
+    public CroUrl(String url, String title, String mobileLatestScore, String mobilePreviousScore, String desktopLatestScore, String desktopPreviousScore) {
         this.url = url;
         this.title = title;
         this.mobileLatestScore = mobileLatestScore;
@@ -29,7 +32,7 @@ public class Urls {
         this.desktopPreviousScore = desktopPreviousScore;
     }
 
-    public Urls(String url, String title) {
+    public CroUrl(String url, String title) {
         this.url = url;
         this.title = title;
         this.sortOrder = sortOrder;
@@ -45,25 +48,20 @@ public class Urls {
     }
 
     public String getUrl() {
-
         return url;
     }
 
     public void setUrl(String url) {
-
         this.url = url;
     }
 
-
-    public ObjectId getAssociatedCompetitorId() {
-        return associatedCompetitorId;
+    public CompetitorUrl getCompetitorUrl() {
+        return competitorUrl;
     }
 
-    public void setAssociatedCompetitorId(ObjectId associatedCompetitorId) {
-        this.associatedCompetitorId = associatedCompetitorId;
+    public void setCompetitorUrl(CompetitorUrl competitorUrl) {
+        this.competitorUrl = competitorUrl;
     }
-
-
 
     public String getTitle() {
         return title;

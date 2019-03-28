@@ -1,8 +1,8 @@
 package org.consumerreports.pagespeed.controllers;
 
-import org.consumerreports.pagespeed.models.CompetitorUrls;
-import org.consumerreports.pagespeed.models.Emails;
-import org.consumerreports.pagespeed.models.Urls;
+import org.consumerreports.pagespeed.models.CompetitorUrl;
+import org.consumerreports.pagespeed.models.CroUrl;
+import org.consumerreports.pagespeed.models.Email;
 import org.consumerreports.pagespeed.repositories.CompetitorsRepository;
 import org.consumerreports.pagespeed.repositories.EmailsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
@@ -39,13 +39,13 @@ public class SettingsController {
             Model model
     ) {
 
-        List<Urls> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
+        List<CroUrl> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
         model.addAttribute("urlList", urlList);
 
-        List<CompetitorUrls> competitorList = competitorsRepository.findAll();
+        List<CompetitorUrl> competitorList = competitorsRepository.findAll();
         model.addAttribute("competitorList", competitorList);
 
-        List<Emails> emailList = emailsRepository.findAll();
+        List<Email> emailList = emailsRepository.findAll();
         model.addAttribute("emailList", emailList);
 
         model.addAttribute("isDarkMode", isDarkMode);
@@ -61,11 +61,13 @@ public class SettingsController {
     public Object processSettings(
             @RequestParam(value = "cro-url", required = false) String croUurl,
             @RequestParam(value = "cro-title", required = false) String croTitle,
-            @RequestParam(value = "competitor-url", required = false) String competitorUrl,
+            @RequestParam(value = "competitor-url", required = false) String competitorNewUrl,
             @RequestParam(value = "competitor-title", required = false) String competitorTitle,
             @RequestParam(value = "competitor-brand", required = false) String competitorBrand,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "mapping-url-competitor", required = false) String mappingUrlCompetitor,
+            @RequestParam(value = "mapping-url-cro", required = false) String mappingUrlCro,
             Model model
     ) {
 
@@ -73,7 +75,7 @@ public class SettingsController {
         try {
 
             if (name != null && !name.equals("") && email != null && !email.equals("")) {
-                Emails emails = new Emails(name, email, true);
+                Email emails = new Email(name, email, true);
                 emailsRepository.save(emails);
             }
         } catch(org.springframework.dao.DuplicateKeyException dk) {
@@ -82,17 +84,31 @@ public class SettingsController {
 
         try {
             if (croUurl != null && !croUurl.equals("") && croTitle != null && !croTitle.equals("")) {
-                Urls urls = new Urls(croUurl, croTitle);
-                urlsRepository.save(urls);
+                CroUrl croUrl = new CroUrl(croUurl, croTitle);
+                urlsRepository.save(croUrl);
             }
         } catch(org.springframework.dao.DuplicateKeyException dk) {
             errors.add("URL already exists.");
         }
 
         try {
-            if (competitorUrl != null && !competitorUrl.equals("") && competitorTitle != null && !competitorTitle.equals("")  && competitorBrand != null && !competitorBrand.equals("")) {
-                CompetitorUrls urls = new CompetitorUrls(competitorUrl, competitorTitle, competitorBrand);
-                competitorsRepository.save(urls);
+            if (competitorNewUrl != null && !competitorNewUrl.equals("") && competitorTitle != null && !competitorTitle.equals("")  && competitorBrand != null && !competitorBrand.equals("")) {
+                CompetitorUrl competitorUrl = new CompetitorUrl(competitorNewUrl, competitorTitle, competitorBrand);
+                competitorsRepository.save(competitorUrl);
+            }
+        } catch(org.springframework.dao.DuplicateKeyException dk) {
+            errors.add("URL already exists.");
+        }
+
+
+        try {
+            if (mappingUrlCompetitor != null && !mappingUrlCompetitor.equals("") && mappingUrlCro != null && !mappingUrlCro.equals("")) {
+                CroUrl croUrl = urlsRepository.findFirstByUrl(mappingUrlCro);
+                CompetitorUrl competitorUrl = competitorsRepository.findFirstByUrl(mappingUrlCompetitor);
+                if (competitorUrl != null && croUrl != null) {
+                    croUrl.setCompetitorUrl(competitorUrl);
+                    urlsRepository.save(croUrl);
+                }
             }
         } catch(org.springframework.dao.DuplicateKeyException dk) {
             errors.add("URL already exists.");
@@ -102,14 +118,15 @@ public class SettingsController {
 
         model.addAttribute("tab", "settings");
 
-        List<Urls> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
+        List<CroUrl> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
         model.addAttribute("urlList", urlList);
 
-        List<CompetitorUrls> competitorList = competitorsRepository.findAll();
+        List<CompetitorUrl> competitorList = competitorsRepository.findAll();
         model.addAttribute("competitorList", competitorList);
 
-        List<Emails> emailList = emailsRepository.findAll();
+        List<Email> emailList = emailsRepository.findAll();
         model.addAttribute("emailList", emailList);
+
 
         if (urlList == null || emailList == null) {
             return "{\"status\": \"failure\", \"message\": \"No Data\"}";
