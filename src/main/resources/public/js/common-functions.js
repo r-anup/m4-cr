@@ -10,6 +10,7 @@ function getScoreEntities(response) {
         data['lighthouseResult'] = response.lighthouseResult;
         data['score'] = response.lighthouseResult.score;
         data['screenshots'] = response['screenshots'];
+        data['finalScreenshot'] = response['finalScreenshot'];
     } else {
         /* data coming directly from server call */
         var result = response.lighthouseResult || response;
@@ -18,6 +19,7 @@ function getScoreEntities(response) {
         data['lighthouseResult'] = result.audits;
         data['url'] = response.finalUrl;
         data['screenshots'] = result.audits['screenshot-thumbnails'].details.items;
+        data['finalScreenshot'] = result.audits['final-screenshot'].details;
     }
 
     data['showLoadingExperience'] = false;
@@ -366,6 +368,8 @@ function plotLineChart(data, elem) {
     if (Math.min(...data.values) > 1000) {
         convertToSec = true;
     }
+
+    var stackName = ((data.competitorValues) ? 'CRO' : 'Standard');
     var option = {
         grid: {
             width: '90%',
@@ -403,10 +407,10 @@ function plotLineChart(data, elem) {
             type: 'value'
         },
         series: [{
-            name: 'Standard',
+            name: stackName,
             data: data.values,
             type: 'line',
-            stack: 'Standard',
+            stack: stackName,
             smooth: true,
             label: {
                 normal: {
@@ -427,12 +431,54 @@ function plotLineChart(data, elem) {
         ]
     };
 
-    if (globalData.isDisplayEMA) {
+    if (data.competitorValues) {
+        option.series.push({
+            data: data.competitorValues,
+            name: 'Competitor',
+            type: 'line',
+            smooth: true,
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top',
+                    formatter: function(params) {
+                        var value = params.value;
+                        if (convertToSec) {
+                            value = (Math.round(value / 10) / 100);
+                        }
+                        value = value.toLocaleString();
+                        return value;
+                    }
+                }
+            },
+        });
+
+        option.legend =  {
+            color: '#0946ff',
+            data:[
+                {
+                    name: stackName,
+                    textStyle: {
+                        color: '#0946ff'
+                    }
+                },{
+                    name: 'Competitor',
+                    textStyle: {
+                        color: '#0946ff'
+                    }
+                }],
+            orient: 'vertical',
+            left: 0,
+            top: 20,
+        };
+    }
+
+    if (globalData.isDisplayEMA && !data.competitorValues) {
         option.series.push({
             data: EMACalc(data.values, 6),
             name: 'EMA',
             type: 'line',
-            stack: 'Standard',
+            stack: stackName,
             smooth: true,
             label: {
                 normal: {
@@ -453,7 +499,7 @@ function plotLineChart(data, elem) {
             color: '#0946ff',
                 data:[
                 {
-                    name: 'Standard',
+                    name: stackName,
                     textStyle: {
                         color: '#0946ff'
                     }

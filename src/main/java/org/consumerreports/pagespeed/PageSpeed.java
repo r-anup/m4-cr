@@ -2,6 +2,7 @@ package org.consumerreports.pagespeed;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +37,9 @@ public class PageSpeed {
     private static final String PAGE_SPEED_API_GOOGLE =  "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&prettyPrint=true&url=%s&strategy=%s&key=%s";
     private static final String KEY = "AIzaSyAQp8vshwJq1nwhsryxOfK__GshqnpXvUA";
 
+    private static final ObjectMapper objectMapper =
+            new ObjectMapper()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     static {
         httpClient = HttpClientBuilder.create().build();
@@ -147,16 +151,17 @@ public class PageSpeed {
 
             formattedData.put("fetchTime",               data.getString("fetchTime"));
             formattedData.put("screenshots",             data.getJSONObject("audits").getJSONObject("screenshot-thumbnails").getJSONObject("details").getJSONArray("items"));
+            formattedData.put("finalScreenshot",         data.getJSONObject("audits").getJSONObject("final-screenshot").getJSONObject("details"));
+
             List<Screenshot> list = new ArrayList<Screenshot>();
             JSONArray jsonArr = formattedData.getJSONArray("screenshots");
-
             for (int i = 0; i < jsonArr.length(); i++) {
                 JSONObject jsonObj = jsonArr.getJSONObject(i);
-                ObjectMapper mapper = new ObjectMapper();
-                Screenshot screenshot = mapper.readValue(jsonObj.toString(), Screenshot.class);
+                Screenshot screenshot = objectMapper.readValue(jsonObj.toString(), Screenshot.class);
                 list.add(screenshot);
             }
 
+            Screenshot finalScreenshot = objectMapper.readValue(formattedData.getJSONObject("finalScreenshot").toString(), Screenshot.class);
 
             Diagnostics diagnostics = null;
             JSONObject diagnosticsData = new JSONObject();
@@ -184,7 +189,8 @@ public class PageSpeed {
                         true,
                         lighthouseResult,
                         diagnostics,
-                        list);
+                        list,
+                        finalScreenshot);
                 metricsRepository.save(m);
 
                 CroUrl croUrl = urlsRepository.findFirstByUrl(url);

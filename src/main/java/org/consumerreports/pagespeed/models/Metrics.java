@@ -15,6 +15,7 @@ public class Metrics {
     public LighthouseResult lighthouseResult;
     public Diagnostics diagnostics;
     public List<Screenshot> screenshots;
+    public Screenshot finalScreenshot;
 
 
     public Metrics() {
@@ -25,7 +26,7 @@ public class Metrics {
     }
 
 
-    public Metrics(String url, String deviceType, Date fetchTime, Boolean isDataFormatted, LighthouseResult lighthouseResult, Diagnostics diagnostics, List<Screenshot> screenshots) {
+    public Metrics(String url, String deviceType, Date fetchTime, Boolean isDataFormatted, LighthouseResult lighthouseResult, Diagnostics diagnostics, List<Screenshot> screenshots, Screenshot finalScreenshot) {
         this.url = url;
         this.deviceType = deviceType;
         this.fetchTime = fetchTime;
@@ -33,6 +34,7 @@ public class Metrics {
         this.lighthouseResult = lighthouseResult;
         this.diagnostics = diagnostics;
         this.screenshots = screenshots;
+        this.finalScreenshot = finalScreenshot;
     }
 
 
@@ -84,6 +86,14 @@ public class Metrics {
 
     public void setScreenshots(List<Screenshot> screenshots) {
         this.screenshots = screenshots;
+    }
+
+    public Screenshot getFinalScreenshot() {
+        return finalScreenshot;
+    }
+
+    public void setFinalScreenshot(Screenshot finalScreenshot) {
+        this.finalScreenshot = finalScreenshot;
     }
 
     public LighthouseResult getLighthouseResult() {

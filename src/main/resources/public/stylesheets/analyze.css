@@ -514,3 +514,8 @@ html[dir=rtl] .result-container {
     border-radius: 4px;
     width: 100%
 }
+
+.finalScreenshot img {
+    max-width: 100%;
+    max-height: 30rem;
+}

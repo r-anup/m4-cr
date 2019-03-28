@@ -275,8 +275,6 @@
                 } else if(globalData.leftDate != null && globalData.rightDate != null) {
                     displayMetricsData([globalData.url], [globalData.leftDate, globalData.rightDate], globalData.strategy);
                 }
-
-
                 loadDarkMode();
             });
 
@@ -319,11 +317,25 @@
                 }
             }
 
-            var plotAllineChart = function(days, scores) {
-                Object.keys(scores).forEach(function (key) {
-                    $('.chart-' + key).parent().attr('id', 'chart-' + key);
-                    plotLineChart({days: days, values: scores[key]}, '.chart-' + key);
-                });
+            var plotAllineChart = function(days, scores, competitorScores) {
+                if (competitorScores) {
+                    Object.keys(scores).forEach(function (key) {
+                        $('.chart-' + key).parent().attr('id', 'chart-' + key);
+                        plotLineChart({
+                            days: days,
+                            values: scores[key],
+                            competitorValues: competitorScores[key]
+                        }, '.chart-' + key);
+                    });
+                } else {
+                    Object.keys(scores).forEach(function (key) {
+                        $('.chart-' + key).parent().attr('id', 'chart-' + key);
+                        plotLineChart({
+                            days: days,
+                            values: scores[key]
+                        }, '.chart-' + key);
+                    });
+                }
             }
 
 
@@ -376,7 +388,7 @@
                                 "sub-title": "",
                                 "left-value": percentageFormatter(leftdata['lighthouseResult'].score),
                                 "chart__stat-number--compare-left-class": "chart-lighthouse-score metric-bg--" + getScaleFromScore(leftdata['lighthouseResult'].score).scale,
-                                "chart__stat-number--compare-right-class": "chart-lighthouse-score metric-bg--" + getScaleFromScore(leftdata['lighthouseResult'].score).scale,
+                                "chart__stat-number--compare-right-class": "chart-lighthouse-score metric-bg--" + getScaleFromScore(rightdata['lighthouseResult'].score).scale,
                                 "compare": compareValue,
                                 'compare-arrow-class': compareArrowClass,
                                 'compare-color-class': compareColorClass,
@@ -525,29 +537,29 @@
                     $("#metrics-chart").loadTemplate($("#metrics-chart-template"),metricsData, {"append": true});
 
                     plotFileTypeChart(
-                        Object.keys(leftdata['diagnostics'])
+                        Object.keys(rightdata['diagnostics'])
                             .filter(function (key) {
                                 if ($.inArray( key, ["numRequests", "numFonts", "numScripts", "numStylesheets"] ) >= 0) {
                                     return true;
                                 }
                             }).map(function (key) {
                             return {
-                                name: leftdata['diagnostics'][key].title,
-                                value: leftdata['diagnostics'][key].value
+                                name: rightdata['diagnostics'][key].title,
+                                value: rightdata['diagnostics'][key].value
                             };
                         }), '.file-type-chart', 'Page weight', false
                     );
 
                     plotFileTypeChart(
-                        Object.keys(leftdata['diagnostics'])
+                        Object.keys(rightdata['diagnostics'])
                             .filter(function (key) {
                                 if ($.inArray( key, ["numTasksOver10ms", "numTasksOver25ms", "numTasksOver50ms", "numTasksOver100ms", "numTasksOver500ms"] ) >= 0) {
                                     return true;
                                 }
                             }).map(function (key) {
                             return {
-                                name: leftdata['diagnostics'][key].title,
-                                value: leftdata['diagnostics'][key].value
+                                name: rightdata['diagnostics'][key].title,
+                                value: rightdata['diagnostics'][key].value
                             };
                         }), '.tasks-chart', 'Page tasks', false
                     );
@@ -591,36 +603,58 @@
                         $("#showEMA").prop("checked", true);
                     }
 
-                    $.ajax({
-                        data: {
-                            url: urls[0],
-                            strategy: strategy,
-                        },
-                        dataType: 'json',
-                        method: 'GET',
-                        url: "/metrics/url/score",
-                        success: function(response) {
-                            var data = {days: [], scores: {}};
-                            $.each(response.reverse(), function (idx, item) {
-                                var dt = new Date(item.fetchTime);
-                                data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
-                                Object.keys(item.lighthouseResult).forEach(function (key) {
-                                    if (!data.scores[key]) data.scores[key] = [];
-                                    var itemValue = item.lighthouseResult[key].displayValue;
-                                    if (itemValue) {
-                                        itemValue = timeMiliSecondSanitize(itemValue);
-                                    } else {
-                                        itemValue = Math.round(item.lighthouseResult[key]*100);
-                                    }
-                                    data.scores[key].push(itemValue);
-                                });
-                            });
 
-                            globalData.scores = data.scores;
-                            globalData.days = data.days;
-                            plotAllineChart(globalData.days, globalData.scores);
-
+                    var generateScoreRequests = function(urls, strategy) {
+                        var generateRequest = function(url, strategy) {
+                            return $.ajax({
+                                data: {
+                                    url: url,
+                                    strategy: strategy,
+                                },
+                                dataType: 'json',
+                                method: 'GET',
+                                url: '/metrics/url/score',
+                            })
                         }
+
+                        return urls.map(function (url) {
+                            return generateRequest(url, strategy);
+                        });
+                    };
+
+                    var generateScoreData = function(response) {
+                        var data = {days: [], scores: {}};
+                        $.each(response.reverse(), function (idx, item) {
+                            var dt = new Date(item.fetchTime);
+                            data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
+                            Object.keys(item.lighthouseResult).forEach(function (key) {
+                                if (!data.scores[key]) data.scores[key] = [];
+                                var itemValue = item.lighthouseResult[key].displayValue;
+                                if (itemValue) {
+                                    itemValue = timeMiliSecondSanitize(itemValue);
+                                } else {
+                                    itemValue = Math.round(item.lighthouseResult[key]*100);
+                                }
+                                data.scores[key].push(itemValue);
+                            });
+                        });
+                        return data;
+                    }
+
+                    var scoreRequests = generateScoreRequests(urls, strategy);
+                    $.when.apply(this, scoreRequests).then(function (res1, res2) {
+                        if (res2 != "success") {
+                            globalData.scores = generateScoreData(res1[0]).scores;
+                            globalData.competitorScores = generateScoreData(res2[0]).scores;
+                            globalData.days = generateScoreData(res1[0]).days;
+                            plotAllineChart(globalData.days, globalData.scores, globalData.competitorScores);
+                        } else {
+                            globalData.scores = generateScoreData(res1).scores;
+                            globalData.days = generateScoreData(res1).days;
+                            plotAllineChart(globalData.days, globalData.scores);
+                        }
+
+
                     });
 
                     leftdata['screenshots'].forEach(function (screenshot) {
@@ -652,7 +686,15 @@
                  </div>
             </span>
                 on <span id="date-right-text" class="dotted-underline"></span><input type="hidden" id="date-right">
-                compared to <span id="date-left-text" class="dotted-underline">03/08/2019</span><input type="hidden" id="date-left">
+                compared to
+
+                <span th:if="${tab == 'metrics'}" th:remove="tag">
+                <span id="date-left-text" class="dotted-underline">03/08/2019</span><input type="hidden" id="date-left">
+                </span>
+
+                <span th:if="${tab == 'benchmark'}" th:remove="tag">
+                    <span class="dotted-underline" th:text="${benchmarkTitle}"/>
+                </span>
 
                 for <span class="btn-group"><span id="dropdown-menu-strategy-id" class="dotted-underline" data-toggle="dropdown">mobile</span>
                 <div class="dropdown-menu dropdown-menu-strategy-container" aria-labelledby="dropdown-menu-strategy-id">
@@ -692,17 +734,28 @@
 
         <div class="d-flex stats pt-4 metrics-chart lh-vars lab-data" id="metrics-chart">
             <div class="chart__stat--compare metric-title-container">
-                <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Metric <br><br>
+                <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Metric <br>
+                    <span th:if="${tab == 'metrics'}" th:remove="tag">
+                    <br>
                     <div class="form-group">
                       <span class="switch switch-md">
                         <input type="checkbox" class="switch" id="showEMA">
                         <label for="showEMA">Display EMA</label>
                       </span>
                     </div>
+                    </span>
                 </div>
-                <div class="chart__stat-metric">Previous <br><span class="date-left-header"></span></div>
-                <div class="chart__stat-metric">Change</div>
-                <div class="chart__stat-metric">Latest <br><span class="date-right-header"></span></div>
+                <span th:if="${tab == 'metrics'}" th:remove="tag">
+                    <div class="chart__stat-metric">Previous <br><span class="date-left-header"></span></div>
+                    <div class="chart__stat-metric">Change</div>
+                    <div class="chart__stat-metric">Latest <br><span class="date-right-header"></span></div>
+                </span>
+
+                <span th:if="${tab == 'benchmark'}" th:remove="tag">
+                <div class="chart__stat-metric" style="word-break: break-word"><span th:text="${pageTitle}"/><br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${url}"/></div>
+                <div class="chart__stat-metric">Comparision</div>
+                <div class="chart__stat-metric"  style="word-break: break-word"><span th:text="${benchmarkTitle}"/><br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${benchmarkurl}"/> <br></div>
+                </span>
             </div>
         </div>
 

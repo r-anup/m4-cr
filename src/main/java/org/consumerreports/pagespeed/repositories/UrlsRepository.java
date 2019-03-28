@@ -17,4 +17,7 @@ public interface UrlsRepository extends MongoRepository<CroUrl, String> {
 
     @Query(value="{}", fields="{url: 1}", sort = "{sortOrder: 1}")
     List<CroUrl> findAllUrls();
+
+
+    List<CroUrl> findAllByCompetitorUrlIsNotNullOrderBySortOrderAsc();
 }

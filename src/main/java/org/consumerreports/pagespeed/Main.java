@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -120,10 +121,10 @@ public class Main {
 
 
 
-    @RequestMapping(value = "/metrics.html", method = RequestMethod.GET)
+    @RequestMapping(value = {"/metrics.html", "/benchmark.html"}, method = RequestMethod.GET)
     String metrics(
-            @RequestParam(value = "url", required = false, defaultValue = "https://www.consumerreports.org/cro/index.htm") String url,
-            @RequestParam(value = "benchmarkurl", required = false) String benchmarkurl,
+            HttpServletRequest request,
+            @RequestParam(value = "url", required = false, defaultValue = "https://www.consumerreports.org/cro/washing-machines.htm") String url,
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Strategy strategy,
             @RequestParam(value = "date", required = false) String date,
@@ -134,20 +135,33 @@ public class Main {
             @CookieValue(value = "isDisplayEMA", required = false, defaultValue = "false") boolean isDisplayEMA,
             Model model
             ) {
+        String path = request.getServletPath();
+
+        CroUrl croUrl = urlsRepository.findFirstByUrl(url);
+        if (croUrl != null) {
+            model.addAttribute("pageTitle", croUrl.title);
+        } else {
+            model.addAttribute("pageTitle", title);
+        }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
 
-        if (date == null) {
+        List<CroUrl> urlList = null;
+        String benchmarkUrl = null;
+        String benchmarkTitle = null;
+        String tab = null;
+        if (path.equalsIgnoreCase("/metrics.html")) {
+            tab = "metrics";
+            urlList = urlsRepository.findAll(Sort.by("sortOrder"));
+
             if (rightDate == null) {
                 rightDate = simpleDateFormat.format(new Date());
             }
             if (leftDate == null) {
                 leftDate = simpleDateFormat.format(CommonUtil.addDays(new Date(), -1));
             }
-        }
 
-        if (leftDate != null && rightDate != null) {
             try {
                 if (new SimpleDateFormat("MM/dd/yyyy").parse(leftDate).compareTo(new SimpleDateFormat("MM/dd/yyyy").parse(rightDate)) > 0) {
                     String tempDate = leftDate;
@@ -157,27 +171,27 @@ public class Main {
             } catch (ParseException e) {
                 LOG.error("Error parsing date string");
             }
-        }
-
-        List<CroUrl> urlList = urlsRepository.findAll(Sort.by("sortOrder"));
-
-        CroUrl croUrl = urlsRepository.findFirstByUrl(url);
-        if (croUrl != null) {
-            model.addAttribute("pageTitle", croUrl.title);
-        } else {
-            model.addAttribute("pageTitle", title);
+        } else if (path.equalsIgnoreCase("/benchmark.html")) {
+            tab = "benchmark";
+            urlList = urlsRepository.findAllByCompetitorUrlIsNotNullOrderBySortOrderAsc();
+            benchmarkUrl = croUrl.getCompetitorUrl().getUrl();
+            benchmarkTitle = croUrl.getCompetitorUrl().getTitle() + "-" + croUrl.getCompetitorUrl().getBrand();
+            if (date == null) {
+                date = simpleDateFormat.format(new Date());
+            }
         }
 
         model.addAttribute("urlList", urlList);
         model.addAttribute("url", url);
-        model.addAttribute("benchmarkurl", benchmarkurl);
+        model.addAttribute("benchmarkurl", benchmarkUrl);
+        model.addAttribute("benchmarkTitle", benchmarkTitle);
         model.addAttribute("strategy", strategy);
         model.addAttribute("leftDate", leftDate);
         model.addAttribute("rightDate", rightDate);
         model.addAttribute("date", date);
         model.addAttribute("isDarkMode", isDarkMode);
         model.addAttribute("isDisplayEMA", isDisplayEMA);
-        model.addAttribute("tab", "metrics");
+        model.addAttribute("tab", tab);
         return "metrics";
     }
 

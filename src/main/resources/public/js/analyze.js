@@ -2,10 +2,6 @@
 
 
 
-//TODO: remove this variable
-var responseData = {};
-
-
 var urlParams = new URLSearchParams(window.location.search);
 var urlStr = urlParams.get('url');
 if (urlStr != null) {
@@ -184,9 +180,11 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
             $("#screenshots").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
         });
 
-        $(".tab-bar-wrapper").show();
+       if(data.finalScreenshot) {
+           $("#finalScreenshot").html('<img src="' + data.finalScreenshot.data + '" alt="thumbnail" />');
+       }
 
-        responseData = mainAPIResponse;
+        $(".tab-bar-wrapper").show();
 
         $('.report-summary').show();
 

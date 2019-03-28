@@ -8,6 +8,10 @@
                 margin-bottom: 0 !important;
             }
 
+            .table td, .table th{
+                word-break: break-word;
+            }
+
             .btn {
                 font-size: 1.3rem !important;
             }
@@ -189,68 +193,74 @@
                 });
 
 
+                var processURLs = function(urls, container) {
+                    var processIndex = -1;
+                    var processStrategy = "mobile";
+                    var processURLsLength = urls.length;
+                    var stopProcessing = false;
+                    var submitBtn = $(container + " .submit-btn");
 
-                var processIndex = -1;
-                var processStrategy = "mobile";
-                var processURLsLength = globalData.croURLs.length;
-                var stopProcessing = false;
-                $("#process-lighthouse-reports").on("click", function() {
-                    $(this).html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop Processing...');
-                    if (processIndex >= 0) {
-                        clearTimeSpent();
-                        stopProcessing = true;
-                        $("#process-lighthouse-reports").html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopping...');
-                        return;
-                    }
-                    processIndex = 0;
-                    startTimeSpent();
-                    var processURL = function () {
-                        if (stopProcessing) {
-                            $(".run-status").hide();
-                            $("#process-lighthouse-reports").html("Process Lighthouse reports");
+                    submitBtn.on("click", function () {
+                        $(this).html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop Processing...');
+                        if (processIndex >= 0) {
+                            clearTimeSpent();
+                            stopProcessing = true;
+                            submitBtn.html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopping...');
                             return;
                         }
-                        if (processStrategy == "mobile" && processIndex == processURLsLength) {
-                            processStrategy = "desktop";
-                            processIndex = 0;
-                        }
-                        if (processStrategy == "desktop" && processIndex == processURLsLength) {
-                            $(".run-status").hide();
-                            $("#process-lighthouse-reports").html("Process Lighthouse reports");
-                            return;
-                        }
-
-                        $(".run-url").html(globalData.croURLs[processIndex]);
-                        $(".run-strategy").html(processStrategy);
-                        $(".run-current-number").html((processStrategy == "mobile")?processIndex+1:processURLsLength+processIndex+1);
-                        $(".run-total").html(2*processURLsLength);
-
-                        $.ajax({
-                            data: {
-                                url: globalData.croURLs[processIndex],
-                                strategy: processStrategy,
-                                category: 'performance',
-                                locale: 'en_US',
-                                fetchSource: 'lightHouseAndSave',
-                            },
-                            dataType: 'json',
-                            method: 'GET',
-                            url: "/lighthouse",
-                            success: function (response) {
-                                processIndex++;
-                                processURL();
-                            },
-                            error: function(response) {
-                                processIndex++;
-                                processURL();
+                        processIndex = 0;
+                        startTimeSpent();
+                        var processURL = function () {
+                            if (stopProcessing) {
+                                $(".run-status").hide();
+                                submitBtn.html("Process Lighthouse reports");
+                                return;
                             }
-                        });
-                    }
-                    processURL();
-                    $(".run-status").show();
+                            if (processStrategy == "mobile" && processIndex == processURLsLength) {
+                                processStrategy = "desktop";
+                                processIndex = 0;
+                            }
+                            if (processStrategy == "desktop" && processIndex == processURLsLength) {
+                                $(".run-status").hide();
+                                submitBtn.html("Process Lighthouse reports");
+                                return;
+                            }
 
-                });
+                            $(container).find(".run-url").html(urls[processIndex]);
+                            $(container).find(".run-strategy").html(processStrategy);
+                            $(container).find(".run-current-number").html((processStrategy == "mobile") ? processIndex + 1 : processURLsLength + processIndex + 1);
+                            $(container).find(".run-total").html(2 * processURLsLength);
+
+                            $.ajax({
+                                data: {
+                                    url: urls[processIndex],
+                                    strategy: processStrategy,
+                                    category: 'performance',
+                                    locale: 'en_US',
+                                    fetchSource: 'lightHouseAndSave',
+                                },
+                                dataType: 'json',
+                                method: 'GET',
+                                url: "/lighthouse",
+                                success: function (response) {
+                                    processIndex++;
+                                    processURL();
+                                },
+                                error: function (response) {
+                                    processIndex++;
+                                    processURL();
+                                }
+                            });
+                        }
+                        processURL();
+                        $(container).find(".run-status").show();
+
+                    });
+                };
+                processURLs(globalData.croURLs, ".process-lighthouse-reports-cro-container");
+                processURLs(globalData.competitorURLs, ".process-lighthouse-reports-competitor-container");
             });
+
         </script>
 
 
@@ -318,8 +328,8 @@
                         </tr>
                         <tr>
                             <th class="checkbox-col" scope="col"></th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Brand</th>
+                            <th scope="col" style="width: 150px">Title</th>
+                            <th scope="col" style="width: 150px">Brand</th>
                             <th scope="col">URL</th>
                         </tr>
                         </thead>
@@ -359,25 +369,27 @@
                     <table class="table table-striped table-hover">
                         <thead class="thead-light">
                             <tr>
-                                <th  style="background: #038a3e; color: #fff;" colspan="3" scope="col">Competitor-CRO Mapping</th>
+                                <th  style="background: #038a3e; color: #fff;" colspan="4" scope="col">Competitor-CRO Mapping</th>
                             </tr>
                             <tr>
-                                <th class="checkbox-col" scope="col"></th>
+                                <th class="checkbox-col" scope="col" style="width: 20px"></th>
+                                <th scope="col" style="width: 150px">Title</th>
                                 <th scope="col">Competitor URL</th>
-                                <th scope="col">CRO URL</th>
+                                <th scope="col" style="width: 45%">CRO URL</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="url : *{urlList}">
                                 <span th:if="${url.competitorUrl!= null}" th:remove="tag">
                                 <td  class="checkbox-col"><input class="form-check-input" type="checkbox" value=""></td>
+                                <td th:text="${url.title}"></td>
                                 <td th:text="${url.competitorUrl.url}"></td>
                                 <td th:text="${url.url}"></td>
                                 </span>
                             </tr>
                             <tr class="collapse add-form-input" id="competitor-mapping-add-form-input">
                                 <td class="checkbox-col"></td>
-
+                                <td></td>
                                 <td><input name="mapping-url-competitor" type="text" placeholder="Select Competitor URL" class="form-control data-required mapping-url-competitor typeahead">
                                     <div class="invalid-feedback">Please provide a URL.</div>
                                 </td>
@@ -438,7 +450,7 @@
                 </div>
             </div>
 
-            <div  class="d-flex flex-column pt-5">
+            <div  class="d-flex flex-column pt-5 process-lighthouse-reports process-lighthouse-reports-cro-container">
 
                 <div class="run-status" style="font-size: 1.4rem; display: none;">
                     <div><strong>Currently processing for... </strong></div>
@@ -458,7 +470,33 @@
                     </div>
                 </div>
                 <div class="justify-content-left pt-4">
-                    <button id="process-lighthouse-reports" type="button" class="btn btn-lg btn-primary submit-btn">Process Lighthouse reports</button>
+                    <button type="button" class="btn btn-lg btn-primary submit-btn">Process Lighthouse reports</button>
+                </div>
+            </div>
+
+
+
+            <div  class="d-flex flex-column pt-5 process-lighthouse-reports process-lighthouse-reports-competitor-container">
+
+                <div class="run-status" style="font-size: 1.4rem; display: none;">
+                    <div><strong>Currently processing for... </strong></div>
+                    <div class="d-block-flex">
+                        <div>
+                            <strong>Processing: </strong><span class="run-current-number"></span> of <span class="run-total"></span>
+                        </div>
+                        <div>
+                            <strong>URL: </strong><span class="run-url"></span>
+                        </div>
+                        <div>
+                            <strong>Strategy: </strong><span class="run-strategy"></span>
+                        </div>
+                        <div>
+                            <strong>Time spent: </strong><span class="run-time">00:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="justify-content-left pt-4">
+                    <button type="button" class="btn btn-lg btn-primary submit-btn">Process Lighthouse reports for Competitors</button>
                 </div>
             </div>
 

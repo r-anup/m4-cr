@@ -1,11 +1,14 @@
 package org.consumerreports.pagespeed.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class Screenshot {
 
     public String data;
+
+    @JsonIgnoreProperties
     public String timing;
     public String timestamp;
 
