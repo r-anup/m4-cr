@@ -271,7 +271,7 @@
                 window.history.pushState(null, null, window.location.origin +  window.location.pathname + "?" + urlParams.toString());
 
                 if(globalData.benchmarkurl != null && globalData.date != null) {
-                    displayMetricsData([globalData.url, globalData.benchmarkurl], [globalData.date], globalData.strategy);
+                    displayMetricsData([globalData.benchmarkurl, globalData.url], [globalData.date], globalData.strategy);
                 } else if(globalData.leftDate != null && globalData.rightDate != null) {
                     displayMetricsData([globalData.url], [globalData.leftDate, globalData.rightDate], globalData.strategy);
                 }
@@ -643,14 +643,16 @@
 
                     var scoreRequests = generateScoreRequests(urls, strategy);
                     $.when.apply(this, scoreRequests).then(function (res1, res2) {
-                        if (res2 != "success") {
-                            globalData.scores = generateScoreData(res1[0]).scores;
-                            globalData.competitorScores = generateScoreData(res2[0]).scores;
-                            globalData.days = generateScoreData(res1[0]).days;
+                        if (Array.isArray(res2) && Array.isArray(res1)) {
+                            var croScoreData = generateScoreData(res2[0]);
+                            globalData.scores = croScoreData.scores;
+                            globalData.competitorScores = generateScoreData(res1[0]).scores;
+                            globalData.days = croScoreData.days;
                             plotAllineChart(globalData.days, globalData.scores, globalData.competitorScores);
-                        } else {
-                            globalData.scores = generateScoreData(res1).scores;
-                            globalData.days = generateScoreData(res1).days;
+                        } else if (Array.isArray(res1) && !Array.isArray(res2)) {
+                            var croScoreData = generateScoreData(res1);
+                            globalData.scores = croScoreData.scores;
+                            globalData.days = croScoreData.days;
                             plotAllineChart(globalData.days, globalData.scores);
                         }
 
@@ -752,9 +754,9 @@
                 </span>
 
                 <span th:if="${tab == 'benchmark'}" th:remove="tag">
-                <div class="chart__stat-metric" style="word-break: break-word"><span th:text="${pageTitle}"/><br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${url}"/></div>
-                <div class="chart__stat-metric">Comparision</div>
-                <div class="chart__stat-metric"  style="word-break: break-word"><span th:text="${benchmarkTitle}"/><br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${benchmarkurl}"/> <br></div>
+                    <div class="chart__stat-metric"  style="word-break: break-word"><span th:text="${benchmarkTitle}"/><br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${benchmarkurl}"/> <br></div>
+                    <div class="chart__stat-metric">Comparision</div>
+                    <div class="chart__stat-metric" style="word-break: break-word"><span th:text="${pageTitle}"/> (CRO)<br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${url}"/></div>
                 </span>
             </div>
         </div>

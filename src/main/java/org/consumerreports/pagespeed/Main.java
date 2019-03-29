@@ -175,7 +175,7 @@ public class Main {
             tab = "benchmark";
             urlList = urlsRepository.findAllByCompetitorUrlIsNotNullOrderBySortOrderAsc();
             benchmarkUrl = croUrl.getCompetitorUrl().getUrl();
-            benchmarkTitle = croUrl.getCompetitorUrl().getTitle() + "-" + croUrl.getCompetitorUrl().getBrand();
+            benchmarkTitle = croUrl.getCompetitorUrl().getTitle() + " (" + croUrl.getCompetitorUrl().getBrand() + ")";
             if (date == null) {
                 date = simpleDateFormat.format(new Date());
             }

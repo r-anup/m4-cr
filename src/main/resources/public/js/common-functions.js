@@ -454,17 +454,17 @@ function plotLineChart(data, elem) {
         });
 
         option.legend =  {
-            color: '#0946ff',
+            color: '#007bff',
             data:[
                 {
                     name: stackName,
                     textStyle: {
-                        color: '#0946ff'
+                        color: '#007bff'
                     }
                 },{
                     name: 'Competitor',
                     textStyle: {
-                        color: '#0946ff'
+                        color: '#007bff'
                     }
                 }],
             orient: 'vertical',
@@ -496,17 +496,17 @@ function plotLineChart(data, elem) {
             },
         });
         option.legend =  {
-            color: '#0946ff',
+            color: '#007bff',
                 data:[
                 {
                     name: stackName,
                     textStyle: {
-                        color: '#0946ff'
+                        color: '#007bff'
                     }
                 },{
                     name: 'EMA',
                     textStyle: {
-                        color: '#0946ff'
+                        color: '#007bff'
                     }
                 }],
                 orient: 'vertical',
