@@ -404,7 +404,7 @@ function plotLineChart(data, elem) {
         },
         yAxis: {
             show: false,
-            type: 'value'
+            type: 'value',
         },
         series: [{
             name: stackName,

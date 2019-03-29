@@ -641,13 +641,43 @@
                         return data;
                     }
 
+                     var getAllIndexes = function(arr, val) {
+                        var indexes = [], i = -1;
+                        while ((i = arr.indexOf(val, i+1)) != -1){
+                            indexes.push(i);
+                        }
+                        return indexes;
+                    }
+
+                    var generateCompetitorScoreData = function(response, days) {
+                        var data = {days: days, scores: {}};
+                        $.each(response, function (idx, item) {
+                                var dt = new Date(item.fetchTime);
+                                var day = (dt.getMonth()+1)+"/"+dt.getDate()
+                                var indexes = getAllIndexes(days, day);
+                                Object.keys(item.lighthouseResult).forEach(function (key) {
+                                    if (!data.scores[key]) data.scores[key] = [];
+                                    var itemValue = item.lighthouseResult[key].displayValue;
+                                    if (itemValue) {
+                                        itemValue = timeMiliSecondSanitize(itemValue);
+                                    } else {
+                                        itemValue = Math.round(item.lighthouseResult[key]*100);
+                                    }
+                                    indexes.forEach(function (index) {
+                                        data.scores[key][index] = itemValue;
+                                    });
+                                });
+                            });
+                            return data;
+                        }
+
                     var scoreRequests = generateScoreRequests(urls, strategy);
                     $.when.apply(this, scoreRequests).then(function (res1, res2) {
                         if (Array.isArray(res2) && Array.isArray(res1)) {
                             var croScoreData = generateScoreData(res2[0]);
                             globalData.scores = croScoreData.scores;
-                            globalData.competitorScores = generateScoreData(res1[0]).scores;
                             globalData.days = croScoreData.days;
+                            globalData.competitorScores = generateCompetitorScoreData(res1[0],  globalData.days).scores;
                             plotAllineChart(globalData.days, globalData.scores, globalData.competitorScores);
                         } else if (Array.isArray(res1) && !Array.isArray(res2)) {
                             var croScoreData = generateScoreData(res1);
