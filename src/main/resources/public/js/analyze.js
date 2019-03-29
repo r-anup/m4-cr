@@ -5,6 +5,7 @@
 var urlParams = new URLSearchParams(window.location.search);
 var urlStr = urlParams.get('url');
 if (urlStr != null) {
+    urlStr = urlStr.trim();
     var url = decodeURIComponent(urlStr);
 
     if (!url.startsWith('http', 0)) {
@@ -24,6 +25,7 @@ if (urlStr != null) {
 $(document).on("click", ".main-submit", function () {
     var inputURL = $(".main-action input[name='url']");
     var inputURLStr = inputURL.val();
+    inputURLStr = inputURLStr.trim();
     if (!inputURLStr.startsWith('http', 0)) {
         inputURLStr = "http://" + inputURLStr;
         inputURL.val(inputURLStr);
