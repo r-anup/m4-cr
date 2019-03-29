@@ -5,6 +5,11 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <style>
 
+            #metrics-chart a {
+                color: #a0bfff;
+            }
+
+
 
             .metric-title-container {
                 font-weight: 800;
@@ -251,12 +256,12 @@
                     datepicker("date-left", "date-left-text", "leftDate", globalData.leftDate);
                 }
 
-                if (globalData.rightDate) {
+                if (globalData.date) {
+                    datepicker("date", "date-text", "date", globalData.date);
+                } else if (globalData.rightDate) {
                     datepicker("date-right", "date-right-text", "rightDate", globalData.rightDate);
                 }
-                if (globalData.date) {
-                    datepicker("date-right", "date-right-text", "rightDate", globalData.date);
-                }
+
 
                 urlpicker();
                 strategypicker();
@@ -281,6 +286,14 @@
             var setDateStats = function(dateId, date, textId) {
                 if (date != undefined && date != "") {
                     $("#"+dateId).datepicker("setDate", date);
+                    var url = globalData.url;
+                    if(globalData.benchmarkurl != null && globalData.date != null) {
+                        $(".date-benchmark-header-link").attr("href", "/analyze.html?url=" + globalData.benchmarkurl + "&strategy=" + globalData.strategy + "&date=" + date +  "&fetchSource=repository");
+                        $(".date-cro-header-link").attr("href", "/analyze.html?url=" + globalData.url + "&strategy=" + globalData.strategy + "&date=" + date +  "&fetchSource=repository");
+
+                    } else {
+                        $("." + dateId + "-header-link").attr("href", "/analyze.html?url=" + globalData.url + "&strategy=" + globalData.strategy + "&date=" + date + "&fetchSource=repository");
+                    }
                     $("#"+textId).html(date);
                 }
                 $("#"+textId).click(function() {
@@ -343,6 +356,8 @@
                 var requests = generateRequests(urls, dates, strategy);
                 $.when.apply(this, requests).then(function (leftDateResponseArr, rightDateResponseArr) {
                     $(".loading-spinner").hide();
+                    $("#metrics-chart").show();
+                    $("#screenshots-chart").show();
                     var leftDateResponse = {};
                     var rightDateResponse = {};
                     if (typeof(rightDateResponseArr) === 'undefined' || rightDateResponseArr == null || rightDateResponseArr == 'success') {
@@ -717,7 +732,9 @@
                     </span>
                  </div>
             </span>
-                on <span id="date-right-text" class="dotted-underline"></span><input type="hidden" id="date-right">
+                on
+                <span id="date-right-text" class="dotted-underline"></span><input type="hidden" id="date-right">
+                <span id="date-text" class="dotted-underline"></span><input type="hidden" id="date">
                 compared to
 
                 <span th:if="${tab == 'metrics'}" th:remove="tag">
@@ -764,49 +781,55 @@
             </div>
         </div>
 
-        <div class="d-flex stats pt-4 metrics-chart lh-vars lab-data" id="metrics-chart">
-            <div class="chart__stat--compare metric-title-container">
-                <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Metric <br>
-                    <span th:if="${tab == 'metrics'}" th:remove="tag">
-                    <br>
-                    <div class="form-group">
-                      <span class="switch switch-md">
-                        <input type="checkbox" class="switch" id="showEMA">
-                        <label for="showEMA">Display EMA</label>
-                      </span>
+        <span  id="metrics-chart" class="metrics-chart lh-vars lab-data" style="display: none;">
+            <div class="d-flex stats pt-4">
+                <div class="chart__stat--compare metric-title-container">
+                    <div class="chart__stat-metric chart__stat-metric-title metric-title-column">Metric <br>
+                        <span th:if="${tab == 'metrics'}" th:remove="tag">
+                        <br>
+                        <div class="form-group">
+                          <span class="switch switch-md">
+                            <input type="checkbox" class="switch" id="showEMA">
+                            <label for="showEMA">Display EMA</label>
+                          </span>
+                        </div>
+                        </span>
                     </div>
+                    <span th:if="${tab == 'metrics'}" th:remove="tag">
+                        <div class="chart__stat-metric">Previous <br><a class="date-left-header-link" href="#"><span class="date-left-header"></span></a></div>
+                        <div class="chart__stat-metric">Change</div>
+                        <div class="chart__stat-metric">Latest <br><a class="date-right-header-link" href="#"><span class="date-right-header"></span></a></div>
+                    </span>
+
+                    <span th:if="${tab == 'benchmark'}" th:remove="tag">
+                        <div class="chart__stat-metric"  style="word-break: break-word"><span th:text="${benchmarkTitle}"/><br><a class="date-benchmark-header-link" href="#"><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${benchmarkurl}"/></a></div>
+                        <div class="chart__stat-metric">Comparision</div>
+                        <div class="chart__stat-metric" style="word-break: break-word"><span th:text="${pageTitle}"/> (CRO)<br><a class="date-cro-header-link" href="#"><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${url}"/></a></div>
                     </span>
                 </div>
-                <span th:if="${tab == 'metrics'}" th:remove="tag">
-                    <div class="chart__stat-metric">Previous <br><span class="date-left-header"></span></div>
-                    <div class="chart__stat-metric">Change</div>
-                    <div class="chart__stat-metric">Latest <br><span class="date-right-header"></span></div>
-                </span>
-
-                <span th:if="${tab == 'benchmark'}" th:remove="tag">
-                    <div class="chart__stat-metric"  style="word-break: break-word"><span th:text="${benchmarkTitle}"/><br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${benchmarkurl}"/> <br></div>
-                    <div class="chart__stat-metric">Comparision</div>
-                    <div class="chart__stat-metric" style="word-break: break-word"><span th:text="${pageTitle}"/> (CRO)<br><span style="font-size: 1.1rem; color: #d2ceff;" th:text="${url}"/></div>
-                </span>
             </div>
-        </div>
 
-        <div class="d-flex stats pt-4 screenshots-chart lh-vars lab-data" id="screenshots-chart">
-            <div class="chart__stat--compare" style="grid-template-columns: 1fr 3fr 0fr 0fr;">
-                <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-left-header"></span></div>
-                <div class="chart__stat-metric" style="overflow-x: scroll;">
-                    <div class="screenshots screenshots-left container-fluid d-flex pt-2 pb-2"></div>
+
+        </span>
+
+        <span id="screenshots-chart" class="screenshots-chart  lh-vars lab-data" style="display: none;">
+            <div class="d-flex stats pt-4">
+                <div class="chart__stat--compare" style="grid-template-columns: 1fr 3fr 0fr 0fr;">
+                    <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-left-header"></span></div>
+                    <div class="chart__stat-metric" style="overflow-x: scroll;">
+                        <div class="screenshots screenshots-left container-fluid d-flex pt-2 pb-2"></div>
+                    </div>
+
                 </div>
 
-            </div>
+                <div class="chart__stat--compare" style="grid-template-columns: 1fr 3fr 0fr 0fr;">
+                    <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-right-header">2</span></div>
+                    <div class="chart__stat-metric" style="overflow-x: scroll;">
+                        <div class="screenshots screenshots-right container-fluid d-flex pt-2 pb-2"></div>
+                    </div>
 
-            <div class="chart__stat--compare" style="grid-template-columns: 1fr 3fr 0fr 0fr;">
-                <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-right-header">2</span></div>
-                <div class="chart__stat-metric" style="overflow-x: scroll;">
-                    <div class="screenshots screenshots-right container-fluid d-flex pt-2 pb-2"></div>
                 </div>
-
             </div>
-        </div>
+        </span>
     </body>
 </html>
