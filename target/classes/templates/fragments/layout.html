@@ -199,6 +199,12 @@
                     $(".table").toggleClass("table-dark");
                 });
             }
+
+
+
+            $( function() {
+                loadDarkMode();
+            });
         </script>
         <script type="text/javascript" src="/js/common-functions.js"></script>
 
@@ -206,6 +212,24 @@
         <th:block th:replace="${links}" />
         <th:block th:replace="${styles}" />
         <th:block th:replace="${scripts}" />
+
+        <script>
+            var historyPush = function() {
+                var title = $('.title-text *:not(:empty)*:not(:has(*)):visible').map(function() {return $(this).text()}).get().join("->");
+                var link = window.location.href;
+                if (title != null && title != "" && link.indexOf("?") != -1) {
+                    var localHistory = sessionStorage.getItem('localHistory');
+                    localHistory = localHistory ? JSON.parse(localHistory) : [];
+                    //localHistory = localHistory ? localHistory.split(',') : [];
+                    localHistory.push({date: (new Date().toLocaleString()),title: title, link: link});
+                    sessionStorage.setItem('localHistory', JSON.stringify(localHistory));
+                }
+            }
+
+            $( function() {
+                historyPush();
+            });
+        </script>
     </head>
 
     <body th:classappend="${isDarkMode} ? 'dark-mode-theme' : ''">
@@ -228,6 +252,9 @@
                         </li>
                         <li class="nav-item">
                             <a th:class="${tab} == 'settings' ? 'nav-link active' : 'nav-link'" href="settings.html">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:class="${tab} == 'history' ? 'nav-link active' : 'nav-link'" href="history.html">History</a>
                         </li>
                     </ul>
                 </div>

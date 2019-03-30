@@ -280,7 +280,6 @@
                 } else if(globalData.leftDate != null && globalData.rightDate != null) {
                     displayMetricsData([globalData.url], [globalData.leftDate, globalData.rightDate], globalData.strategy);
                 }
-                loadDarkMode();
             });
 
             var setDateStats = function(dateId, date, textId) {
@@ -720,11 +719,18 @@
     </head>
 
     <body>
-        <div class="d-flex justify-content-left">
-            <h1 class="crux-headline--standard">Page Performance Metrics</h1>
+        <div class="d-flex justify-content-left title-text">
+            <span th:if="${tab == 'metrics'}" th:remove="tag">
+                <h1 class="crux-headline--standard">Page Performance Metrics</h1>
+            </span>
+
+            <span th:if="${tab == 'benchmark'}" th:remove="tag">
+                    <h1 class="crux-headline--standard">Page Performance Benchmark-Comparison</h1>
+            </span>
+
         </div>
 
-        <div class="d-flex justify-content-left pt-4">
+        <div class="d-flex justify-content-left pt-4 title-text">
             <h2>For <span class="btn-group"><span class="dotted-underline" id="dropdown-menu-url-id" data-toggle="dropdown">Homepage</span>
                 <div class="dropdown-menu dropdown-menu-url-container" aria-labelledby="dropdown-menu-url-id">
                     <span th:each="url : *{urlList}" th:remove="tag">
