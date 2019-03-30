@@ -8,12 +8,12 @@
             margin-bottom: 0 !important;
         }
 
-        .table td{
+        .table td {
             font-size: 1.4rem;
         }
 
-        .table th{
-            vertical-align: top;
+        .table th {
+            vertical-align: top !important;
         }
 
         .table td a {
@@ -49,8 +49,15 @@
             }
         }
 
+
+
         $( function() {
             historyFetch();
+
+            $(".clear-history").on("click", function() {
+                sessionStorage.removeItem('localHistory');
+                $(".scroll-container tbody").remove();
+            });
         });
 
     </script>
@@ -69,7 +76,7 @@
     <table id="history_table" class="table table-striped table-hover table-bordered" th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
         <thead th:class="${isDarkMode} ? ' thead-dark' : 'thead-light'">
             <tr>
-                <th scope="col">Time <br><div class="btn btn-info">Clear History</div></th>
+                <th scope="col">Time <br><div class="btn btn-info clear-history">Clear History</div></th>
                 <th scope="col" style="width: 50%; max-width: 45%;">Page</th>
             </tr>
         </thead>
