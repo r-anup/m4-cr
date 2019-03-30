@@ -280,8 +280,8 @@
         <form id="settings-form" method="post" class="needs-validation" novalidate>
             <div id="url-settings" class="settings d-flex flex-column">
                 <div class="justify-content-left">
-                    <table class="table table-striped table-hover">
-                        <thead class="thead-light">
+                    <table class="table table-striped table-hover table-bordered"  th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
+                        <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
                             <tr>
                                 <th  style="background: #038a3e; color: #fff;" colspan="3" scope="col">Templates to Monitor</th>
                             </tr>
@@ -320,8 +320,8 @@
 
             <div id="competitor-settings" class="settings d-flex flex-column pt-5">
                 <div class="justify-content-left">
-                    <table class="table table-striped table-hover">
-                        <thead class="thead-light">
+                    <table class="table table-striped table-hover table-bordered"  th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
+                        <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
                         <tr>
                             <th  style="background: #4c8ca7; color: #fff;" colspan="3" scope="col">Competitors to Monitor</th>
                         </tr>
@@ -365,8 +365,8 @@
 
             <div id="competitor-mapping-settings" class="settings d-flex flex-column pt-5">
                 <div class="justify-content-left">
-                    <table class="table table-striped table-hover">
-                        <thead class="thead-light">
+                    <table class="table table-striped table-hover table-bordered"  th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
+                        <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
                             <tr>
                                 <th  style="background: #038a3e; color: #fff;" colspan="4" scope="col">Competitor-CRO Mapping</th>
                             </tr>
@@ -412,8 +412,8 @@
 
             <div id="email-settings"  class="settings d-flex flex-column pt-5">
                 <div class="justify-content-left">
-                    <table class="table table-striped table-hover">
-                        <thead class="thead-light">
+                    <table class="table table-striped table-hover table-bordered"  th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
+                        <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
                         <tr>
                             <th  style="background: #4c8ca7; color: #fff;" colspan="3" scope="col">Email configuration</th>
                         </tr>
