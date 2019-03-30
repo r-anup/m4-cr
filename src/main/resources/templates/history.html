@@ -8,12 +8,15 @@
             margin-bottom: 0 !important;
         }
 
-        .table td, .table th{
+        .table td{
             font-size: 1.4rem;
-
         }
 
-        .table td div a{
+        .table th{
+            vertical-align: top;
+        }
+
+        .table td a {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -21,6 +24,7 @@
             display: inline-block;
             font-weight: 600;
         }
+
 
         .scroll-container {
             position: relative;
@@ -65,8 +69,8 @@
     <table id="history_table" class="table table-striped table-hover table-bordered" th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
         <thead th:class="${isDarkMode} ? ' thead-dark' : 'thead-light'">
             <tr>
-                <th scope="col">Time</th>
-                <th scope="col" style="width: 55%; max-width: 45%;">Page</th>
+                <th scope="col">Time <br><div class="btn btn-info">Clear History</div></th>
+                <th scope="col" style="width: 50%; max-width: 45%;">Page</th>
             </tr>
         </thead>
         <tbody id="history-chart"></tbody>
