@@ -191,6 +191,9 @@
             globalData.leftDate = /*[[${leftDate}]]*/ "";
             globalData.rightDate = /*[[${rightDate}]]*/ "";
             globalData.isDisplayEMA = /*[[${isDisplayEMA}]]*/ "";
+            globalData.pageTitle = /*[[${pageTitle}]]*/ "";
+            globalData.benchmarkTitle = /*[[${benchmarkTitle}]]*/ "";
+
         </script>
 
         <script>
@@ -289,6 +292,8 @@
                     if(globalData.benchmarkurl != null && globalData.date != null) {
                         $(".date-benchmark-header-link").attr("href", "/analyze.html?url=" + globalData.benchmarkurl + "&strategy=" + globalData.strategy + "&date=" + date +  "&fetchSource=repository");
                         $(".date-cro-header-link").attr("href", "/analyze.html?url=" + globalData.url + "&strategy=" + globalData.strategy + "&date=" + date +  "&fetchSource=repository");
+                        $(".date-left-header").text(globalData.benchmarkTitle);
+                        $(".date-right-header").text(globalData.pageTitle);
 
                     } else {
                         $("." + dateId + "-header-link").attr("href", "/analyze.html?url=" + globalData.url + "&strategy=" + globalData.strategy + "&date=" + date + "&fetchSource=repository");
