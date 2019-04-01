@@ -719,6 +719,24 @@
                     $("#screenshots-chart").show();
 
                 });
+
+
+                var isScrolledIntoView = function(elem) {
+                    var docViewTop = $(window).scrollTop();
+                    var docViewBottom = docViewTop + $(window).height();
+                    var elemTop = $(elem).offset().top;
+                    var elemBottom = elemTop + $(elem).height();
+                    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+                };
+
+                var isScrolled = false;
+                $(window).scroll(function() {
+                    if (isScrolledIntoView($(".screenshots-container")[0]) && !isScrolled) {
+                        isScrolled = true;
+                        var leftPos = $('.screenshots-container').scrollLeft();
+                        $('.screenshots-container').animate({scrollLeft: leftPos + 1200}, 6000);
+                    }
+                });
             }
         </script>
     </head>
@@ -827,7 +845,7 @@
             <div class="d-flex stats pt-4">
                 <div class="chart__stat--compare" style="grid-template-columns: 1fr 3fr 0fr 0fr;">
                     <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-left-header"></span></div>
-                    <div class="chart__stat-metric" style="overflow-x: scroll;">
+                    <div class="screenshots-container chart__stat-metric" style="overflow-x: scroll;">
                         <div class="screenshots screenshots-left container-fluid d-flex pt-2 pb-2"></div>
                     </div>
 
@@ -835,7 +853,7 @@
 
                 <div class="chart__stat--compare" style="grid-template-columns: 1fr 3fr 0fr 0fr;">
                     <div  class="chart__stat-metric chart__stat-metric-title metric-title-column"><span class="date-right-header">2</span></div>
-                    <div class="chart__stat-metric" style="overflow-x: scroll;">
+                    <div class="screenshots-container chart__stat-metric" style="overflow-x: scroll;">
                         <div class="screenshots screenshots-right container-fluid d-flex pt-2 pb-2"></div>
                     </div>
 
