@@ -36,6 +36,7 @@ public class SettingsController {
     public Object loadSettings(
             @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
             @CookieValue(value = "isEditAllowed", required = false, defaultValue = "false") boolean isEditAllowed,
+            @RequestParam(value = "isEditAllowed", required = false,  defaultValue = "false") boolean isEditAllowedParam,
             Model model
     ) {
 
@@ -49,6 +50,9 @@ public class SettingsController {
         model.addAttribute("emailList", emailList);
 
         model.addAttribute("isDarkMode", isDarkMode);
+        if (!isEditAllowed && isEditAllowedParam) {
+            isEditAllowed = true;
+        }
         model.addAttribute("isEditAllowed", isEditAllowed);
         model.addAttribute("tab", "settings");
         if (urlList == null || emailList == null) {
