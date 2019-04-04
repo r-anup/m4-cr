@@ -78,25 +78,25 @@
             }
             /* reset */
 
-            function startTimeSpent() {
+            function startTimeSpent(container) {
                 var dt = new Date();
-                var ss = $(".run-time").html().split(":");
+                var ss = $(container).find(".run-time").html().split(":");
                 dt.setHours(0);
                 dt.setMinutes(ss[0]);
                 dt.setSeconds(ss[1]);
                 var dt2 = new Date(dt.valueOf() + 1000);
                 var temp = dt2.toTimeString().split(" ");
                 var ts = temp[0].split(":");
-                $(".run-time").html(ts[1]+":"+ts[2]);
+                $(container).find(".run-time").html(ts[1]+":"+ts[2]);
                 if (globalData.runTimeEvent == null) {
-                    globalData.runTimeEvent = setInterval(startTimeSpent, 1000);
+                    globalData.runTimeEvent = setInterval(function() { startTimeSpent(container); }, 1000);
                 }
             }
 
-            function clearTimeSpent() {
+            function clearTimeSpent(container) {
                 clearInterval(globalData.runTimeEvent);
                 globalData.runTimeEvent = null;
-                $(".run-time").html("00:00");
+                $(container).find(".run-time").html("00:00");
             }
 
             $(function () {
@@ -202,25 +202,26 @@
                     submitBtn.on("click", function () {
                         $(this).html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop Processing...');
                         if (processIndex >= 0) {
-                            clearTimeSpent();
+                            clearTimeSpent(container);
                             stopProcessing = true;
                             submitBtn.html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopping...');
                             return;
                         }
                         processIndex = 0;
-                        startTimeSpent();
+                        startTimeSpent(container);
                         var processURL = function () {
                             if (stopProcessing) {
                                 $(".run-status").hide();
                                 submitBtn.html("Process Lighthouse reports");
                                 return;
                             }
+                            $(container).find(".run-status").show();
                             if (processStrategy == "mobile" && processIndex == processURLsLength) {
                                 processStrategy = "desktop";
                                 processIndex = 0;
                             }
                             if (processStrategy == "desktop" && processIndex == processURLsLength) {
-                                $(".run-status").hide();
+                                //$(".run-status").hide();
                                 submitBtn.html("Process Lighthouse reports");
                                 return;
                             }
@@ -246,6 +247,8 @@
                                     processURL();
                                 },
                                 error: function (response) {
+                                    $(container).find(".run-errors-container").show();
+                                    $(container).find(".run-errors").append("<div>" + urls[processIndex] + " - " + processStrategy + "</div>");
                                     processIndex++;
                                     processURL();
                                 }
@@ -466,6 +469,11 @@
                         <div>
                             <strong>Time spent: </strong><span class="run-time">00:00</span>
                         </div>
+                        <div class="run-errors-container" style="display: none">
+                            <strong>Processing errors: </strong>
+                            <div class="run-errors text-danger">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="justify-content-left pt-4">
@@ -491,6 +499,11 @@
                         </div>
                         <div>
                             <strong>Time spent: </strong><span class="run-time">00:00</span>
+                        </div>
+                        <div class="run-errors-container" style="display: none">
+                            <strong>Processing errors: </strong>
+                            <div class="run-errors text-danger">
+                            </div>
                         </div>
                     </div>
                 </div>
