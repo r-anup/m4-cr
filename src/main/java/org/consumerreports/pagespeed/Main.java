@@ -15,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -57,6 +58,11 @@ public class Main {
 
     @Autowired
     MetricsController metricsController;
+
+    @Autowired
+    void setMapKeyDotReplacement(MappingMongoConverter mappingMongoConverter) {
+        mappingMongoConverter.setMapKeyDotReplacement("_");
+    }
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Main.class, args);
@@ -133,6 +139,7 @@ public class Main {
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
             @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
             @CookieValue(value = "isDisplayEMA", required = false, defaultValue = "false") boolean isDisplayEMA,
+            @CookieValue(value = "colorPalette", required = false, defaultValue = "0") int colorPalette,
             Model model
             ) {
         String path = request.getServletPath();
@@ -191,6 +198,7 @@ public class Main {
         model.addAttribute("date", date);
         model.addAttribute("isDarkMode", isDarkMode);
         model.addAttribute("isDisplayEMA", isDisplayEMA);
+        model.addAttribute("colorPalette", colorPalette);
         model.addAttribute("tab", tab);
         return "metrics";
     }

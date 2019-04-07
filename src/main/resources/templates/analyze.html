@@ -3,6 +3,7 @@
     <head>
         <title>Analyze - Consumer Reports</title>
         <link rel="stylesheet" href="/stylesheets/analyze.css" type="text/css">
+        <script src="/js/critical-chain.js"></script>
         <script src="/js/analyze.js"></script>
         <script>
             var globalData = {};
@@ -236,6 +237,114 @@
 
                 </script>
 
+                <script type="text/html" id="more-info-chart-template">
+
+                    <div class="lh-vars lab-data">
+                        <div class="lh-category d-block justify-content-center">
+                            <div class="lh-audit-group lh-audit-group--audits container-fluid col-12">
+                                <div class="row">
+                                    <div class="lh-audit-group__summary">
+                                        <div class="lh-audit-group__header">Audits</div>
+                                    </div>
+                                </div>
+                                <div class="lh-audit-group__description row"><span>More information about performance of the application.</span></div>
+
+                            </div>
+                            <div class="pb-5">
+                                <div id="mainthread-work-breakdown">
+                                    <div class="lh-audit-group__subheader--title"><span data-content="mainThreadWorkTitle"></span> <span class="pl-3 lh-metric__value" data-content="mainThreadWorkDisplayValue"></span></div>
+                                    <div class="lh-audit-group__subheader--description" data-content="mainThreadWorkDescription"></div>
+                                    <div id="mainthread-work-breakdown-chart" style="height: 280px; width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <div class="pb-5">
+                                <div id="render-blocking-resources">
+                                    <div class="lh-audit-group__subheader--title"><span data-content="renderBlockingResourcesTitle"></span>
+                                        <div class="pl-3 d-flex" style="flex: 4; max-width: 400px;">
+                                            <div class="lh-load-opportunity__sparkline" data-template-bind='[{"attribute": "title", "value": "renderBlockingResourcesDisplayValue"}]'>
+                                                <div class="lh-sparkline"><div class="lh-sparkline__bar" data-template-bind='[{"attribute": "style", "value": "renderBlockingResourcesScore", "formatter": "PercentageStyleFormatter"}]'></div></div>
+                                            </div>
+                                            <div class="lh-audit__display-text pl-2 lh-metric__value"  data-template-bind='[{"attribute": "title", "value": "renderBlockingResourcesDisplayValue"}]' data-content="renderBlockingResourcesOverallSavingsMs" data-format="TimeMiliSecondFormatter"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lh-audit-group__subheader--description" data-content="renderBlockingResourcesDescription"></div>
+                                   <div id="render-blocking-resources-chart" style="width: 100%; font-size: 1.4rem;">
+                                       <table class="table table-striped table-hover table-bordered"
+                                              th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
+                                           <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
+                                            <tr>
+                                                <th scope="col">URL</th>
+                                                <th scope="col" class='text-right'>Size (KB)</th>
+                                                <th scope="col" class='text-right'>Potential Savings (ms)</th>
+                                            </tr>
+                                           </thead>
+                                           <tbody></tbody>
+                                       </table>
+                                   </div>
+                                </div>
+                            </div>
+
+
+                            <div class="pb-5">
+                                <div id="dom-size">
+                                    <div class="lh-audit-group__subheader--title"><span data-content="domSizeTitle"></span> <span class="pl-3 lh-metric__value" data-content="domSizeDisplayValue"></span></div>
+                                    <div class="lh-audit-group__subheader--description" data-content="domSizeDescription"></div>
+
+                                    <div id="dom-size-chart" style="width: 100%; font-size: 1.4rem;">
+                                        <table class="table table-striped table-hover table-bordered"
+                                               th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
+                                            <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
+                                            <tr>
+                                                <th scope="col">Statistic</th>
+                                                <th scope="col" style='max-width: 500px;'>Element</th>
+                                                <th scope="col">Value</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <template id="tmpl-lh-crc">
+                                <div class="lh-crc-container">
+                                    <div>
+                                        <div class="lh-crc__summary-value">
+                                            <span class="lh-crc__longest_duration_label"></span> <b class="lh-crc__longest_duration"></b>
+                                        </div>
+                                    </div>
+                                    <div class="lh-crc">
+                                        <div class="crc-initial-nav"></div>
+                                        <template id="tmpl-lh-crc__chains">
+                                            <div class="crc-node">
+                                                <span class="crc-node__tree-marker"></span>
+                                                <span class="crc-node__tree-value">
+                                                    <span class="crc-node__tree-file"></span>
+                                                    <span class="crc-node__tree-hostname">()</span>
+                                                </span>
+                                             </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <div class="pb-5">
+                                <div id="critical-request-chains">
+                                    <div class="lh-audit-group__subheader--title"><span data-content="criticalRequestChainsTitle"></span> <span class="lh-metric__value"  style="padding-left: 6rem; color: #9a9a9a;" data-content="criticalRequestChainsDisplayValue"></span></div>
+                                    <div class="lh-audit-group__subheader--description" data-content="criticalRequestChainsDescription"></div>
+
+                                    <div class="crc-chart lh-crc-container lh-details"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </script>
+
 
                 <script type="text/html" id="diagnostics-chart-template">
                     <div class="lh-vars lab-data">
@@ -383,7 +492,7 @@
                 </script>
 
                 <script type="text/html" id="analysis-chart-template">
-                    <div class="lh-vars lab-data">
+                    <div class="lh-vars lab-data container-border">
                         <div class="lh-category d-flex justify-content-center">
                             <div class="lh-audit-group lh-audit-group--metrics container-fluid col-12">
                                 <div class="row">
@@ -478,7 +587,9 @@
 
                 <div class="container-fluid" id="diagnostics-chart"></div>
 
-                <div class="container-fluid d-flex flex-wrap col-12 pt-2 pb-2" id="screenshots"></div>
+                <div class="container-fluid" id="screenshots"></div>
+
+                <div class="container-fluid" id="more-info-chart"></div>
         </div>
     </body>
 </html>

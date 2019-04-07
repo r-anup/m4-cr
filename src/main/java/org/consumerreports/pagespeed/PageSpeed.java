@@ -131,23 +131,16 @@ public class PageSpeed {
                 data = data.getJSONObject("lighthouseResult");
             }
 
-            JSONObject lighthouseData = new JSONObject();
-            JSONObject lighthouseProperties = metricsProperties.getJSONObject("lighthouse");
-
-            Iterator<String> lighthouseKeys = lighthouseProperties.keys();
-            while (lighthouseKeys.hasNext()) {
-                String lighthouseKey = lighthouseKeys.next();
-                JSONObject jo = new JSONObject();
-                jo.put("displayValue", data.getJSONObject("audits").getJSONObject(lighthouseKey).getString("displayValue"));
-                jo.put("score", data.getJSONObject("audits").getJSONObject(lighthouseKey).getString("score"));
-                jo.put("title", lighthouseProperties.getJSONObject(lighthouseKey).getString("title"));
-                jo.put("description", lighthouseProperties.getJSONObject(lighthouseKey).getString("description"));
-                lighthouseData.put(lighthouseKey, jo);
-            }
-
+            JSONObject lighthouseData = processLighthouseData(data, "lighthouse");
             lighthouseData.put("score", data.getJSONObject("categories").getJSONObject("performance").getString("score"));
-            LighthouseResult lighthouseResult = (new ObjectMapper()).readValue(lighthouseData.toString(), LighthouseResult.class);
 
+            JSONObject lighthouseMiscData = processLighthouseData(data, "lighthouseMisc");
+
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            LighthouseResult lighthouseResult = objectMapper.readValue(lighthouseData.toString(), LighthouseResult.class);
+            LighthouseMisc lighthouseMisc = objectMapper.readValue(lighthouseMiscData.toString(), LighthouseMisc.class);
 
             formattedData.put("fetchTime",               data.getString("fetchTime"));
             formattedData.put("screenshots",             data.getJSONObject("audits").getJSONObject("screenshot-thumbnails").getJSONObject("details").getJSONArray("items"));
@@ -188,6 +181,7 @@ public class PageSpeed {
                         (DatatypeConverter.parseDateTime(formattedData.getString("fetchTime")).getTime()),
                         true,
                         lighthouseResult,
+                        lighthouseMisc,
                         diagnostics,
                         list,
                         finalScreenshot);
@@ -206,6 +200,7 @@ public class PageSpeed {
                 }
             }
             formattedData.put("lighthouseResult", lighthouseData);
+            formattedData.put("lighthouseMisc", lighthouseMiscData);
             if (diagnostics != null) formattedData.put("diagnostics", diagnosticsData);
             formattedData.put("url", url);
             formattedData.put("isDataFormatted", true);
@@ -249,6 +244,28 @@ public class PageSpeed {
         return null;
 
 
+    }
+
+    private JSONObject processLighthouseData(JSONObject data, String type) throws JSONException{
+        JSONObject metricsProperties = PageSpeed.getMetricsProperties();
+        JSONObject lighthouseData = new JSONObject();
+        JSONObject lighthouseProperties = metricsProperties.getJSONObject(type);
+
+        Iterator<String> lighthouseKeys = lighthouseProperties.keys();
+        while (lighthouseKeys.hasNext()) {
+            String lighthouseKey = lighthouseKeys.next();
+            JSONObject jo = new JSONObject();
+            jo.put("displayValue", data.getJSONObject("audits").getJSONObject(lighthouseKey).getString("displayValue"));
+            jo.put("score", data.getJSONObject("audits").getJSONObject(lighthouseKey).getString("score"));
+            jo.put("title", lighthouseProperties.getJSONObject(lighthouseKey).getString("title"));
+            jo.put("description", lighthouseProperties.getJSONObject(lighthouseKey).getString("description"));
+            if (data.getJSONObject("audits").getJSONObject(lighthouseKey).has("details")) {
+                jo.put("details", data.getJSONObject("audits").getJSONObject(lighthouseKey).getJSONObject("details"));
+            }
+            lighthouseData.put(lighthouseKey, jo);
+        }
+
+        return lighthouseData;
     }
 
 

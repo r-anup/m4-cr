@@ -194,6 +194,7 @@
             globalData.isDisplayEMA = /*[[${isDisplayEMA}]]*/ "";
             globalData.pageTitle = /*[[${pageTitle}]]*/ "";
             globalData.benchmarkTitle = /*[[${benchmarkTitle}]]*/ "";
+            globalData.colorPalette = /*[[${colorPalette}]]*/ "";
 
         </script>
 
@@ -559,7 +560,7 @@
                     plotFileTypeChart(
                         Object.keys(rightdata['diagnostics'])
                             .filter(function (key) {
-                                if ($.inArray( key, ["numRequests", "numFonts", "numScripts", "numStylesheets"] ) >= 0) {
+                                if ($.inArray( key, ["numFonts", "numScripts", "numStylesheets"] ) >= 0) {
                                     return true;
                                 }
                             }).map(function (key) {

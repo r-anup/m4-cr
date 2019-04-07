@@ -178,13 +178,47 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
         plotDonutChart(data['score']);
         plotLabDataChart(data['lighthouseResult']);
 
+        /* draw screenshots section */
+        var screenshots = $("<div class='border-bottom border-top d-flex flex-wrap col-12 pt-2 pb-2'></div>").appendTo("#screenshots");
         data['screenshots'].forEach(function (screenshot) {
-            $("#screenshots").append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
+            screenshots.append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
         });
 
+        /* draw main snapshot section */
        if(data.finalScreenshot) {
            $("#finalScreenshot").html('<img src="' + data.finalScreenshot.data + '" alt="thumbnail" />');
        }
+
+
+       /* draw more info section */
+        $("#more-info-chart").loadTemplate($("#more-info-chart-template"),
+            {
+                mainThreadWorkTitle: data['lighthouseMisc']['mainthread-work-breakdown']['title'],
+                mainThreadWorkDescription: data['lighthouseMisc']['mainthread-work-breakdown']['description'],
+                mainThreadWorkDisplayValue: data['lighthouseMisc']['mainthread-work-breakdown']['displayValue'],
+                domSizeTitle: data['lighthouseMisc']['dom-size']['title'],
+                domSizeDescription: data['lighthouseMisc']['dom-size']['description'],
+                domSizeDisplayValue: data['lighthouseMisc']['dom-size']['displayValue'],
+                renderBlockingResourcesTitle: data['lighthouseMisc']['render-blocking-resources']['title'],
+                renderBlockingResourcesDescription: data['lighthouseMisc']['render-blocking-resources']['description'],
+                renderBlockingResourcesDisplayValue: data['lighthouseMisc']['render-blocking-resources']['displayValue'],
+                renderBlockingResourcesScore: data['lighthouseMisc']['render-blocking-resources']['score'],
+                renderBlockingResourcesOverallSavingsMs: data['lighthouseMisc']['render-blocking-resources']['details']['overallSavingsMs'],
+                criticalRequestChainsTitle: data['lighthouseMisc']['critical-request-chains']['title'],
+                criticalRequestChainsDescription: data['lighthouseMisc']['critical-request-chains']['description'],
+                criticalRequestChainsDisplayValue: data['lighthouseMisc']['critical-request-chains']['displayValue']
+            }
+        );
+
+        convertMarkdownLinkSnippets(".lh-audit-group__subheader--description");
+        plotMiscellaneousDataChart(data['lighthouseMisc']);
+        plotStackedBarChart(data['lighthouseMisc']['mainthread-work-breakdown'], '#mainthread-work-breakdown-chart');
+        plotRenderBlockingResourcesChart(data['lighthouseMisc']['render-blocking-resources']['details']['items'], "#render-blocking-resources-chart");
+        plotDomSizeChart(data['lighthouseMisc']['dom-size']['details']['items'], "#dom-size-chart");
+       // plotCriticalRequestChain(data['lighthouseMisc']['critical-request-chains']['details']['chains'], ".lh-crc");
+
+        var d = new DetailsRenderer(new DOM(document));
+        $(".lh-crc-container").html($(d.render(data['lighthouseMisc']['critical-request-chains']['details'])));
 
         $(".tab-bar-wrapper").show();
 
@@ -195,7 +229,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
             if (globalData.fetchSource == "repository") {
                 var urlParams = new URLSearchParams(window.location.search);
                 urlParams.set('fetchSource','lightHouseNoSave');
-                window.location.href = window.location.origin +  window.location.pathname  + "?" + urlParams.toString();
+              //  window.location.href = window.location.origin +  window.location.pathname  + "?" + urlParams.toString();
             } else {
                 $("#analysis-chart").html("");
                 $(".error-message").show();
@@ -214,18 +248,25 @@ function plotDiagnostricsChart(items) {
     });
 }
 
-
-function plotLabDataChart(data) {
-    var items = ["first-contentful-paint", "first-meaningful-paint", "interactive", "first-cpu-idle", "estimated-input-latency", "speed-index"];
+function plotDataChart(data, items, overrideValue) {
     items.forEach(function (id) {
-        $("#" + id).removeClass().find(".lh-metric__value").html(data[id].displayValue);
+        if (overrideValue) {
+            $("#" + id).removeClass().find(".lh-metric__value").html(data[id].displayValue);
+        }
         var score = getScaleFromScore(data[id].score);
         $("#" + id).addClass('lh-metric lh-metric--' + score.scale);
     });
 
     /* activate tooltip */
     delayPopoverClose();
+}
 
+function plotLabDataChart(data) {
+    plotDataChart(data, ["first-contentful-paint", "first-meaningful-paint", "interactive", "first-cpu-idle", "estimated-input-latency", "speed-index"], true);
+}
+
+function plotMiscellaneousDataChart(data) {
+    plotDataChart(data, ["mainthread-work-breakdown", "render-blocking-resources", "dom-size"], false);
 }
 
 function delayPopoverClose() {
@@ -247,56 +288,50 @@ function delayPopoverClose() {
     });
 }
 
-
-
-function plotDonutChart(scoreValue) {
-    var myChart = echarts.init(document.getElementById('score-chart'));
-
-    var scoreData = getScaleFromScore(scoreValue);
-
-    var color = scoreData.color;
-    var score = scoreData.score;
-
-
-    var option = {
-        color: [color, '#cccccc']
-        ,
-        tooltip: {
-            show: false
-        },
-        legend:
-            {
-                show: false,
-            },
-        series: [
-            {
-                name: '',
-                type: 'pie',
-                hoverAnimation: false,
-                legendHoverLink: false,
-                radius: ['70%', '80%'],
-                avoidLabelOverlap: true,
-                label: {
-                    position: 'center',
-                    fontSize: 60,
-                },
-
-                emphasis: {
-                    show: false,
-                },
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                },
-                data: [
-                    {value: score, name: score},
-                    {value: 100 - score, name: ''},
-                ]
-            }
-        ]
-    };
-
-    myChart.setOption(option);
-
+function plotRenderBlockingResourcesChart(data, elem) {
+    $.each(data, function(i, item) {
+        $(elem).find("tbody").append("<tr><td>"
+            + item.url + "</td><td class='text-right'>"
+            + bytesFormatter(item.totalBytes) + "</td><td class='text-right'>"
+            + timeMiliSecondFormatter(item.wastedMs) + "</td></tr>"
+        );
+    });
 }
+
+function plotDomSizeChart(data, elem) {
+    $.each(data, function(i, item) {
+        $(elem).find("tbody").append("<tr>" +
+            "<td>" + item.statistic + "</td>" +
+            "<td style='max-width: 500px;'>" + ((item.element.type) ? (item.element.type == 'code' ? '<code>'+$('<div />').text(item.element.value).html()+'</code>': item.element.value) : item.element) + "</td>" +
+            "<td>" + item.value + "</td></tr>"
+        );
+    });
+}
+
+function convertMarkdownLinkSnippets(elem) {
+    $.each($(elem), function(i, item) {
+        var text = $(item).text();
+        var parts = text.split(/\[([^\]]*?)\]\((https?:\/\/.*?)\)/g);
+        $(item).html("");
+        while (parts.length) {
+            var textParts = parts.splice(0, 3);
+            $(item).append("<span>"+textParts[0] + "</span>");
+            if (textParts.length == 3) {
+                var a = document.createElement('a');
+                a.rel = 'noopener';
+                a.target = '_blank';
+                a.textContent = textParts[1];
+                a.href = (new URL(textParts[2])).href;
+                $(item).append(a);
+            }
+        }
+    });
+}
+
+
+
+
+
+
+
+

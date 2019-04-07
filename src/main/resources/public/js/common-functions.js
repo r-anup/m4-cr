@@ -8,6 +8,7 @@ function getScoreEntities(response) {
         /* data coming from database */
         data['fetchTime'] = new Date(response.fetchTime).toLocaleString();
         data['lighthouseResult'] = response.lighthouseResult;
+        data['lighthouseMisc'] = response.lighthouseMisc;
         data['score'] = response.lighthouseResult.score;
         data['screenshots'] = response['screenshots'];
         data['finalScreenshot'] = response['finalScreenshot'];
@@ -17,6 +18,7 @@ function getScoreEntities(response) {
         data['score'] = result.categories.performance.score;
         data['fetchTime'] = new Date(response.analysisUTCTimestamp).toLocaleString();
         data['lighthouseResult'] = result.audits;
+        data['lighthouseMisc'] = result.lighthouseMisc || result.audits;
         data['url'] = response.finalUrl;
         data['screenshots'] = result.audits['screenshot-thumbnails'].details.items;
         data['finalScreenshot'] = result.audits['final-screenshot'].details;
@@ -276,6 +278,13 @@ $.addTemplateFormatter({
         return 'flex-grow: ' + (Math.round(value)) + ';';
     },
 
+    PercentageStyleFormatter: function (value, template) {
+        if (value == null && template == "showHyphenIfNull") {
+            return "width: 0;";
+        }
+        return 'width: ' + percentageFormatter(value) + '%;';
+    },
+
     PercentageFormatter: function (value, template) {
         if (value == null && template == "showHyphenIfNull") {
             return "-";
@@ -299,8 +308,17 @@ function plotFileTypeChart(data, elem, title, showLegends) {
     if (typeof(showLegends) == "undefined") {
         showLegends = true;
     }
+    var colorPalette = ['#558ba9','#da70d6','#32cd32','#3d52ed','#b75c45','#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0','#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700','#6699FF','#ff6666','#3cb371','#b8860b','#30e0e0'];
+    switch(globalData.colorPalette) {
+        case 1:
+            colorPalette = ["#003f5c", "#444e86", "#955196", "#dd5182", "#ff6e54", "#ffa600"];
+            break;
+        case 2:
+            colorPalette = ["#004d66", "#41abe1", "#80d4f7", "#00A8A8", "#3D52ED", "#da70d6"];
+            break;
+        default:
+    }
 
-    //var myChart = echarts.init(document.getElementById(elem));
     var myChart = echarts.init($(elem)[0]);
 
     var option = {
@@ -312,7 +330,7 @@ function plotFileTypeChart(data, elem, title, showLegends) {
                 fontWeight: 400
             }
         },
-        color: ['#558ba9','#da70d6','#32cd32','#3d52ed','#b75c45','#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0','#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700','#6699FF','#ff6666','#3cb371','#b8860b','#30e0e0'],
+        color: colorPalette,
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -336,7 +354,7 @@ function plotFileTypeChart(data, elem, title, showLegends) {
                 radius : '60%',
                 center: ['50%', '60%'],
                 label: {
-                    formatter: "{b}: {c}"
+                    formatter: "{b}: {c}",
                 },
                 itemStyle: {
                     emphasis: {
@@ -516,4 +534,161 @@ function plotLineChart(data, elem) {
     }
 
     myChart.setOption(option);
+}
+
+function plotStackedBarChart(data, elem) {
+    stackedBarData = data;
+    var myChart = echarts.init($(elem)[0]);
+
+    var seriesData = [];
+    var axisData = [];
+    $.each(data.details.items, function (idx, elem) {
+        seriesData.push(Math.round(elem.duration));
+        axisData.push(elem.groupLabel);
+    });
+
+ //   seriesData = seriesData.reverse();
+
+    var option = {
+        color: ["#003f5c", "#444e86", "#955196", "#dd5182", "#ff6e54", "#ffa600"],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {
+                type : 'line'
+            },
+            formatter: function (params) {
+                var param = params[1];
+                return param.name + ": " + timeMiliSecondFormatter(param.value);
+            }
+        },
+        legend: {
+            data: axisData.reverse()
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true,
+            height: 260
+        },
+        xAxis:  {
+            type: 'value',
+            splitLine: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#888'
+                }
+            },
+            axisLabel: {
+                formatter: function (value, index) {
+                    return timeMiliSecondFormatter(value);
+                }
+            }
+        },
+        yAxis: {
+            type: 'category',
+            splitLine: {
+                show:false
+            },
+            axisTick: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#888'
+                }
+            },
+            data: axisData,
+
+
+        },
+        series:[
+            {
+                type: 'bar',
+                stack:  'a',
+                itemStyle: {
+                    normal: {
+                        barBorderColor: 'rgba(0,0,0,0.2)',
+                        color: 'rgba(0,0,0,0.2)'
+                    },
+                    emphasis: {
+                        barBorderColor: 'rgba(0,0,0,0.2)',
+                        color: 'rgba(0,0,0,0.2)'
+                    }
+                },
+                data: seriesData.reduce(function(r,c,i){
+                    r.push((r[i-1]+seriesData[i-1] || 0));return r;
+                    }, [] ).reverse()
+            },
+            {
+                type: 'bar',
+                stack: 'a',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight',
+                        formatter: function (params) {
+                            return params.name + ": " + timeMiliSecondFormatter(params.value);
+                        }
+                    }
+                },
+                data: seriesData.reverse()
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
+
+function plotDonutChart(scoreValue) {
+    var myChart = echarts.init(document.getElementById('score-chart'));
+
+    var scoreData = getScaleFromScore(scoreValue);
+
+    var color = scoreData.color;
+    var score = scoreData.score;
+
+
+    var option = {
+        color: [color, '#cccccc']
+        ,
+        tooltip: {
+            show: false
+        },
+        legend:
+            {
+                show: false,
+            },
+        series: [
+            {
+                name: '',
+                type: 'pie',
+                hoverAnimation: false,
+                legendHoverLink: false,
+                radius: ['70%', '80%'],
+                avoidLabelOverlap: true,
+                label: {
+                    position: 'center',
+                    fontSize: 60,
+                },
+
+                emphasis: {
+                    show: false,
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: [
+                    {value: score, name: score},
+                    {value: 100 - score, name: ''},
+                ]
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+
 }

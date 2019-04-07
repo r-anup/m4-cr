@@ -97,6 +97,11 @@
                 }
             }
 
+            function pauseTimeSpent() {
+                clearInterval(globalData.runTimeEvent);
+                globalData.runTimeEvent = null;
+            }
+
             function clearTimeSpent(container) {
                 clearInterval(globalData.runTimeEvent);
                 globalData.runTimeEvent = null;
@@ -241,6 +246,7 @@
                             if (processStrategy == "desktop" && processIndex == processURLsLength) {
                                 //$(".run-status").hide();
                                 submitBtn.html("Process Lighthouse reports");
+                                pauseTimeSpent();
                                 return;
                             }
 

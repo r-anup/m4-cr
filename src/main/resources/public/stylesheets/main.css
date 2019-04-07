@@ -90,7 +90,7 @@
   --check-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  width=\00002248\000022  height=\00002248\000022\00003e\00003cpath d=\000022M0 0h48v48H0z\000022  fill=\000022none\000022/\00003e\00003cpath d=\000022M18 32.34L9.66 24l-2.83 2.83L18 38l24-24-2.83-2.83z\000022  fill=\000022white\000022/\00003e\00003c/svg\00003e');
   --search-icon-url: url('data:image/svg+xml;utf8,\00003csvg xmlns=\000022http://www.w3.org/2000/svg\000022  width=\00002248\000022  height=\00002248\000022\00003e\00003cpath d=\000022M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0a9 9 0 1 1 .001-18.001A9 9 0 0 1 19 28z\000022  fill=\000022white\000022/\00003e\00003cpath d=\000022M0 0h48v48H0z\000022  fill=\000022none\000022  /\00003e\00003c/svg\00003e');
   --subheader-font-size: 18px;
-  --lh-audit-group-vpadding: 24px;
+  --lh-audit-group-vpadding: 20px;
   --section-padding: 24px
 }
 
@@ -138,7 +138,6 @@
 .metric-bg--pass {
   background: var(--pass-color) !important;
 }
-
 
 .loading-spinner .text-center {
   color: red;

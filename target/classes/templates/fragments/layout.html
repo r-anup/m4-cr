@@ -39,7 +39,7 @@
                 color: #212529 !important;
             }
 
-            .dark-mode-theme-header {
+            .dark-mode-theme .fixed-header {
                 -webkit-box-shadow: 0 4px 5px 0 rgba(255, 255, 255, 0), 0 1px 10px 0 rgba(255,255,255,0.12), 0 2px 4px -1px rgba(255,255,255,0.2) !important;
                 box-shadow: 0 4px 5px 0 rgba(255, 255, 255, 0), 0 1px 10px 0 rgba(255,255,255,0.12), 0 2px 4px -1px rgba(255,255,255, 0.2) !important;
                 background: #1d1d1d !important;
@@ -56,7 +56,7 @@
                 cursor: pointer;
             }
 
-            .dark-mode-button-green i{
+            .dark-mode-theme .dark-mode-button i{
                 color: green;
             }
 
@@ -188,18 +188,17 @@
 
             var loadDarkMode = function() {
                 if (Cookies.get('isDarkMode')) {
-                    $(".dark-mode-button").addClass("dark-mode-button-green");
-                    $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
                     $("body").addClass("dark-mode-theme");
-                    $(".fixed-header").addClass("dark-mode-theme-header");
+                    $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
                     $(".table").removeClass("table-light").addClass("table-dark");
                     $(".table thead").removeClass("thead-light").addClass("thead-dark");
                 }
 
-                $(".dark-mode-button").on("click", function(){
-                    $(this).toggleClass("dark-mode-button-green");
-                    if ($(this).hasClass("dark-mode-button-green")) {
-                        Cookies.set('isDarkMode', "on", { expires: 365 });
+                $(".dark-mode-button").on("click", function () {
+                    $("body").toggleClass("dark-mode-theme");
+
+                    if ($("body").hasClass("dark-mode-theme")) {
+                        Cookies.set('isDarkMode', "on", {expires: 365});
                         $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
                         $(".table thead").removeClass("thead-light").addClass("thead-dark");
                         $(".table").removeClass("table-light").addClass("table-dark");
@@ -208,13 +207,10 @@
                         $(".cr-logo").attr("src", "images/cr-logo.svg");
                         $(".table thead").removeClass("thead-dark").addClass("thead-light");
                         $(".table").removeClass("table-dark").addClass("table-light");
+
                     }
-                    $("body").toggleClass("dark-mode-theme");
-                    $(".fixed-header").toggleClass("dark-mode-theme-header");
                 });
-            }
-
-
+            };
 
             $( function() {
                 loadDarkMode();
@@ -248,7 +244,7 @@
 
     <body th:classappend="${isDarkMode} ? 'dark-mode-theme' : ''">
         <div class="container-fluid" style="max-width: 1280px; min-height: 800px">
-            <header class="d-flex justify-content-between p-3 fixed-header" th:classappend="${isDarkMode} ? 'dark-mode-theme-header' : ''">
+            <header class="d-flex justify-content-between p-3 fixed-header">
                 <div class="p2"><a href="/"><img style="display: inline;" class="hidden-sm-down cr-logo" src="images/cr-logo.svg"></a> <a href="/"><img style="height: 42px;" src="images/m4.png"></a></div>
                 <div class="p2">
                     <ul class="nav justify-content-end nav-pills">

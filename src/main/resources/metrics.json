@@ -79,13 +79,11 @@
       "id": "first-meaningful-pain",
       "title": "First Meaningful Paint",
       "description": "First Meaningful Paint measures when the primary content of a page is visible."
-
     },
     "interactive": {
       "id": "interactive",
       "title": "Time to Interactive",
       "description": "Time to interactive is the amount of time it takes for the page to become fully interactive."
-
     },
     "first-cpu-idle": {
       "id": "first-cpu-idle",
@@ -100,7 +98,30 @@
     "speed-index": {
       "id": "speed-index",
       "title": "Speed Index",
-      "description": "Speed Index shows how quickly the contents of a page are visibly populated. "
+      "description": "Speed Index shows how quickly the contents of a page are visibly populated."
+    },
+
+  },
+  "lighthouseMisc": {
+    "critical-request-chains": {
+      "id": "critical-request-chains",
+      "title": "Minimize Critical Requests Depth",
+      "description": "The Critical Request Chains below show you what resources are loaded with a high priority. Consider reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load. [Learn more](https://developers.google.com/web/tools/lighthouse/audits/critical-request-chains)."
+    },
+    "render-blocking-resources": {
+      "id": "render-blocking-resources",
+      "title": "Eliminate render-blocking resources",
+      "description": "Resources are blocking the first paint of your page. Consider delivering critical JS/CSS inline and deferring all non-critical JS/styles. [Learn more](https://developers.google.com/web/tools/lighthouse/audits/blocking-resources)."
+    },
+    "dom-size": {
+      "id": "dom-size",
+      "title": "Avoid an excessive DOM size",
+      "description": "Browser engineers recommend pages contain fewer than ~1,500 DOM nodes. The sweet spot is a tree depth < 32 elements and fewer than 60 children/parent element. A large DOM can increase memory usage, cause longer [style calculations](https://developers.google.com/web/fundamentals/performance/rendering/reduce-the-scope-and-complexity-of-style-calculations), and produce costly [layout reflows](https://developers.google.com/speed/articles/reflow). [Learn more](https://developers.google.com/web/tools/lighthouse/audits/dom-size)."
+    },
+    "mainthread-work-breakdown": {
+      "id": "mainthread-work-breakdown",
+      "title": "Minimize main-thread work",
+      "description": "Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this."
     }
   }
 }
