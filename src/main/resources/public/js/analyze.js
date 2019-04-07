@@ -61,8 +61,9 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
     $("#analysis-chart").html('');
     $("#field-data-chart").html('');
     $("#diagnostics-chart").html('');
+    $("#more-info-chart").html('');
     $('.report-summary').hide();
-    $("#screenshots").html('');
+    $("#screenshots-chart").html('');
     $(".error-message").hide();
     $(".loading-spinner").show();
     /!* reset DOM *!/
@@ -179,7 +180,8 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
         plotLabDataChart(data['lighthouseResult']);
 
         /* draw screenshots section */
-        var screenshots = $("<div class='border-bottom border-top d-flex flex-wrap col-12 pt-2 pb-2'></div>").appendTo("#screenshots");
+        $("#screenshots-chart").append("<div class='lh-audit-group__subheader--title'>Screenshots</div>");
+        var screenshots = $("<div class='s-container d-flex flex-wrap col-12 pt-2 pb-2'></div>").appendTo("#screenshots-chart");
         data['screenshots'].forEach(function (screenshot) {
             screenshots.append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');
         });
@@ -190,39 +192,42 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
        }
 
 
-       /* draw more info section */
-        $("#more-info-chart").loadTemplate($("#more-info-chart-template"),
-            {
-                mainThreadWorkTitle: data['lighthouseMisc']['mainthread-work-breakdown']['title'],
-                mainThreadWorkDescription: data['lighthouseMisc']['mainthread-work-breakdown']['description'],
-                mainThreadWorkDisplayValue: data['lighthouseMisc']['mainthread-work-breakdown']['displayValue'],
-                domSizeTitle: data['lighthouseMisc']['dom-size']['title'],
-                domSizeDescription: data['lighthouseMisc']['dom-size']['description'],
-                domSizeDisplayValue: data['lighthouseMisc']['dom-size']['displayValue'],
-                renderBlockingResourcesTitle: data['lighthouseMisc']['render-blocking-resources']['title'],
-                renderBlockingResourcesDescription: data['lighthouseMisc']['render-blocking-resources']['description'],
-                renderBlockingResourcesDisplayValue: data['lighthouseMisc']['render-blocking-resources']['displayValue'],
-                renderBlockingResourcesScore: data['lighthouseMisc']['render-blocking-resources']['score'],
-                renderBlockingResourcesOverallSavingsMs: data['lighthouseMisc']['render-blocking-resources']['details']['overallSavingsMs'],
-                criticalRequestChainsTitle: data['lighthouseMisc']['critical-request-chains']['title'],
-                criticalRequestChainsDescription: data['lighthouseMisc']['critical-request-chains']['description'],
-                criticalRequestChainsDisplayValue: data['lighthouseMisc']['critical-request-chains']['displayValue'],
-                bootupTimeTitle: data['lighthouseMisc']['bootup-time']['title'],
-                bootupTimeDescription: data['lighthouseMisc']['bootup-time']['description'],
-                bootupTimeDisplayValue: data['lighthouseMisc']['bootup-time']['displayValue']
-            }
-        );
+       /* Begin draw more info section */
+        if (data['lighthouseMisc']) {
+            $("#more-info-chart").loadTemplate($("#more-info-chart-template"),
+                {
+                    mainThreadWorkTitle: data['lighthouseMisc']['mainthread-work-breakdown']['title'],
+                    mainThreadWorkDescription: data['lighthouseMisc']['mainthread-work-breakdown']['description'],
+                    mainThreadWorkDisplayValue: data['lighthouseMisc']['mainthread-work-breakdown']['displayValue'],
+                    domSizeTitle: data['lighthouseMisc']['dom-size']['title'],
+                    domSizeDescription: data['lighthouseMisc']['dom-size']['description'],
+                    domSizeDisplayValue: data['lighthouseMisc']['dom-size']['displayValue'],
+                    renderBlockingResourcesTitle: data['lighthouseMisc']['render-blocking-resources']['title'],
+                    renderBlockingResourcesDescription: data['lighthouseMisc']['render-blocking-resources']['description'],
+                    renderBlockingResourcesDisplayValue: data['lighthouseMisc']['render-blocking-resources']['displayValue'],
+                    renderBlockingResourcesScore: data['lighthouseMisc']['render-blocking-resources']['score'],
+                    renderBlockingResourcesOverallSavingsMs: data['lighthouseMisc']['render-blocking-resources']['details']['overallSavingsMs'],
+                    criticalRequestChainsTitle: data['lighthouseMisc']['critical-request-chains']['title'],
+                    criticalRequestChainsDescription: data['lighthouseMisc']['critical-request-chains']['description'],
+                    criticalRequestChainsDisplayValue: data['lighthouseMisc']['critical-request-chains']['displayValue'],
+                    bootupTimeTitle: data['lighthouseMisc']['bootup-time']['title'],
+                    bootupTimeDescription: data['lighthouseMisc']['bootup-time']['description'],
+                    bootupTimeDisplayValue: data['lighthouseMisc']['bootup-time']['displayValue']
+                }
+            );
+            plotMiscellaneousDataChart(data['lighthouseMisc']);
+            plotStackedBarChart(data['lighthouseMisc']['mainthread-work-breakdown'], '#mainthread-work-breakdown-chart');
+            plotRenderBlockingResourcesChart(data['lighthouseMisc']['render-blocking-resources']['details']['items'], "#render-blocking-resources-chart");
+            plotDomSizeChart(data['lighthouseMisc']['dom-size']['details']['items'], "#dom-size-chart");
+            plotBootupTimeChart(data['lighthouseMisc']['bootup-time']['details']['items'], "#bootup-time-chart");
+            // plotCriticalRequestChain(data['lighthouseMisc']['critical-request-chains']['details']['chains'], ".lh-crc");
+
+            var d = new DetailsRenderer(new DOM(document));
+            $(".lh-crc-container").html($(d.render(data['lighthouseMisc']['critical-request-chains']['details'])));
+        }
+        /* End draw more info section */
 
         convertMarkdownLinkSnippets(".lh-audit-group__subheader--description");
-        plotMiscellaneousDataChart(data['lighthouseMisc']);
-        plotStackedBarChart(data['lighthouseMisc']['mainthread-work-breakdown'], '#mainthread-work-breakdown-chart');
-        plotRenderBlockingResourcesChart(data['lighthouseMisc']['render-blocking-resources']['details']['items'], "#render-blocking-resources-chart");
-        plotDomSizeChart(data['lighthouseMisc']['dom-size']['details']['items'], "#dom-size-chart");
-        plotBootupTimeChart(data['lighthouseMisc']['bootup-time']['details']['items'], "#bootup-time-chart");
-       // plotCriticalRequestChain(data['lighthouseMisc']['critical-request-chains']['details']['chains'], ".lh-crc");
-
-        var d = new DetailsRenderer(new DOM(document));
-        $(".lh-crc-container").html($(d.render(data['lighthouseMisc']['critical-request-chains']['details'])));
 
         $(".tab-bar-wrapper").show();
 

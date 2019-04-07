@@ -468,17 +468,17 @@
 }
 
 
-#screenshots div {
+#screenshots-chart .s-container div {
     padding: 2rem;
     display: grid;
 }
 
-#screenshots div span {
+#screenshots-chart .s-container span {
     font-size: 1.2rem;
     text-align: center;
 }
 
-#screenshots div img {
+#screenshots-chart .s-container img {
     border: 1px solid #ccc;
 }
 
