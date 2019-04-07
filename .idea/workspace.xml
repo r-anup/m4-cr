@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ff90437-4756-4c43-854f-32e6b5062259" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/analyze.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/analyze.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -69,8 +66,8 @@
       <file leaf-file-name="analyze.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/analyze.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="612" selection-start-line="612" selection-end-line="612" />
+            <state relative-caret-position="437">
+              <caret line="372" column="62" selection-start-line="372" selection-start-column="62" selection-end-line="372" selection-end-column="62" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -85,8 +82,8 @@
       <file leaf-file-name="analyze.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="211" column="34" selection-start-line="211" selection-start-column="34" selection-end-line="211" selection-end-column="34" />
+            <state relative-caret-position="219">
+              <caret line="152" column="79" lean-forward="true" selection-start-line="152" selection-start-column="53" selection-end-line="152" selection-end-column="79" />
               <folding>
                 <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
@@ -158,7 +155,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Util</find>
       <find>mainthread-work-breakdown</find>
       <find>.lh-crc .crc-initial-nav</find>
       <find>plotrenderBlockingResourcesChart</find>
@@ -186,8 +182,9 @@
       <find>screenshots-c</find>
       <find>#screenshots</find>
       <find>bottom: 1p</find>
-      <find>screenshots</find>
       <find>screenshots-chart</find>
+      <find>screenshots</find>
+      <find>diagnostics-chart</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed</dir>
@@ -504,12 +501,12 @@
       <workItem from="1551943483206" duration="925000" />
       <workItem from="1551944448619" duration="124560000" />
       <workItem from="1552660756649" duration="167467000" />
-      <workItem from="1553524101738" duration="172387000" />
+      <workItem from="1553524101738" duration="172846000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="543505000" />
+    <option name="totallyTimeSpent" value="543964000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
@@ -1044,8 +1041,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="211" column="34" selection-start-line="211" selection-start-column="34" selection-end-line="211" selection-end-column="34" />
+        <state relative-caret-position="219">
+          <caret line="152" column="79" lean-forward="true" selection-start-line="152" selection-start-column="53" selection-end-line="152" selection-end-column="79" />
           <folding>
             <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
@@ -1055,8 +1052,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/analyze.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="612" selection-start-line="612" selection-end-line="612" />
+        <state relative-caret-position="437">
+          <caret line="372" column="62" selection-start-line="372" selection-start-column="62" selection-end-line="372" selection-end-column="62" />
           <folding>
             <element signature="n#style#0;n#div#1;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
