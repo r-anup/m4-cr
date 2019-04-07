@@ -181,6 +181,35 @@ function percentageFormatter(value) {
     return (Math.round(value));
 }
 
+function getScaleFromTime(time) {
+    time = (time+"").replace(/,/g, "");
+    time = parseFloat(time);
+    var data = {
+        scale: 'pass',
+        time: Math.round(time),
+        color: '#675c5c'
+    };
+    switch (true) {
+        case data.time <= 500:
+            data.color = "#178239";
+            data.scale = 'pass';
+            break;
+        case data.time <= 1000:
+            data.color = "#e67700";
+            data.scale = 'average';
+            break;
+        case data.time > 1000:
+            data.color = "#c7221f";
+            data.scale = 'fail';
+            break;
+        default:
+            data.color = "#e67700";
+            data.scale = 'average';
+    }
+
+    return data;
+}
+
 function getScaleFromScore(score) {
     score = (score+"").replace(/,/g, "");
     score = parseFloat(score);

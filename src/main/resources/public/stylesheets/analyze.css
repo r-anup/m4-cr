@@ -214,10 +214,12 @@
 
 .lh-audit-group__subheader--title {
     font-weight: 600;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     line-height: var(--subheader-line-height);
     flex: 1;
     display: flex;
+    background: #eee;
+    padding: 8px;
 }
 
 .lh-audit-group__subheader--description {
@@ -607,7 +609,7 @@
     background: #eee;
 }
 
-.dark-mode-theme .lh-audit-group__description, .dark-mode-theme .field-data-description {
+.dark-mode-theme .lh-audit-group__description, .dark-mode-theme .field-data-description, .dark-mode-theme .lh-audit-group__subheader--title {
     background: #464040;
 }
 
@@ -647,4 +649,28 @@ html[dir=rtl] .result-container {
 .finalScreenshot img {
     max-width: 100%;
     max-height: 30rem;
+}
+
+.url-length {
+    word-break: break-word;
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+#bootup-time-chart .pass {
+    color: #85868a;
+    font-weight: 600;
+}
+
+#bootup-time-chart .fail {
+    color: #c7221f;
+    font-weight: 600;
+}
+
+#bootup-time-chart .average {
+    color: #e67700;
+    font-weight: 600;
 }

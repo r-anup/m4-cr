@@ -315,10 +315,10 @@ function plotDomSizeChart(data, elem) {
 function plotBootupTimeChart(data, elem) {
     $.each(data, function(i, item) {
         $(elem).find("tbody").append("<tr>" +
-            "<td style='word-break: break-word; max-width: 500px;'>" + item.url + "</td>" +
-            "<td>" + timeMiliSecondFormatter(item.total) + "</td>" +
-            "<td>" + timeMiliSecondFormatter(item.scripting) + "</td>" +
-            "<td>" + timeMiliSecondFormatter(item.scriptParseCompile) + "</td>" +
+            "<td class='url-length'>" + item.url + "</td>" +
+            "<td class='text-right " + (getScaleFromTime(item.total).scale) + "'>" + timeMiliSecondFormatter(item.total) + "</td>" +
+            "<td class='text-right " + (getScaleFromTime(item.scripting).scale) + "'>" + timeMiliSecondFormatter(item.scripting) + "</td>" +
+            "<td class='text-right " + (getScaleFromTime(item.scriptParseCompile).scale) + "'>" + timeMiliSecondFormatter(item.scriptParseCompile) + "</td>" +
             "</tr>"
         );
     });
