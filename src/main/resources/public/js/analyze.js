@@ -206,7 +206,10 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
                 renderBlockingResourcesOverallSavingsMs: data['lighthouseMisc']['render-blocking-resources']['details']['overallSavingsMs'],
                 criticalRequestChainsTitle: data['lighthouseMisc']['critical-request-chains']['title'],
                 criticalRequestChainsDescription: data['lighthouseMisc']['critical-request-chains']['description'],
-                criticalRequestChainsDisplayValue: data['lighthouseMisc']['critical-request-chains']['displayValue']
+                criticalRequestChainsDisplayValue: data['lighthouseMisc']['critical-request-chains']['displayValue'],
+                bootupTimeTitle: data['lighthouseMisc']['bootup-time']['title'],
+                bootupTimeDescription: data['lighthouseMisc']['bootup-time']['description'],
+                bootupTimeDisplayValue: data['lighthouseMisc']['bootup-time']['displayValue']
             }
         );
 
@@ -215,6 +218,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
         plotStackedBarChart(data['lighthouseMisc']['mainthread-work-breakdown'], '#mainthread-work-breakdown-chart');
         plotRenderBlockingResourcesChart(data['lighthouseMisc']['render-blocking-resources']['details']['items'], "#render-blocking-resources-chart");
         plotDomSizeChart(data['lighthouseMisc']['dom-size']['details']['items'], "#dom-size-chart");
+        plotBootupTimeChart(data['lighthouseMisc']['bootup-time']['details']['items'], "#bootup-time-chart");
        // plotCriticalRequestChain(data['lighthouseMisc']['critical-request-chains']['details']['chains'], ".lh-crc");
 
         var d = new DetailsRenderer(new DOM(document));
@@ -266,7 +270,7 @@ function plotLabDataChart(data) {
 }
 
 function plotMiscellaneousDataChart(data) {
-    plotDataChart(data, ["mainthread-work-breakdown", "render-blocking-resources", "dom-size"], false);
+    plotDataChart(data, ["mainthread-work-breakdown", "render-blocking-resources", "dom-size", "bootup-time"], false);
 }
 
 function delayPopoverClose() {
@@ -302,8 +306,20 @@ function plotDomSizeChart(data, elem) {
     $.each(data, function(i, item) {
         $(elem).find("tbody").append("<tr>" +
             "<td>" + item.statistic + "</td>" +
-            "<td style='max-width: 500px;'>" + ((item.element.type) ? (item.element.type == 'code' ? '<code>'+$('<div />').text(item.element.value).html()+'</code>': item.element.value) : item.element) + "</td>" +
+            "<td style='max-width: 500px;'>" + ((item.element) ? (((item.element.type) ? (item.element.type == 'code' ? '<code>'+$('<div />').text(item.element.value).html()+'</code>': item.element.value) : item.element)): '') + "</td>" +
             "<td>" + item.value + "</td></tr>"
+        );
+    });
+}
+
+function plotBootupTimeChart(data, elem) {
+    $.each(data, function(i, item) {
+        $(elem).find("tbody").append("<tr>" +
+            "<td style='word-break: break-word; max-width: 500px;'>" + item.url + "</td>" +
+            "<td>" + timeMiliSecondFormatter(item.total) + "</td>" +
+            "<td>" + timeMiliSecondFormatter(item.scripting) + "</td>" +
+            "<td>" + timeMiliSecondFormatter(item.scriptParseCompile) + "</td>" +
+            "</tr>"
         );
     });
 }

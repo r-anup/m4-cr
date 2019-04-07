@@ -16,16 +16,18 @@ public class LighthouseMisc {
     @JsonProperty(value = "dom-size")
     public LightHouseResultsMetricsMeta domSize;
 
-
+    @JsonProperty(value = "bootup-time")
+    public LightHouseResultsMetricsMeta bootupTime;
 
     public LighthouseMisc() {
     }
 
-    public LighthouseMisc(LightHouseResultsMetricsMeta criticalRequestChains, LightHouseResultsMetricsMeta mainthreadWorkBreakdown, LightHouseResultsMetricsMeta renderBlockingResources, LightHouseResultsMetricsMeta domSize) {
+    public LighthouseMisc(LightHouseResultsMetricsMeta criticalRequestChains, LightHouseResultsMetricsMeta mainthreadWorkBreakdown, LightHouseResultsMetricsMeta renderBlockingResources, LightHouseResultsMetricsMeta domSize, LightHouseResultsMetricsMeta bootupTime) {
         this.criticalRequestChains = criticalRequestChains;
         this.mainthreadWorkBreakdown = mainthreadWorkBreakdown;
         this.renderBlockingResources = renderBlockingResources;
         this.domSize = domSize;
+        this.bootupTime = bootupTime;
     }
 
     public LightHouseResultsMetricsMeta getCriticalRequestChains() {
@@ -58,5 +60,13 @@ public class LighthouseMisc {
 
     public void setDomSize(LightHouseResultsMetricsMeta domSize) {
         this.domSize = domSize;
+    }
+
+    public LightHouseResultsMetricsMeta getBootupTime() {
+        return bootupTime;
+    }
+
+    public void setBootupTime(LightHouseResultsMetricsMeta bootupTime) {
+        this.bootupTime = bootupTime;
     }
 }

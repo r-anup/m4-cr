@@ -332,10 +332,33 @@
 
                             <div class="pb-5">
                                 <div id="critical-request-chains">
-                                    <div class="lh-audit-group__subheader--title"><span data-content="criticalRequestChainsTitle"></span> <span class="lh-metric__value"  style="padding-left: 6rem; color: #9a9a9a;" data-content="criticalRequestChainsDisplayValue"></span></div>
+                                    <div class="lh-audit-group__subheader--title"><span data-content="criticalRequestChainsTitle"></span> <span class="lh-metric__value" data-content="criticalRequestChainsDisplayValue"></span></div>
                                     <div class="lh-audit-group__subheader--description" data-content="criticalRequestChainsDescription"></div>
 
                                     <div class="crc-chart lh-crc-container lh-details"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="pb-5">
+                                <div id="bootup-time">
+                                    <div class="lh-audit-group__subheader--title"><span data-content="bootupTimeTitle"></span> <span class="pl-3 lh-metric__value" data-content="bootupTimeDisplayValue"></span></div>
+                                    <div class="lh-audit-group__subheader--description" data-content="bootupTimeDescription"></div>
+
+                                    <div id="bootup-time-chart" style="width: 100%; font-size: 1.4rem;">
+                                        <table class="table table-striped table-hover table-bordered"
+                                               th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
+                                            <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
+                                            <tr>
+                                                <th scope="col">URL</th>
+                                                <th scope="col">Total CPU Time</th>
+                                                <th scope="col">Script Evaluation</th>
+                                                <th scope="col">Script Parse</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 

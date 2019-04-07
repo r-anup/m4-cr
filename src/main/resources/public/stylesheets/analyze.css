@@ -411,12 +411,23 @@
 
 
 /* critical rendering path */
+#critical-request-chains .lh-metric__value {
+    margin-left: 6rem;
+    background: #ffff007a;
+    padding: 0.2rem;
+}
+
 .lh-crc {
     font-size: 1.4rem;
+    padding: 1rem;
+    background: #f5f6fb;
+}
+
+.dark-mode-theme .lh-crc {
+    background: #2f2f2f;
 }
 
 .lh-crc .crc-initial-nav {
-    color: #595959;
     font-style: italic;
 }
 
