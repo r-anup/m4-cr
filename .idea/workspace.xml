@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6ff90437-4756-4c43-854f-32e6b5062259" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -70,8 +71,8 @@
       <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="564">
-              <caret line="215" column="31" lean-forward="true" selection-start-line="215" selection-start-column="16" selection-end-line="215" selection-end-column="31" />
+            <state relative-caret-position="159">
+              <caret line="188" column="26" selection-start-line="188" selection-start-column="16" selection-end-line="188" selection-end-column="26" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -84,7 +85,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
-              <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+              <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
               <folding>
                 <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
@@ -156,7 +157,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.lh-crc .crc-initial-nav</find>
       <find>plotrenderBlockingResourcesChart</find>
       <find>Minimize Critical Requests Depth</find>
       <find>lh-audit-group__subheader--title</find>
@@ -186,6 +186,7 @@
       <find>screenshots</find>
       <find>diagnostics-chart</find>
       <find>isDarkMode</find>
+      <find>generate</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed</dir>
@@ -238,7 +239,6 @@
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/Metrics.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/PageSpeed.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/settings.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" />
         <option value="$PROJECT_DIR$/src/main/resources/public/js/mustache.js" />
         <option value="$PROJECT_DIR$/src/main/resources/public/js/critical-chain.js" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/LighthouseMisc.java" />
@@ -247,6 +247,7 @@
         <option value="$PROJECT_DIR$/src/main/resources/public/stylesheets/main.css" />
         <option value="$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/analyze.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" />
         <option value="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" />
       </list>
     </option>
@@ -493,12 +494,12 @@
       <workItem from="1551943483206" duration="925000" />
       <workItem from="1551944448619" duration="124560000" />
       <workItem from="1552660756649" duration="167467000" />
-      <workItem from="1553524101738" duration="174252000" />
+      <workItem from="1553524101738" duration="174495000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="545370000" />
+    <option name="totallyTimeSpent" value="545613000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
@@ -523,8 +524,8 @@
       <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.63489586" weight="0.32939035" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.760119" weight="0.38145417" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.76927084" visible="true" weight="0.33484986" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.76927084" visible="true" weight="0.33484986" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="right" id="Bean Validation" order="8" />
       <window_info id="Web" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49947917" weight="0.32939035" />
@@ -1036,8 +1037,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="215" column="31" lean-forward="true" selection-start-line="215" selection-start-column="16" selection-end-line="215" selection-end-column="31" />
+        <state relative-caret-position="159">
+          <caret line="188" column="26" selection-start-line="188" selection-start-column="16" selection-end-line="188" selection-end-column="26" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1048,7 +1049,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
           <folding>
             <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />

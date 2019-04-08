@@ -18,7 +18,7 @@ if (urlStr != null) {
         }
         $(".main-action input[name='url']").val(url);
         generateReport(url, globalData.strategy, globalData.mainAPI);
-        loadDarkMode();
+        setDarMode();
     });
 }
 //031319124857622
