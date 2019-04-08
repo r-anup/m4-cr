@@ -186,7 +186,7 @@
 }
 
 .lh-audit-group {
-    margin: var(--lh-audit-group-vpadding) 0;
+    margin: 42px 0 0 0;
 }
 
 .lh-audit-group--audits .lh-audit-group__summary,
@@ -448,7 +448,7 @@
 .lh-crc .vert{background:url('data:image/svg+xml;utf8,<svg width="16" height="26" viewBox="0 0 16 26" xmlns="http://www.w3.org/2000/svg"><path d="M7 0h2v26H7z" fill="%23D8D8D8" fill-rule="evenodd"/></svg>');}
 
 .lh-crc .crc-node__tree-hostname {
-    color: #705dff;
+    color: #007bff;
 }
 
 .lh-crc .crc-node__chain-duration {
