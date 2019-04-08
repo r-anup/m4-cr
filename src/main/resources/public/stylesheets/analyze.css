@@ -40,7 +40,6 @@
 .report-summary {
     flex-wrap: nowrap;
     align-items: center;
-    border-bottom: solid 1px #e0e0e0;
     word-break: break-word;
     font-size: 1.5rem;
 }
@@ -259,7 +258,6 @@
 
 .lh-columns {
     display: flex;
-    width: 100%;
 }
 
 .lh-column:first-of-type {
@@ -425,7 +423,11 @@
     background: #f5f6fb;
 }
 
-.dark-mode-theme .lh-crc {
+.s-container {
+    background: #f5f6fb;
+}
+
+.dark-mode-theme .lh-crc, .dark-mode-theme .s-container {
     background: #2f2f2f;
 }
 

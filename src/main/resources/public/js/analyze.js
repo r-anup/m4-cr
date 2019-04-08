@@ -180,7 +180,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
         plotLabDataChart(data['lighthouseResult']);
 
         /* draw screenshots section */
-        $("#screenshots-chart").append("<div class='lh-audit-group__subheader--title'>Screenshots</div>");
+        $("#screenshots-chart").append("<div class='lh-audit-group__subheader--title mb-3'>Screenshots</div>");
         var screenshots = $("<div class='s-container d-flex flex-wrap col-12 pt-2 pb-2'></div>").appendTo("#screenshots-chart");
         data['screenshots'].forEach(function (screenshot) {
             screenshots.append('<div><img src="data:image/jpeg;base64,' + screenshot.data + '" alt="thumbnail" /><span>' + timeMiliSecondFormatter(screenshot.timing) + '</span></div>');

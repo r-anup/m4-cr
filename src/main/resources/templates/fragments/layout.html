@@ -192,6 +192,11 @@
                     $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
                     $(".table").removeClass("table-light").addClass("table-dark");
                     $(".table thead").removeClass("thead-light").addClass("thead-dark");
+                } else {
+                    $("body").removeClass("dark-mode-theme");
+                    $(".cr-logo").attr("src", "images/cr-logo.svg");
+                    $(".table").removeClass("table-dark").addClass("table-light");
+                    $(".table thead").removeClass("thead-dark").addClass("thead-light");
                 }
             };
 
