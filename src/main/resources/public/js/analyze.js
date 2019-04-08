@@ -18,7 +18,6 @@ if (urlStr != null) {
         }
         $(".main-action input[name='url']").val(url);
         generateReport(url, globalData.strategy, globalData.mainAPI);
-        setDarMode();
     });
 }
 //031319124857622
@@ -234,6 +233,7 @@ function generateReport(url, strategy, mainAPI, secondAPI) {
 
         $('.report-summary').show();
 
+        setDarMode();
     })
         .fail(function () {
             if (globalData.fetchSource == "repository") {
