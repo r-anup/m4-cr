@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ff90437-4756-4c43-854f-32e6b5062259" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/analyze.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/analyze.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/metrics.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/metrics.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fragments/layout.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -73,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="230" column="42" lean-forward="true" selection-start-line="230" selection-start-column="42" selection-end-line="230" selection-end-column="42" />
+            <state relative-caret-position="258">
+              <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -99,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common-functions.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="common-functions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="180" column="30" selection-start-line="180" selection-start-column="30" selection-end-line="180" selection-end-column="30" />
+            <state relative-caret-position="256">
+              <caret line="299" lean-forward="true" selection-start-line="299" selection-end-line="299" />
             </state>
           </provider>
         </entry>
@@ -162,7 +156,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>scree</find>
       <find>screenshot</find>
       <find>screenshots-c</find>
       <find>#screenshots</find>
@@ -192,6 +185,7 @@
       <find>PercentageFor</find>
       <find>percentageFormatter</find>
       <find>left-val</find>
+      <find>.dark-mode-button</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed</dir>
@@ -251,9 +245,9 @@
         <option value="$PROJECT_DIR$/src/main/resources/templates/analyze.html" />
         <option value="$PROJECT_DIR$/src/main/resources/public/stylesheets/main.css" />
         <option value="$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/metrics.html" />
         <option value="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" />
       </list>
     </option>
   </component>
@@ -499,12 +493,12 @@
       <workItem from="1551943483206" duration="925000" />
       <workItem from="1551944448619" duration="124560000" />
       <workItem from="1552660756649" duration="167467000" />
-      <workItem from="1553524101738" duration="180334000" />
+      <workItem from="1553524101738" duration="180950000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="551452000" />
+    <option name="totallyTimeSpent" value="552068000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
@@ -1025,17 +1019,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="230" column="42" lean-forward="true" selection-start-line="230" selection-start-column="42" selection-end-line="230" selection-end-column="42" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/metrics.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
@@ -1057,8 +1040,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="180" column="30" selection-start-line="180" selection-start-column="30" selection-end-line="180" selection-end-column="30" />
+        <state relative-caret-position="256">
+          <caret line="299" lean-forward="true" selection-start-line="299" selection-end-line="299" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
