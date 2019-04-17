@@ -65,10 +65,15 @@ public class MetricsController {
     @RequestMapping(value = "/url/score", method = RequestMethod.GET, produces = "application/json")
     public Object getUrlsAndScore(
             @RequestParam(value = "url") String url,
-            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType,
+            @RequestParam(value = "isShowAll", required = false, defaultValue = "true") boolean isShowAll
     ) {
         List<Metrics> metrics;
-        metrics = metricsRepository.findByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 7));
+        if (isShowAll) {
+            metrics = metricsRepository.findByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 7));
+        } else {
+            metrics = metricsRepository.findScoresByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 30));
+        }
 
         if (metrics != null) {
             return metrics;

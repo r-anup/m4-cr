@@ -30,6 +30,13 @@ public interface MetricsRepository extends MongoRepository<Metrics, String> {
             PageRequest pageRequest
     );
 
+    @Query(value="{url: ?0, deviceType: ?1}", fields="{lighthouseResult : 1, fetchTime: 1}", sort="{fetchTime: -1}")
+    List<Metrics> findScoresByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(
+            String url,
+            String deviceType,
+            PageRequest pageRequest
+    );
+
 
     Metrics findFirstByUrlEqualsAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(
             String url,

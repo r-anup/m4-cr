@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ff90437-4756-4c43-854f-32e6b5062259" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/analyze.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/analyze.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/metrics.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/metrics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fragments/layout.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,38 +23,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PageSpeed.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/PageSpeed.java">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="100" column="31" selection-start-line="100" selection-start-column="31" selection-end-line="100" selection-end-column="31" />
+            <state relative-caret-position="2070">
+              <caret line="167" selection-start-line="167" selection-end-line="167" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="metrics.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/metrics.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="115" column="13" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="analyze.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="194" column="17" selection-start-line="194" selection-start-column="17" selection-end-line="194" selection-end-column="17" />
-              <folding>
-                <element signature="e#8124#8341#2" expanded="true" />
-                <element signature="e#8370#8553#2" expanded="true" />
-                <element signature="e#8585#8778#2" expanded="true" />
-                <element signature="e#8812#9005#2" expanded="true" />
-                <element signature="e#9033#9214#2" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -54,24 +38,29 @@
       <file leaf-file-name="analyze.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/analyze.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="384" column="77" selection-start-line="384" selection-start-column="77" selection-end-line="384" selection-end-column="77" />
+            <state relative-caret-position="219">
+              <caret line="198" column="106" selection-start-line="198" selection-start-column="106" selection-end-line="198" selection-end-column="106" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
+            <state relative-caret-position="930">
+              <caret line="62" column="30" selection-start-line="62" selection-start-column="30" selection-end-line="62" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -80,15 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="analyze.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="analyze.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="191" column="8" lean-forward="true" selection-start-line="191" selection-start-column="8" selection-end-line="191" selection-end-column="8" />
-              <folding>
-                <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="219">
+              <caret line="205" column="36" selection-start-line="205" selection-start-column="36" selection-end-line="205" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -96,8 +81,57 @@
       <file leaf-file-name="common-functions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="299" lean-forward="true" selection-start-line="299" selection-end-line="299" />
+            <state relative-caret-position="509">
+              <caret line="676" column="6" lean-forward="true" selection-start-line="676" selection-start-column="6" selection-end-line="676" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MetricsController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="59" column="73" lean-forward="true" selection-start-line="59" selection-start-column="73" selection-end-line="59" selection-end-column="73" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Metrics.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/Metrics.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2713#2714#0" expanded="true" />
+                <element signature="e#2750#2751#0" expanded="true" />
+                <element signature="e#2818#2819#0" expanded="true" />
+                <element signature="e#2870#2871#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MetricsRepository.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="294">
+              <caret line="27" column="23" lean-forward="true" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,11 +139,9 @@
       <file leaf-file-name="metrics.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/metrics.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="422" column="52" selection-start-line="422" selection-start-column="52" selection-end-line="422" selection-end-column="52" />
+            <state relative-caret-position="5385">
+              <caret line="359" column="44" selection-start-line="354" selection-start-column="24" selection-end-line="359" selection-end-column="44" />
               <folding>
-                <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -119,28 +151,6 @@
                 <element signature="n#style#0;n#span#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#span#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/public/stylesheets/main.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
-              <folding>
-                <element signature="e#2401#2806#2" expanded="true" />
-                <element signature="e#13644#14146#2" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="critical-chain.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/critical-chain.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1284">
-              <caret line="1129" column="56" lean-forward="true" selection-start-line="1129" selection-start-column="56" selection-end-line="1129" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -156,36 +166,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>screenshot</find>
-      <find>screenshots-c</find>
-      <find>#screenshots</find>
-      <find>screenshots-chart</find>
-      <find>screenshots</find>
-      <find>diagnostics-chart</find>
-      <find>isDarkMode</find>
-      <find>.lh-columns</find>
-      <find>lh-columns row</find>
-      <find>if (Cookies.get('isDarkMode')</find>
-      <find>bottom: 1p</find>
+      <find>Analysis time</find>
+      <find>plotDonutChart</find>
       <find>report-summary</find>
-      <find>.report-summary</find>
-      <find>.dark-mode-theme .lh-crc</find>
       <find>generate</find>
-      <find>s-container</find>
-      <find>lh-columns row p</find>
-      <find>mainthread-work-breakdown-chart</find>
-      <find>tree-</find>
-      <find>--lh-audit-group-vpaddin</find>
-      <find>.oi-arrow-thick-top:before</find>
-      <find>lh-audit-group lh-audit-group--metrics container-fluid col-12</find>
-      <find>.lh-audit-group</find>
-      <find>benchmark</find>
-      <find>chart__stat-number--compare</find>
-      <find>Percenta</find>
-      <find>PercentageFor</find>
-      <find>percentageFormatter</find>
-      <find>left-val</find>
-      <find>.dark-mode-button</find>
+      <find>.href</find>
+      <find>&quot;/metrics.html&quot;  + &quot;?&quot; + urlParams.toString();</find>
+      <find>date-right-header-link</find>
+      <find>date-right-heade</find>
+      <find>setDateStats</find>
+      <find>datepicker</find>
+      <find>fetchTi</find>
+      <find>plotLin</find>
+      <find>plotLineChart</find>
+      <find>plotAllineChart</find>
+      <find>scoreRequests</find>
+      <find>urls</find>
+      <find>displayMetricsData</find>
+      <find>boolean</find>
+      <find>plotL</find>
+      <find>href</find>
+      <find>success</find>
+      <find>ajax</find>
+      <find>plotReportSummary</find>
+      <find>fetchTime</find>
+      <find>plotBarChart</find>
+      <find>.goog</find>
+      <find>mainAp</find>
+      <find>mainAPI</find>
+      <find>#scre</find>
+      <find>creenshots-chart</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed</dir>
@@ -227,10 +237,7 @@
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/HistoryController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/reports.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/history.html" />
-        <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/SettingsController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/LightHouseResultsMetricsMeta.java" />
         <option value="$PROJECT_DIR$/run.sh" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/LighthouseResult.java" />
@@ -241,13 +248,16 @@
         <option value="$PROJECT_DIR$/src/main/resources/public/js/critical-chain.js" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/LighthouseMisc.java" />
         <option value="$PROJECT_DIR$/src/main/resources/metrics.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/analyze.html" />
         <option value="$PROJECT_DIR$/src/main/resources/public/stylesheets/main.css" />
         <option value="$PROJECT_DIR$/src/main/resources/public/stylesheets/analyze.css" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/metrics.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html" />
+        <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/metrics.html" />
+        <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/analyze.html" />
+        <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" />
       </list>
     </option>
   </component>
@@ -271,6 +281,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -329,47 +340,12 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="m4-cr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="m4-cr" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="m4-cr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="m4-cr" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="stylesheets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="m4-cr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="m4-cr" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="m4-cr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="m4-cr" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="fragments" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -493,12 +469,13 @@
       <workItem from="1551943483206" duration="925000" />
       <workItem from="1551944448619" duration="124560000" />
       <workItem from="1552660756649" duration="167467000" />
-      <workItem from="1553524101738" duration="180950000" />
+      <workItem from="1553524101738" duration="193371000" />
+      <workItem from="1555474419194" duration="944000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="552068000" />
+    <option name="totallyTimeSpent" value="565433000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
@@ -527,7 +504,6 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="right" id="Bean Validation" order="8" />
       <window_info id="Web" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49947917" weight="0.32939035" />
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -536,6 +512,7 @@
       <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49947917" weight="0.32939035" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49947917" weight="0.32939035" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -559,15 +536,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js</url>
-          <line>335</line>
-          <properties lambdaOrdinal="-1" />
+          <line>387</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js</url>
-          <line>642</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
       <option name="time" value="4" />
@@ -578,9 +548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -590,13 +557,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/public/pagespeed.txt" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/public/scoreDelta.txt" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/public/pagespeedEmails.txt" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-mongodb/2.1.5.RELEASE/spring-data-mongodb-2.1.5.RELEASE.jar!/org/springframework/data/mongodb/repository/Query.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/TimeZone.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="387">
@@ -618,20 +578,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1995">
-          <caret line="133" column="65" lean-forward="true" selection-start-line="133" selection-start-column="65" selection-end-line="133" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/converters/EnumConverter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -639,9 +589,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -689,9 +636,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="364">
           <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -709,38 +653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
           <caret line="57" column="41" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="41" />
-          <folding>
-            <element signature="e#1368#1369#0" expanded="true" />
-            <element signature="e#1394#1395#0" expanded="true" />
-            <element signature="e#1432#1433#0" expanded="true" />
-            <element signature="e#1462#1463#0" expanded="true" />
-            <element signature="e#1509#1510#0" expanded="true" />
-            <element signature="e#1545#1546#0" expanded="true" />
-            <element signature="e#1610#1611#0" expanded="true" />
-            <element signature="e#1660#1661#0" expanded="true" />
-            <element signature="e#1692#1693#0" expanded="true" />
-            <element signature="e#1720#1721#0" expanded="true" />
-            <element signature="e#1762#1763#0" expanded="true" />
-            <element signature="e#1796#1797#0" expanded="true" />
-            <element signature="e#1833#1834#0" expanded="true" />
-            <element signature="e#1865#1866#0" expanded="true" />
-            <element signature="e#1916#1917#0" expanded="true" />
-            <element signature="e#1958#1959#0" expanded="true" />
-            <element signature="e#2002#2003#0" expanded="true" />
-            <element signature="e#2042#2043#0" expanded="true" />
-            <element signature="e#2108#2109#0" expanded="true" />
-            <element signature="e#2166#2167#0" expanded="true" />
-            <element signature="e#2212#2213#0" expanded="true" />
-            <element signature="e#2254#2255#0" expanded="true" />
-            <element signature="e#2324#2325#0" expanded="true" />
-            <element signature="e#2386#2387#0" expanded="true" />
-            <element signature="e#2431#2432#0" expanded="true" />
-            <element signature="e#2472#2473#0" expanded="true" />
-            <element signature="e#2540#2541#0" expanded="true" />
-            <element signature="e#2600#2601#0" expanded="true" />
-            <element signature="e#2647#2648#0" expanded="true" />
-            <element signature="e#2690#2691#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -748,9 +660,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
           <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
-          <folding>
-            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -758,23 +667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="28" column="56" selection-start-line="28" selection-start-column="56" selection-end-line="28" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
@@ -807,16 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="49" selection-start-line="49" selection-end-line="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -835,17 +717,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1001#1002#0" expanded="true" />
-            <element signature="e#1035#1036#0" expanded="true" />
-            <element signature="e#1089#1090#0" expanded="true" />
-            <element signature="e#1135#1136#0" expanded="true" />
-            <element signature="e#1284#1285#0" expanded="true" />
-            <element signature="e#1314#1315#0" expanded="true" />
-            <element signature="e#1364#1365#0" expanded="true" />
-            <element signature="e#1402#1403#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -867,24 +738,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="359" column="29" selection-start-line="354" selection-start-column="24" selection-end-line="359" selection-end-column="29" />
-          <folding>
-            <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#1;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#1;n#tr#1;n#thead#0;n#table#0;n#div#0;n#div#1;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#2;n#tr#1;n#thead#0;n#table#0;n#div#0;n#div#1;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#tr#1;n#thead#0;n#table#0;n#div#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#1;n#tr#1;n#thead#0;n#table#0;n#div#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#3;n#tr#1;n#thead#0;n#table#0;n#div#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#1;n#div#0;n#div#4;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#1;n#div#0;n#div#5;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -899,18 +752,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="44" lean-forward="true" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
-          <folding>
-            <element signature="e#1705#1706#0" expanded="true" />
-            <element signature="e#1751#1752#0" expanded="true" />
-            <element signature="e#1977#1978#0" expanded="true" />
-            <element signature="e#2007#2008#0" expanded="true" />
-            <element signature="e#2075#2076#0" expanded="true" />
-            <element signature="e#2113#2114#0" expanded="true" />
-            <element signature="e#2343#2344#0" expanded="true" />
-            <element signature="e#2376#2377#0" expanded="true" />
-            <element signature="e#2450#2451#0" expanded="true" />
-            <element signature="e#2494#2495#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -918,30 +759,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/Metrics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-246">
-          <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2713#2714#0" expanded="true" />
-            <element signature="e#2750#2751#0" expanded="true" />
-            <element signature="e#2818#2819#0" expanded="true" />
-            <element signature="e#2870#2871#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="62" column="37" selection-start-line="62" selection-start-column="37" selection-end-line="62" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -969,39 +786,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="191" column="8" lean-forward="true" selection-start-line="191" selection-start-column="8" selection-end-line="191" selection-end-column="8" />
-          <folding>
-            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/public/stylesheets/main.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
-          <folding>
-            <element signature="e#2401#2806#2" expanded="true" />
-            <element signature="e#13644#14146#2" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/analyze.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="384" column="77" selection-start-line="384" selection-start-column="77" selection-end-line="384" selection-end-column="77" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1009,23 +797,49 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="319">
           <caret line="194" column="17" selection-start-line="194" selection-start-column="17" selection-end-line="194" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="930">
+          <caret line="62" column="30" selection-start-line="62" selection-start-column="30" selection-end-line="62" selection-end-column="30" />
           <folding>
-            <element signature="e#8124#8341#2" expanded="true" />
-            <element signature="e#8370#8553#2" expanded="true" />
-            <element signature="e#8585#8778#2" expanded="true" />
-            <element signature="e#8812#9005#2" expanded="true" />
-            <element signature="e#9033#9214#2" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1033">
+          <caret line="133" column="65" lean-forward="true" selection-start-line="133" selection-start-column="65" selection-end-line="133" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2070">
+          <caret line="167" selection-start-line="167" selection-end-line="167" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/metrics.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="422" column="52" selection-start-line="422" selection-start-column="52" selection-end-line="422" selection-end-column="52" />
+        <state relative-caret-position="5385">
+          <caret line="359" column="44" selection-start-line="354" selection-start-column="24" selection-end-line="359" selection-end-column="44" />
           <folding>
-            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1038,21 +852,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-mongodb/2.1.5.RELEASE/spring-data-mongodb-2.1.5.RELEASE.jar!/org/springframework/data/mongodb/repository/Query.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="299" lean-forward="true" selection-start-line="299" selection-end-line="299" />
+        <state relative-caret-position="150">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/layout.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/Metrics.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
+        <state relative-caret-position="75">
+          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2713#2714#0" expanded="true" />
+            <element signature="e#2750#2751#0" expanded="true" />
+            <element signature="e#2818#2819#0" expanded="true" />
+            <element signature="e#2870#2871#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="59" column="73" lean-forward="true" selection-start-line="59" selection-start-column="73" selection-end-line="59" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="27" column="23" lean-forward="true" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="676" column="6" lean-forward="true" selection-start-line="676" selection-start-column="6" selection-end-line="676" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/analyze.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="198" column="106" selection-start-line="198" selection-start-column="106" selection-end-line="198" selection-end-column="106" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="205" column="36" selection-start-line="205" selection-start-column="36" selection-end-line="205" selection-end-column="36" />
         </state>
       </provider>
     </entry>

@@ -637,53 +637,7 @@
                         $("#showEMA").prop("checked", true);
                     }
 
-
-                    var generateScoreRequests = function(urls, strategy) {
-                        var generateRequest = function(url, strategy) {
-                            return $.ajax({
-                                data: {
-                                    url: url,
-                                    strategy: strategy,
-                                },
-                                dataType: 'json',
-                                method: 'GET',
-                                url: '/metrics/url/score',
-                            })
-                        }
-
-                        return urls.map(function (url) {
-                            return generateRequest(url, strategy);
-                        });
-                    };
-
-                    var generateScoreData = function(response) {
-                        var data = {days: [], scores: {}};
-                        $.each(response.reverse(), function (idx, item) {
-                            var dt = new Date(item.fetchTime);
-                            data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
-                            Object.keys(item.lighthouseResult).forEach(function (key) {
-                                if (!data.scores[key]) data.scores[key] = [];
-                                var itemValue = item.lighthouseResult[key].displayValue;
-                                if (itemValue) {
-                                    itemValue = timeMiliSecondSanitize(itemValue);
-                                } else {
-                                    itemValue = Math.round(item.lighthouseResult[key]*100);
-                                }
-                                data.scores[key].push(itemValue);
-                            });
-                        });
-                        return data;
-                    }
-
-                     var getAllIndexes = function(arr, val) {
-                        var indexes = [], i = -1;
-                        while ((i = arr.indexOf(val, i+1)) != -1){
-                            indexes.push(i);
-                        }
-                        return indexes;
-                    }
-
-                    var generateCompetitorScoreData = function(response, days) {
+                      var generateCompetitorScoreData = function(response, days) {
                         var data = {days: days, scores: {}};
                         $.each(response, function (idx, item) {
                                 var dt = new Date(item.fetchTime);

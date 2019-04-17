@@ -213,9 +213,13 @@ function getScaleFromTime(time) {
 function getScaleFromScore(score) {
     score = (score+"").replace(/,/g, "");
     score = parseFloat(score);
+    if (score <= 1) {
+        score = Math.round(score * 100);
+    }
+
     var data = {
         scale: 'pass',
-        score: Math.round(score * 100),
+        score: score,
         color: '#675c5c'
     };
     switch (true) {
@@ -331,6 +335,54 @@ $.addTemplateFormatter({
 
 
 });
+
+
+var getAllIndexes = function(arr, val) {
+    var indexes = [], i = -1;
+    while ((i = arr.indexOf(val, i+1)) != -1){
+        indexes.push(i);
+    }
+    return indexes;
+};
+
+var generateScoreRequests = function(urls, strategy) {
+    var generateRequest = function(url, strategy) {
+        return $.ajax({
+            data: {
+                url: url,
+                strategy: strategy,
+            },
+            dataType: 'json',
+            method: 'GET',
+            url: '/metrics/url/score',
+        })
+    }
+
+    return urls.map(function (url) {
+        return generateRequest(url, strategy);
+    });
+};
+
+var generateScoreData = function(response) {
+    var data = {days: [], fullDays:[], scores: {}};
+    $.each(response.reverse(), function (idx, item) {
+        var dt = new Date(item.fetchTime);
+        data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
+        data.fullDays.push(dt.toLocaleDateString());
+        Object.keys(item.lighthouseResult).forEach(function (key) {
+            if (!data.scores[key]) data.scores[key] = [];
+            var itemValue = item.lighthouseResult[key].displayValue;
+            if (itemValue) {
+                itemValue = timeMiliSecondSanitize(itemValue);
+            } else {
+                itemValue = Math.round(item.lighthouseResult[key]*100);
+            }
+            data.scores[key].push(itemValue);
+        });
+    });
+    return data;
+}
+
 
 
 function plotFileTypeChart(data, elem, title, showLegends) {
@@ -565,6 +617,73 @@ function plotLineChart(data, elem) {
     myChart.setOption(option);
 }
 
+function plotBarChart(data, elem) {
+    var myChart = echarts.init($(elem)[0]);
+    var formatDataValues = function(values) {
+        var data = [];
+        $.each(values, function (idx, score) {
+            data.push({value: score, itemStyle: { opacity: 1, color: getScaleFromScore(score).color}})
+        });
+     return data;
+    }
+
+    var option = {
+        grid: {
+            width: '90%',
+            right: '0',
+        },
+        color: ['#61a0a8', '#a862a5'],
+        tooltip: {
+            show: false
+        },
+        xAxis: {
+            show: false,
+            type: 'category',
+            data: data.days,
+            splitLine: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#888'
+                }
+            }
+        },
+        yAxis: {
+            show: false,
+            type: 'value',
+        },
+        series: [{
+            data: formatDataValues(data.values),
+            type: 'bar',
+            smooth: true,
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideTop',
+                    formatter: function(params) {
+                        var value = params.value;
+                        value = value.toLocaleString();
+                        return value;
+                    }
+                }
+            },
+        }
+
+        ]
+    };
+    myChart.setOption(option);
+    myChart.on('click', function (params) {
+        globalData.date = data.fullDays[params['dataIndex']];
+        generateReport(globalData.url, globalData.strategy, globalData.mainAPI);
+        console.log(params);
+        console.log(data.fullDays[params['dataIndex']]);
+    });
+}
+
 function plotStackedBarChart(data, elem) {
     stackedBarData = data;
     var myChart = echarts.init($(elem)[0]);
@@ -668,6 +787,20 @@ function plotStackedBarChart(data, elem) {
         ]
     };
     myChart.setOption(option);
+}
+
+
+function  plotReportSummary(scoreValue, fetchTime) {
+    plotDonutChart(scoreValue);
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("fetchSource") == "repository") {
+        urlParams.delete("fetchSource");
+        urlParams.delete("date");
+        urlParams.set('rightDate', new Date(fetchTime).toLocaleDateString());
+        $(".performance-metrics-url").attr("href", "/metrics.html" + "?" + urlParams.toString());
+    } else {
+        $(".performance-metrics-url").parent().remove();
+    }
 }
 
 function plotDonutChart(scoreValue) {

@@ -165,7 +165,13 @@ public class Main {
             if (rightDate == null) {
                 rightDate = simpleDateFormat.format(new Date());
             }
-            if (leftDate == null) {
+
+            try {
+                if (leftDate == null) {
+                    leftDate = simpleDateFormat.format(CommonUtil.addDays(new SimpleDateFormat("MM/dd/yyyy").parse(rightDate), -1));
+                }
+            } catch (ParseException e) {
+                LOG.error("Error parsing date string");
                 leftDate = simpleDateFormat.format(CommonUtil.addDays(new Date(), -1));
             }
 
