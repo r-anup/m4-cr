@@ -630,7 +630,9 @@ function plotBarChart(data, elem) {
     var option = {
         grid: {
             width: '90%',
+            height: '90%',
             right: '0',
+            bottom: '0',
         },
         color: ['#61a0a8', '#a862a5'],
         tooltip: {
@@ -659,7 +661,6 @@ function plotBarChart(data, elem) {
         series: [{
             data: formatDataValues(data.values),
             type: 'bar',
-            smooth: true,
             label: {
                 normal: {
                     show: true,
@@ -675,6 +676,21 @@ function plotBarChart(data, elem) {
 
         ]
     };
+
+    option.series.push({
+        data: EMACalc(data.values, 6),
+        lineStyle: {
+          color: '#93eaf4',
+        },
+        type: 'line',
+        markPoint: 'none',
+        symbol: 'none',
+        smooth: true,
+        label: {
+            show: false
+        },
+    });
+
     myChart.setOption(option);
     myChart.on('click', function (params) {
         globalData.date = data.fullDays[params['dataIndex']];
