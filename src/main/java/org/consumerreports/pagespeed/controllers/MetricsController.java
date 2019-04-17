@@ -1,6 +1,7 @@
 package org.consumerreports.pagespeed.controllers;
 
 import org.apache.logging.log4j.LogManager;
+import org.bson.types.ObjectId;
 import org.consumerreports.pagespeed.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
@@ -54,6 +55,20 @@ public class MetricsController {
             metrics = metricsRepository.findFirstByUrlOrderByFetchTimeDesc(url);
         }
 
+        if (metrics != null) {
+            return metrics;
+        } else {
+            return "{\"status\": \"failure\", \"message\": \"No Data\"}";
+        }
+    }
+
+
+    @RequestMapping(value = "/url/id", method = RequestMethod.GET, produces = "application/json")
+    public Object getMetricsById(
+            @RequestParam(value = "_id") ObjectId _id
+    ) {
+        Metrics metrics;
+            metrics = metricsRepository.findBy_id(_id);
         if (metrics != null) {
             return metrics;
         } else {

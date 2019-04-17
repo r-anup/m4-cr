@@ -9,6 +9,7 @@ function getScoreEntities(response) {
         data['fetchTime'] = new Date(response.fetchTime).toLocaleString();
         data['lighthouseResult'] = response.lighthouseResult;
         data['lighthouseMisc'] = response.lighthouseMisc;
+        data['url'] = response.url;
         data['score'] = response.lighthouseResult.score;
         data['screenshots'] = response['screenshots'];
         data['finalScreenshot'] = response['finalScreenshot'];
@@ -24,6 +25,7 @@ function getScoreEntities(response) {
         data['finalScreenshot'] = result.audits['final-screenshot'].details;
     }
 
+    data['strategy'] = response.deviceType;
     data['showLoadingExperience'] = false;
     if (response.loadingExperience) {
         data['showLoadingExperience'] = true;
@@ -363,12 +365,13 @@ var generateScoreRequests = function(urls, strategy) {
     });
 };
 
-var generateScoreData = function(response) {
-    var data = {days: [], fullDays:[], scores: {}};
+var getScoreData = function(response) {
+    var data = {days: [], fullDays:[], scores: {}, id: []};
     $.each(response.reverse(), function (idx, item) {
         var dt = new Date(item.fetchTime);
         data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
         data.fullDays.push(dt.toLocaleDateString());
+        data.id.push(item._id);
         Object.keys(item.lighthouseResult).forEach(function (key) {
             if (!data.scores[key]) data.scores[key] = [];
             var itemValue = item.lighthouseResult[key].displayValue;
@@ -379,6 +382,7 @@ var generateScoreData = function(response) {
             }
             data.scores[key].push(itemValue);
         });
+
     });
     return data;
 }
@@ -618,6 +622,10 @@ function plotLineChart(data, elem) {
 }
 
 function plotBarChart(data, elem) {
+
+    if ($(elem).attr('_echarts_instance_')) {
+        window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).dispose();
+    }
     var myChart = echarts.init($(elem)[0]);
     var formatDataValues = function (values) {
         var data = [];
@@ -661,9 +669,11 @@ function plotBarChart(data, elem) {
         series: [{
             data: formatDataValues(data.values),
             type: 'bar',
+            barMaxWidth: 32,
             label: {
                 normal: {
                     show: true,
+                    distance: 0,
                     position: 'insideTop',
                     formatter: function (params) {
                         var value = params.value;
@@ -694,15 +704,8 @@ function plotBarChart(data, elem) {
     myChart.setOption(option);
 
     /* somehow click is triggered multiple times */
-    var clickTriggered = false;
     myChart.on('click', function (params) {
-        if (clickTriggered == false) {
-            globalData.date = data.fullDays[params['dataIndex']];
-            generateReport(globalData.url, globalData.strategy, globalData.mainAPI);
-            console.log(params);
-            console.log(data.fullDays[params['dataIndex']]);
-            clickTriggered = true;
-        }
+        generateReport(globalData.url, globalData.strategy, globalData.apiURL, data.id[params['dataIndex']]);
     });
 }
 

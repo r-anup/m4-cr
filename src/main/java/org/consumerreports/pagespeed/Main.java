@@ -91,11 +91,13 @@ public class Main {
             @RequestParam(value = "overrideAPI", required = false, defaultValue = "") String overrideAPI,
             @RequestParam(value = "date", required = false) String date,
             @RequestParam(value = "fetchSource", required = false, defaultValue = "repository") FetchSource fetchSource,
+            @RequestParam(value = "_id", required = false) String _id,
             @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
             Model model) {
 
         model.addAttribute("strategy", strategy);
         model.addAttribute("fetchSource", fetchSource);
+        model.addAttribute("_id", _id);
         model.addAttribute("overrideAPI", overrideAPI);
         model.addAttribute("date", date);
         model.addAttribute("settings", "true");

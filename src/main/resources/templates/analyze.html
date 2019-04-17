@@ -28,8 +28,8 @@
                     url: "/urls/cro-list",
                     success: function (urllist) {
                         $('.url-and-analyze .typeahead').typeahead({
-                                hint: true,
-                                highlight: true,
+                                hint: false,
+                                highlight: false,
                                 minLength: 0,
                             },
                             {
@@ -47,19 +47,21 @@
                 globalData.fetchSource = /*[[${fetchSource}]]*/ "lightHouseNoSave";
                 globalData.strategy = /*[[${strategy}]]*/ "mobile";
                 globalData.overrideAPI = /*[[${overrideAPI}]]*/ "";
-                globalData.date = /*[[${date}]]*/ "mobile";
-                globalData.secondAPI = null;
-                globalData.mainAPI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+                globalData._id = /*[[${_id}]]*/ "";
+                globalData.date = /*[[${date}]]*/ "";
+                globalData.apiURL = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
                 if (globalData.overrideAPI != "") {
-                    globalData.mainAPI = globalData.overrideAPI;
+                    globalData.apiURL = globalData.overrideAPI;
+                } else if (globalData.id != null) {
+                    globalData.apiURL = '/metrics/url/id';
                 } else if (globalData.fetchSource == 'googleNoSave') {
-                    globalData.mainAPI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+                    globalData.apiURL = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
                 } else if (globalData.fetchSource == 'lightHouseNoSave') {
-                    globalData.mainAPI = '/lighthouse';
+                    globalData.apiURL = '/lighthouse';
                 } else if (globalData.fetchSource == 'lightHouseAndSave') {
-                    globalData.mainAPI = '/lighthouse';
+                    globalData.apiURL = '/lighthouse';
                 }  else if (globalData.fetchSource == 'repository'){
-                    globalData.mainAPI = '/metrics/url';
+                    globalData.apiURL = '/metrics/url';
                 }
             </script>
         </div>
@@ -308,7 +310,7 @@
                                             <tr>
                                                 <th scope="col">Statistic</th>
                                                 <th scope="col" style='max-width: 500px;'>Element</th>
-                                                <th scope="col">Value</th>
+                                                <th scope="col" class='text-right'>Value</th>
                                             </tr>
                                             </thead>
                                             <tbody></tbody>

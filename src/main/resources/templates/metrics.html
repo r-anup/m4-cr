@@ -627,7 +627,7 @@
                         }
                         globalData.isDisplayEMA = this.checked;
                         $.each($(".lighthouse-chart"), function(i, item) {
-                            window.echarts.getInstanceById($(item).attr('_echarts_instance_')).clear();
+                            window.echarts.getInstanceById($(item).attr('_echarts_instance_')).dispose();
                         });
                         plotAllineChart(globalData.days, globalData.scores);
 
@@ -662,13 +662,13 @@
                     var scoreRequests = generateScoreRequests(urls, strategy);
                     $.when.apply(this, scoreRequests).then(function (res1, res2) {
                         if (Array.isArray(res2) && Array.isArray(res1)) {
-                            var croScoreData = generateScoreData(res2[0]);
+                            var croScoreData = getScoreData(res2[0]);
                             globalData.scores = croScoreData.scores;
                             globalData.days = croScoreData.days;
                             globalData.competitorScores = generateCompetitorScoreData(res1[0],  globalData.days).scores;
                             plotAllineChart(globalData.days, globalData.scores, globalData.competitorScores);
                         } else if (Array.isArray(res1) && !Array.isArray(res2)) {
-                            var croScoreData = generateScoreData(res1);
+                            var croScoreData = getScoreData(res1);
                             globalData.scores = croScoreData.scores;
                             globalData.days = croScoreData.days;
                             plotAllineChart(globalData.days, globalData.scores);
