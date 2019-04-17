@@ -619,12 +619,12 @@ function plotLineChart(data, elem) {
 
 function plotBarChart(data, elem) {
     var myChart = echarts.init($(elem)[0]);
-    var formatDataValues = function(values) {
+    var formatDataValues = function (values) {
         var data = [];
         $.each(values, function (idx, score) {
-            data.push({value: score, itemStyle: { opacity: 1, color: getScaleFromScore(score).color}})
+            data.push({value: score, itemStyle: {opacity: 1, color: getScaleFromScore(score).color}})
         });
-     return data;
+        return data;
     }
 
     var option = {
@@ -665,7 +665,7 @@ function plotBarChart(data, elem) {
                 normal: {
                     show: true,
                     position: 'insideTop',
-                    formatter: function(params) {
+                    formatter: function (params) {
                         var value = params.value;
                         value = value.toLocaleString();
                         return value;
@@ -680,7 +680,7 @@ function plotBarChart(data, elem) {
     option.series.push({
         data: EMACalc(data.values, 6),
         lineStyle: {
-          color: '#93eaf4',
+            color: '#93eaf4',
         },
         type: 'line',
         markPoint: 'none',
@@ -692,16 +692,21 @@ function plotBarChart(data, elem) {
     });
 
     myChart.setOption(option);
+
+    /* somehow click is triggered multiple times */
+    var clickTriggered = false;
     myChart.on('click', function (params) {
-        globalData.date = data.fullDays[params['dataIndex']];
-        generateReport(globalData.url, globalData.strategy, globalData.mainAPI);
-        console.log(params);
-        console.log(data.fullDays[params['dataIndex']]);
+        if (clickTriggered == false) {
+            globalData.date = data.fullDays[params['dataIndex']];
+            generateReport(globalData.url, globalData.strategy, globalData.mainAPI);
+            console.log(params);
+            console.log(data.fullDays[params['dataIndex']]);
+            clickTriggered = true;
+        }
     });
 }
 
 function plotStackedBarChart(data, elem) {
-    stackedBarData = data;
     var myChart = echarts.init($(elem)[0]);
 
     var seriesData = [];
