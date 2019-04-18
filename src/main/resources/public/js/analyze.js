@@ -64,7 +64,11 @@ function generateReport(url, strategy, apiURL, _id) {
         globalData.apiURL = '/metrics/url/id';
     //    window.history.pushState(null, null, "/analyze.html?_id=" + globalData._id);
     } else {
-        globalData.apiURL = '/metrics/url';
+        if (globalData.fetchSource == "repository") {
+            globalData.apiURL = '/metrics/url';
+        } else {
+            globalData.apiURL = '/lighthouse';
+        }
         window.history.pushState(null, null, "/analyze.html?url=" + encodeURIComponent(globalData.url) + "&strategy=" + strategy + ((globalData.fetchSource != '') ? "&fetchSource=" + globalData.fetchSource : "") + ((globalData.overrideAPI != '') ? "&overrideAPI=" + globalData.overrideAPI : '') + ((globalData.date != null) ? "&date=" + globalData.date : ''));
 
         $(".tab-bar-wrapper .goog-tab").removeClass('goog-tab-selected');
@@ -104,7 +108,6 @@ function generateReport(url, strategy, apiURL, _id) {
         success: function (response) {
              $(".loading-spinner").hide();
             if (response.status == "failure") {
-
                 if (globalData.fetchSource == "repository") {
                     var urlParams = new URLSearchParams(window.location.search);
                     urlParams.set('fetchSource', 'lightHouseNoSave');
