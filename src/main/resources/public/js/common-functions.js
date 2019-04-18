@@ -387,6 +387,15 @@ var getScoreData = function(response) {
     return data;
 }
 
+var isScrolledIntoView = function(elem) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+};
+
+
 
 
 function plotFileTypeChart(data, elem, title, showLegends) {
@@ -709,7 +718,11 @@ function plotBarChart(data, elem) {
     myChart.setOption(option);
 
     /* somehow click is triggered multiple times */
-    myChart.on('click', function (params) {
+    var event = "click";
+    if (elem == "#header-box") {
+        event = "mouseover";
+    }
+    myChart.on(event, function (params) {
         generateReport(globalData.url, globalData.strategy, globalData.apiURL, data.id[params['dataIndex']]);
     });
 }

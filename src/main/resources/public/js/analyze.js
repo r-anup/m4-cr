@@ -25,6 +25,16 @@ if (urlStr != null) {
         generateReport(null, null, globalData.apiURL, globalData._id);
     });
 }
+
+$(window).scroll(function () {
+    if (isScrolledIntoView($(".goog-tab-bar")[0])) {
+        $("#header-box").hide();
+    } else {
+        $("#header-box").slideDown();
+       // $("#header-box").fadeIn();
+    }
+});
+
 //031319124857622
 
 $(document).on("click", ".main-submit", function () {
@@ -201,6 +211,15 @@ function generateReport(url, strategy, apiURL, _id) {
                                 values: croScoreData.scores['score'],
                                 id: croScoreData.id,
                             }, '#score-bar-chart');
+
+                            plotBarChart({
+                                days: croScoreData.days,
+                                fullDays: croScoreData.fullDays,
+                                values: croScoreData.scores['score'],
+                                id: croScoreData.id,
+                            }, '#header-box');
+
+
                         }
 
                     }
