@@ -50,6 +50,7 @@ $(document).on("click", ".main-submit", function () {
         globalData.fetchSource = "lightHouseAndSave";
     }
 
+    globalData.date = null;
     generateReport(inputURLStr, 'mobile', globalData.apiURL);
 });
 
@@ -235,7 +236,7 @@ function generateReport(url, strategy, apiURL, _id) {
 
             /* draw main snapshot section */
             if (data.finalScreenshot) {
-                $("#finalScreenshot").html('<img src="' + data.finalScreenshot.data + '" alt="thumbnail" />');
+                $("#finalScreenshot").html('<a target="_blank" href="' + globalData.url+'"><img src="' + data.finalScreenshot.data + '" alt="thumbnail" /></a>');
             }
 
 
