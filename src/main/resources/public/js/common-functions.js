@@ -390,6 +390,9 @@ var getScoreData = function(response) {
 
 
 function plotFileTypeChart(data, elem, title, showLegends) {
+    if ($(elem).attr('_echarts_instance_')) {
+        window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).dispose();
+    }
     if (typeof(showLegends) == "undefined") {
         showLegends = true;
     }
@@ -466,6 +469,9 @@ function EMACalc(mArray,mRange) {
 }
 
 function plotLineChart(data, elem) {
+    if ($(elem).attr('_echarts_instance_')) {
+        window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).dispose();
+    }
     var myChart = echarts.init($(elem)[0]);
     var convertToSec = false;
     if (Math.min(...data.values) > 1000) {
@@ -622,7 +628,6 @@ function plotLineChart(data, elem) {
 }
 
 function plotBarChart(data, elem) {
-
     if ($(elem).attr('_echarts_instance_')) {
         window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).dispose();
     }
@@ -710,6 +715,9 @@ function plotBarChart(data, elem) {
 }
 
 function plotStackedBarChart(data, elem) {
+    if ($(elem).attr('_echarts_instance_')) {
+        window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).dispose();
+    }
     var myChart = echarts.init($(elem)[0]);
 
     var seriesData = [];
@@ -828,6 +836,9 @@ function  plotReportSummary(scoreValue, fetchTime) {
 }
 
 function plotDonutChart(scoreValue) {
+    if ($("#score-chart").attr('_echarts_instance_')) {
+        window.echarts.getInstanceById($("#score-chart").attr('_echarts_instance_')).dispose();
+    }
     var myChart = echarts.init(document.getElementById('score-chart'));
 
     var scoreData = getScaleFromScore(scoreValue);

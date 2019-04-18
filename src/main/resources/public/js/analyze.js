@@ -66,26 +66,26 @@ function generateReport(url, strategy, apiURL, _id) {
     } else {
         globalData.apiURL = '/metrics/url';
         window.history.pushState(null, null, "/analyze.html?url=" + encodeURIComponent(globalData.url) + "&strategy=" + strategy + ((globalData.fetchSource != '') ? "&fetchSource=" + globalData.fetchSource : "") + ((globalData.overrideAPI != '') ? "&overrideAPI=" + globalData.overrideAPI : '') + ((globalData.date != null) ? "&date=" + globalData.date : ''));
-    }
-    $(".tab-bar-wrapper .goog-tab").removeClass('goog-tab-selected');
-    if (globalData.strategy == 'mobile') {
-        $(".tab-bar-wrapper .goog-tab:nth-child(1)").addClass('goog-tab-selected');
-    } else {
-        $(".tab-bar-wrapper .goog-tab:nth-child(2)").addClass('goog-tab-selected');
-    }
-    $(".tab-bar-wrapper").show();
 
-    /!* reset DOM *!/
-    $("#analysis-chart").html('');
-    $("#field-data-chart").html('');
-    $("#diagnostics-chart").html('');
-    $("#more-info-chart").html('');
-    $('.report-summary').hide();
-    $("#screenshots-chart").html('');
-    $(".error-message").hide();
-    $(".loading-spinner").show();
-    /!* reset DOM *!/
+        $(".tab-bar-wrapper .goog-tab").removeClass('goog-tab-selected');
+        if (globalData.strategy == 'mobile') {
+            $(".tab-bar-wrapper .goog-tab:nth-child(1)").addClass('goog-tab-selected');
+        } else {
+            $(".tab-bar-wrapper .goog-tab:nth-child(2)").addClass('goog-tab-selected');
+        }
+        $(".tab-bar-wrapper").show();
 
+        /* reset DOM */
+        $("#analysis-chart").html('');
+        $("#field-data-chart").html('');
+        $("#diagnostics-chart").html('');
+        $("#more-info-chart").html('');
+        $('.report-summary').hide();
+        $("#screenshots-chart").html('');
+        $(".error-message").hide();
+        $(".loading-spinner").show();
+        /* reset DOM */
+    }
 
     $.ajax({
         data: {
