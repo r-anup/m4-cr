@@ -654,7 +654,7 @@ function plotBarChart(data, elem) {
             width: '90%',
             height: '90%',
             right: '0',
-            bottom: '0',
+            bottom: '1',
         },
         color: ['#61a0a8', '#a862a5'],
         tooltip: {
@@ -701,6 +701,7 @@ function plotBarChart(data, elem) {
         ]
     };
 
+
     option.series.push({
         data: EMACalc(data.values, 6),
         lineStyle: {
@@ -715,13 +716,13 @@ function plotBarChart(data, elem) {
         },
     });
 
-    myChart.setOption(option);
-
-    /* somehow click is triggered multiple times */
     var event = "click";
     if (elem == "#header-box") {
         event = "mouseover";
+        option.grid.bottom = '5';
     }
+
+    myChart.setOption(option);
     myChart.on(event, function (params) {
         generateReport(globalData.url, globalData.strategy, globalData.apiURL, data.id[params['dataIndex']]);
     });
