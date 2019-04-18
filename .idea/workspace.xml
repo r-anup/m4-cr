@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6ff90437-4756-4c43-854f-32e6b5062259" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/analyze.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" afterDir="false" />
-    </list>
+    <list default="true" id="6ff90437-4756-4c43-854f-32e6b5062259" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -62,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="analyze.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="analyze.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="224" column="42" selection-start-line="224" selection-start-column="42" selection-end-line="224" selection-end-column="42" />
+            <state relative-caret-position="351">
+              <caret line="106" column="56" selection-start-line="106" selection-start-column="17" selection-end-line="106" selection-end-column="56" />
               <folding>
                 <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
@@ -75,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common-functions.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="common-functions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
+            <state relative-caret-position="-180">
               <caret line="839" column="54" selection-start-line="839" selection-start-column="54" selection-end-line="839" selection-end-column="54" />
             </state>
           </provider>
@@ -87,8 +82,8 @@
       <file leaf-file-name="MetricsController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="89" column="57" selection-start-line="89" selection-start-column="57" selection-end-line="89" selection-end-column="57" />
+            <state relative-caret-position="259">
+              <caret line="41" column="24" lean-forward="true" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -168,9 +163,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>typeahead({</find>
-      <find>data['lighthouseMisc']['bootup-time']</find>
-      <find>bootupTimeTitle</find>
       <find>data[id].score</find>
       <find>plotB</find>
       <find>generateScoreData</find>
@@ -198,6 +190,9 @@
       <find>dispo</find>
       <find>_id</find>
       <find>dispose</find>
+      <find>dispos</find>
+      <find>/url</find>
+      <find>window.location.href = window</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed</dir>
@@ -472,16 +467,15 @@
       <workItem from="1551944448619" duration="124560000" />
       <workItem from="1552660756649" duration="167467000" />
       <workItem from="1553524101738" duration="193371000" />
-      <workItem from="1555474419194" duration="17520000" />
+      <workItem from="1555474419194" duration="18267000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="582009000" />
+    <option name="totallyTimeSpent" value="582756000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.23072916" side_tool="true" weight="0.33303002" />
@@ -895,16 +889,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="227" column="44" selection-start-line="227" selection-start-column="44" selection-end-line="227" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/Metrics.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
@@ -923,16 +907,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
           <caret line="180" column="27" selection-start-line="180" selection-start-column="27" selection-end-line="180" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="89" column="57" selection-start-line="89" selection-start-column="57" selection-end-line="89" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -987,21 +961,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="224" column="42" selection-start-line="224" selection-start-column="42" selection-end-line="224" selection-end-column="42" />
+        <state relative-caret-position="-180">
+          <caret line="839" column="54" selection-start-line="839" selection-start-column="54" selection-end-line="839" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="227" column="44" selection-start-line="227" selection-start-column="44" selection-end-line="227" selection-end-column="44" />
           <folding>
-            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="839" column="54" selection-start-line="839" selection-start-column="54" selection-end-line="839" selection-end-column="54" />
+        <state relative-caret-position="259">
+          <caret line="41" column="24" lean-forward="true" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/analyze.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="106" column="56" selection-start-line="106" selection-start-column="17" selection-end-line="106" selection-end-column="56" />
+          <folding>
+            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

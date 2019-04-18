@@ -104,6 +104,7 @@ function generateReport(url, strategy, apiURL, _id) {
         success: function (response) {
              $(".loading-spinner").hide();
             if (response.status == "failure") {
+
                 if (globalData.fetchSource == "repository") {
                     var urlParams = new URLSearchParams(window.location.search);
                     urlParams.set('fetchSource', 'lightHouseNoSave');
