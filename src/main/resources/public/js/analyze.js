@@ -28,9 +28,9 @@ if (urlStr != null) {
 
 $(window).scroll(function () {
     if (isScrolledIntoView($(".goog-tab-bar")[0])) {
-        $("#header-box").hide();
+        $("#header-box, #score-box").hide();
     } else {
-        $("#header-box").slideDown();
+        $("#header-box,  #score-box").slideDown();
        // $("#header-box").fadeIn();
     }
 });
@@ -219,13 +219,15 @@ function generateReport(url, strategy, apiURL, _id) {
                                 values: croScoreData.scores['score'],
                                 id: croScoreData.id,
                             }, '#header-box');
-
-
                         }
-
                     }
                 });
             }
+
+            /* draw header score and time section */
+            var score = getScaleFromScore(data['score']);
+            $("#score-box").html('<div style="background: ' + score.color + '" class="chart-lighthouse-score">' + score.score + '</div><div class="chart-lighthouse-time">' + new Date(data['fetchTime']).toLocaleDateString() + '</div>');
+
 
             /* draw screenshots section */
             $("#screenshots-chart").html("<div class='lh-audit-group__subheader--title mb-3'>Screenshots</div>");

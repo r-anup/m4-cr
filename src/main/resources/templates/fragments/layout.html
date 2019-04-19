@@ -46,6 +46,10 @@
                 color: #ddd !important;
             }
 
+            .dark-mode-theme .nav-pills {
+                background: #1d1d1d !important
+            }
+
             .dark-mode-button {
                 right: 2rem;
                 bottom: 1rem;
@@ -254,12 +258,12 @@
     <body  th:class="${tab}" th:classappend="${isDarkMode} ? 'dark-mode-theme' : ''">
         <div class="container-fluid" style="max-width: 1280px; min-height: 800px">
             <header class="d-flex justify-content-between p-3 fixed-header">
-                <div class="p2"><a href="/"><img style="display: inline;" class="hidden-sm-down cr-logo" src="images/cr-logo.svg"></a> <a href="/"><img style="height: 42px;" src="images/m4.png"></a></div>
+                <div class="d-flex"><a href="/"><img class="d-none d-xl-block cr-logo mr-3" src="images/cr-logo.svg"></a> <a href="/"><img style="height: 42px;" src="images/m4.png"></a></div>
 
-                <div class="p2 d-flex justify-content-center"><div style="width: 800px; height: 50px; margin-bottom: 0.2rem; display: none;" id="header-box"></div></div>
+                <div class="d-flex justify-content-center"><div style="display: none; margin: auto auto auto 2rem;" id="score-box"></div><div style="width: 800px; height: 50px; margin-bottom: 0.2rem; display: none;" id="header-box"></div></div>
 
-                <div class="p2">
-                    <ul class="nav justify-content-end nav-pills">
+                <div style="position: relative;">
+                    <ul class="nav justify-content-end nav-pills"  style="background: #fff; left: -110px;">
                         <li class="nav-item">
                             <a th:class="${tab} == 'reports' ? 'nav-link active' : 'nav-link'" href="reports.html">Reports</a>
                         </li>
@@ -280,6 +284,8 @@
                         </li>
                     </ul>
                 </div>
+
+
             </header>
             <div style="padding-top: 8rem;">
                 <th:block th:replace="${body}" />

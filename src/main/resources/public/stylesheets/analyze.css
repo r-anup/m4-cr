@@ -35,6 +35,7 @@
 
 .main-action .form-check-label {
     color: #fff;
+    font-size: 1.6rem;
 }
 
 .report-summary {
@@ -408,7 +409,22 @@
     color: var(--fail-color);
 }
 
+.chart-lighthouse-score {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    font-size: 2rem;
+}
 
+.chart-lighthouse-time {
+    font-size: 1.1rem;
+    width: 10rem;
+    line-height: 2rem;
+    margin-left: -1rem;
+}
 
 /* critical rendering path */
 #critical-request-chains .lh-metric__value {
