@@ -20,6 +20,7 @@ import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.util.ArrayList;
@@ -31,10 +32,8 @@ public class PageSpeed {
     private static final Logger LOG = LogManager.getLogger(PageSpeed.class);
 
     private static final HttpClient httpClient;
-//  private static final String PAGE_SPEED_API = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=%s&strategy=%s&key=%s";
-//  private static final String PAGE_SPEED_API = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&prettyPrint=true&url=%s&strategy=%s&key=%s";
-    private static final String PAGE_SPEED_API_LOCAL = "https://m4-lh.herokuapp.com/?category=performance&prettyPrint=true&locale=en_US&url=%s&strategy=%s&key=%s";
     private static final String PAGE_SPEED_API_GOOGLE =  "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&prettyPrint=true&url=%s&strategy=%s&key=%s";
+    private static String PAGE_SPEED_API_LOCAL;
     private static final String KEY = "AIzaSyAQp8vshwJq1nwhsryxOfK__GshqnpXvUA";
 
     private static final ObjectMapper objectMapper =
@@ -45,7 +44,9 @@ public class PageSpeed {
         httpClient = HttpClientBuilder.create().build();
     }
 
-
+    public PageSpeed(String PAGE_SPEED_API_LOCAL_DOMAIN) {
+        this.PAGE_SPEED_API_LOCAL = PAGE_SPEED_API_LOCAL_DOMAIN + "?category=performance&prettyPrint=true&locale=en_US&url=%s&strategy=%s&key=%s";
+    }
 
     private static String getFileContent(String fileName) {
         InputStream inputStream = null;
@@ -95,7 +96,6 @@ public class PageSpeed {
         if (fetchSource == null) {
             fetchSource = Main.FetchSource.repository;
         }
-
         String api = String.format(PAGE_SPEED_API_LOCAL, url, strategy, "");
 
         if (fetchSource != null && fetchSource.equals(Main.FetchSource.googleNoSave)) {
@@ -118,9 +118,7 @@ public class PageSpeed {
             } else {
                 return null;
             }
-
             //JSONObject data = new JSONObject(PageSpeed.getFileContent("/public/data.json"));
-
             if (data.has("loadingExperience")) {
                 formattedData.put("FIRST_CONTENTFUL_PAINT_MS" ,  data.getJSONObject("loadingExperience").getJSONObject("metrics").getJSONObject("FIRST_CONTENTFUL_PAINT_MS"));
                 formattedData.put("FIRST_INPUT_DELAY_MS" ,  data.getJSONObject("loadingExperience").getJSONObject("metrics").getJSONObject("FIRST_INPUT_DELAY_MS"));
@@ -215,35 +213,7 @@ public class PageSpeed {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*
-        try {
-            HttpResponse response = httpClient.execute(request);
-            String responseString = EntityUtils.toString(response.getEntity() == null ?
-                    new StringEntity(StringUtils.EMPTY) : response.getEntity());
-            if (!responseString.isEmpty()) {
-                JSONObject data = new JSONObject(responseString);
-
-
-
-
-
-
-                return data;
-
-            }
-        } catch (IOException e) {
-            LOG.error("IOException " + e.getMessage());
-        } catch (JSONException e) {
-            LOG.error("JSONException " + e.getMessage());
-        }
-
-        */
-
-
         return null;
-
-
     }
 
     private JSONObject processLighthouseData(JSONObject data, String type) throws JSONException{

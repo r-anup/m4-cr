@@ -11,9 +11,11 @@ import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.http.HttpStatus;
@@ -58,6 +60,9 @@ public class Main {
 
     @Autowired
     MetricsController metricsController;
+
+    @Value("${pagespeed.domain}")
+    private String PAGE_SPEED_API_LOCAL_DOMAIN;
 
     @Autowired
     void setMapKeyDotReplacement(MappingMongoConverter mappingMongoConverter) {
@@ -225,7 +230,7 @@ public class Main {
             return metricsController.getMetrics(url, strategy, date, timezone);
         }
 
-        PageSpeed pageSpeed = new PageSpeed();
+        PageSpeed pageSpeed = new PageSpeed(PAGE_SPEED_API_LOCAL_DOMAIN);
         JSONObject output = pageSpeed.processRequest(url, strategy, fetchSource, metricsRepository, urlsRepository);
         if (output != null) {
             return output.toString();
