@@ -66,7 +66,7 @@ function generateDownloadLink() {
     urlParams.set("url", globalData.url);
     urlParams.set("strategy", globalData.strategy);
     urlParams.set("date", globalData.date);
-    var fileName = "cro-" + globalData.url.match(/([\w\d_-]*)\.?[^\\\/]*$/i)[1] + "-" + globalData.date.replace(/\//g, '-');
+    var fileName = "cro-" + globalData.url.match(/([\w\d_\.-]*)\.?[^\\\/]?[\/]*$/i)[1] + "-" + globalData.date.replace(/\//g, '-');
     var filePrefix = window.location.origin + "/metrics/download/";
     $(".download-button-1").attr("href", filePrefix + fileName + "/1?" + urlParams.toString());
     $(".download-button-1").attr("download", "cro-" + fileName + "-1.csv");
