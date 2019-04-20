@@ -2,7 +2,7 @@ package org.consumerreports.pagespeed.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.bson.types.ObjectId;
-import org.consumerreports.pagespeed.PageSpeed;
+import org.consumerreports.pagespeed.util.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;

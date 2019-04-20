@@ -4,16 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.consumerreports.pagespeed.config.ConfigProperties;
 import org.consumerreports.pagespeed.controllers.MetricsController;
 import org.consumerreports.pagespeed.models.CroUrl;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;
+import org.consumerreports.pagespeed.util.PageSpeed;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
@@ -35,7 +37,8 @@ import java.util.TimeZone;
 
 @Controller
 @ComponentScan(basePackages = {"org.consumerreports.pagespeed"})
-@SpringBootApplication(scanBasePackages = {"org.consumerreports.pagespeed.controllers"})
+@SpringBootApplication(scanBasePackages = {"org.consumerreports.pagespeed"})
+@EnableConfigurationProperties(ConfigProperties.class)
 public class Main {
 
     private static final Logger LOG = LogManager.getLogger(Main.class);
@@ -49,6 +52,9 @@ public class Main {
     }
 
     @Autowired
+    private ConfigProperties configProperties;
+
+    @Autowired
     private ObjectMapper mapper;
 
     @Autowired
@@ -59,9 +65,6 @@ public class Main {
 
     @Autowired
     MetricsController metricsController;
-
-    @Value("${pagespeed.domain}")
-    private String PAGE_SPEED_API_LOCAL_DOMAIN;
 
     @Autowired
     void setMapKeyDotReplacement(MappingMongoConverter mappingMongoConverter) {
@@ -228,7 +231,7 @@ public class Main {
             return metricsController.getMetrics(url, strategy, date, timezone);
         }
 
-        PageSpeed pageSpeed = new PageSpeed(PAGE_SPEED_API_LOCAL_DOMAIN);
+        PageSpeed pageSpeed = new PageSpeed(configProperties);
         JSONObject output = pageSpeed.processRequest(url, strategy, fetchSource, metricsRepository, urlsRepository);
         if (output != null) {
             return output.toString();

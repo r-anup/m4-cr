@@ -1,4 +1,4 @@
-package org.consumerreports.pagespeed;
+package org.consumerreports.pagespeed.util;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -14,13 +14,14 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.consumerreports.pagespeed.Main;
+import org.consumerreports.pagespeed.config.ConfigProperties;
 import org.consumerreports.pagespeed.models.*;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.util.ArrayList;
@@ -32,9 +33,33 @@ public class PageSpeed {
     private static final Logger LOG = LogManager.getLogger(PageSpeed.class);
 
     private static final HttpClient httpClient;
-    private static final String PAGE_SPEED_API_GOOGLE =  "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&prettyPrint=true&url=%s&strategy=%s&key=%s";
-    private static String PAGE_SPEED_API_LOCAL;
-    private static final String KEY = "AIzaSyAQp8vshwJq1nwhsryxOfK__GshqnpXvUA";
+
+    private ConfigProperties configProperties;
+
+    private String PAGE_SPEED_LOCAL_API;
+
+    private String PAGE_SPEED_GOOGLE_API;
+
+    private String PAGE_SPEED_GOOGLE_KEY;
+
+    public ConfigProperties getConfigProperties() {
+        return configProperties;
+    }
+
+    public void setConfigProperties(ConfigProperties configProperties) {
+        this.configProperties = configProperties;
+        this.PAGE_SPEED_LOCAL_API = configProperties.getLocalApi();
+        this.PAGE_SPEED_GOOGLE_API = configProperties.getGoogleApi();
+        this.PAGE_SPEED_GOOGLE_KEY = configProperties.getGoogleKey();
+    }
+
+    public PageSpeed() {
+
+    }
+
+    public PageSpeed(ConfigProperties configProperties) {
+        setConfigProperties(configProperties);
+    }
 
     private static final ObjectMapper objectMapper =
             new ObjectMapper()
@@ -44,9 +69,6 @@ public class PageSpeed {
         httpClient = HttpClientBuilder.create().build();
     }
 
-    public PageSpeed(String PAGE_SPEED_API_LOCAL_DOMAIN) {
-        this.PAGE_SPEED_API_LOCAL = PAGE_SPEED_API_LOCAL_DOMAIN + "?category=performance&prettyPrint=true&locale=en_US&url=%s&strategy=%s&key=%s";
-    }
 
     private static String getFileContent(String fileName) {
         InputStream inputStream = null;
@@ -73,7 +95,6 @@ public class PageSpeed {
     }
 
 
-
     private static String readFromInputStream(InputStream inputStream)
             throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
@@ -96,10 +117,11 @@ public class PageSpeed {
         if (fetchSource == null) {
             fetchSource = Main.FetchSource.repository;
         }
-        String api = String.format(PAGE_SPEED_API_LOCAL, url, strategy, "");
+
+        String api = String.format(PAGE_SPEED_LOCAL_API, url, strategy, "");
 
         if (fetchSource != null && fetchSource.equals(Main.FetchSource.googleNoSave)) {
-            api = String.format(PAGE_SPEED_API_GOOGLE, url, strategy, KEY);
+            api = String.format(PAGE_SPEED_GOOGLE_API, url, strategy, PAGE_SPEED_GOOGLE_KEY);
         }
 
         HttpGet request = new HttpGet(api);
@@ -120,8 +142,8 @@ public class PageSpeed {
             }
             //JSONObject data = new JSONObject(PageSpeed.getFileContent("/public/data.json"));
             if (data.has("loadingExperience")) {
-                formattedData.put("FIRST_CONTENTFUL_PAINT_MS" ,  data.getJSONObject("loadingExperience").getJSONObject("metrics").getJSONObject("FIRST_CONTENTFUL_PAINT_MS"));
-                formattedData.put("FIRST_INPUT_DELAY_MS" ,  data.getJSONObject("loadingExperience").getJSONObject("metrics").getJSONObject("FIRST_INPUT_DELAY_MS"));
+                formattedData.put("FIRST_CONTENTFUL_PAINT_MS", data.getJSONObject("loadingExperience").getJSONObject("metrics").getJSONObject("FIRST_CONTENTFUL_PAINT_MS"));
+                formattedData.put("FIRST_INPUT_DELAY_MS", data.getJSONObject("loadingExperience").getJSONObject("metrics").getJSONObject("FIRST_INPUT_DELAY_MS"));
                 formattedData.put("showLoadingExperience", true);
             }
 
@@ -140,9 +162,9 @@ public class PageSpeed {
             LighthouseResult lighthouseResult = objectMapper.readValue(lighthouseData.toString(), LighthouseResult.class);
             LighthouseMisc lighthouseMisc = objectMapper.readValue(lighthouseMiscData.toString(), LighthouseMisc.class);
 
-            formattedData.put("fetchTime",               data.getString("fetchTime"));
-            formattedData.put("screenshots",             data.getJSONObject("audits").getJSONObject("screenshot-thumbnails").getJSONObject("details").getJSONArray("items"));
-            formattedData.put("finalScreenshot",         data.getJSONObject("audits").getJSONObject("final-screenshot").getJSONObject("details"));
+            formattedData.put("fetchTime", data.getString("fetchTime"));
+            formattedData.put("screenshots", data.getJSONObject("audits").getJSONObject("screenshot-thumbnails").getJSONObject("details").getJSONArray("items"));
+            formattedData.put("finalScreenshot", data.getJSONObject("audits").getJSONObject("final-screenshot").getJSONObject("details"));
 
             List<Screenshot> list = new ArrayList<Screenshot>();
             JSONArray jsonArr = formattedData.getJSONArray("screenshots");
@@ -156,21 +178,21 @@ public class PageSpeed {
 
             Diagnostics diagnostics = null;
             JSONObject diagnosticsData = new JSONObject();
-             if (data.getJSONObject("audits").has("diagnostics")) {
-                 JSONObject diagnosticsDataElements = (data.getJSONObject("audits").getJSONObject("diagnostics").getJSONObject("details").getJSONArray("items")).getJSONObject(0);
-                 Iterator<String> keys = diagnosticsDataElements.keys();
+            if (data.getJSONObject("audits").has("diagnostics")) {
+                JSONObject diagnosticsDataElements = (data.getJSONObject("audits").getJSONObject("diagnostics").getJSONObject("details").getJSONArray("items")).getJSONObject(0);
+                Iterator<String> keys = diagnosticsDataElements.keys();
 
-                 JSONObject diagnosticProperties = metricsProperties.getJSONObject("diagnostics");
-                 while (keys.hasNext()) {
-                     String key = keys.next();
-                     JSONObject diagnosticsMetricsMeta = new JSONObject();
-                     diagnosticsMetricsMeta.put("value", diagnosticsDataElements.get(key));
-                     diagnosticsMetricsMeta.put("title", diagnosticProperties.getJSONObject(key).getString("title"));
-                     diagnosticsMetricsMeta.put("description", diagnosticProperties.getJSONObject(key).getString("description"));
-                     diagnosticsData.put(key, diagnosticsMetricsMeta);
-                 }
-                 diagnostics = (new ObjectMapper()).readValue(diagnosticsData.toString(), Diagnostics.class);
-             }
+                JSONObject diagnosticProperties = metricsProperties.getJSONObject("diagnostics");
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    JSONObject diagnosticsMetricsMeta = new JSONObject();
+                    diagnosticsMetricsMeta.put("value", diagnosticsDataElements.get(key));
+                    diagnosticsMetricsMeta.put("title", diagnosticProperties.getJSONObject(key).getString("title"));
+                    diagnosticsMetricsMeta.put("description", diagnosticProperties.getJSONObject(key).getString("description"));
+                    diagnosticsData.put(key, diagnosticsMetricsMeta);
+                }
+                diagnostics = (new ObjectMapper()).readValue(diagnosticsData.toString(), Diagnostics.class);
+            }
 
             if (fetchSource.equals(Main.FetchSource.lightHouseAndSave)) {
                 Metrics m = new Metrics(
@@ -194,7 +216,7 @@ public class PageSpeed {
                         croUrl.setDesktopPreviousScore(croUrl.getDesktopLatestScore());
                         croUrl.setDesktopLatestScore(lighthouseData.getString("score"));
                     }
-                   urlsRepository.save(croUrl);
+                    urlsRepository.save(croUrl);
                 }
             }
             formattedData.put("lighthouseResult", lighthouseData);
@@ -216,7 +238,7 @@ public class PageSpeed {
         return null;
     }
 
-    private JSONObject processLighthouseData(JSONObject data, String type) throws JSONException{
+    private JSONObject processLighthouseData(JSONObject data, String type) throws JSONException {
         JSONObject metricsProperties = PageSpeed.getMetricsProperties();
         JSONObject lighthouseData = new JSONObject();
         JSONObject lighthouseProperties = metricsProperties.getJSONObject(type);

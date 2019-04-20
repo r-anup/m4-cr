@@ -1,7 +1,6 @@
 package org.consumerreports.pagespeed.util;
 
 import org.apache.logging.log4j.LogManager;
-import org.consumerreports.pagespeed.PageSpeed;
 import org.json.JSONException;
 import org.json.JSONObject;
 import javax.xml.bind.DatatypeConverter;

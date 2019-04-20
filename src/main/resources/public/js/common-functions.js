@@ -31,6 +31,10 @@ function getScoreEntities(response) {
         data['showLoadingExperience'] = true;
         data['FIRST_CONTENTFUL_PAINT_MS'] = response.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS;
         data['FIRST_INPUT_DELAY_MS'] = response.loadingExperience.metrics.FIRST_INPUT_DELAY_MS;
+    } else if (response.showLoadingExperience) {
+        data['showLoadingExperience'] = true;
+        data['FIRST_CONTENTFUL_PAINT_MS'] = response.FIRST_CONTENTFUL_PAINT_MS;
+        data['FIRST_INPUT_DELAY_MS'] = response.FIRST_INPUT_DELAY_MS;
     }
 
     if (response.diagnostics) {
