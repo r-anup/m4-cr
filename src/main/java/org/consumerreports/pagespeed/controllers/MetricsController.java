@@ -6,15 +6,17 @@ import org.consumerreports.pagespeed.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;
+import org.json.CDL;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 
 @RestController
@@ -38,6 +40,58 @@ public class MetricsController {
             @RequestParam(value = "date", required = false) String date,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone
     ) {
+        Metrics metrics = this.getMetricsData(date, timezone, url, deviceType, metricsRepository);
+        if (metrics != null) {
+            return metrics;
+        } else {
+            return "{\"status\": \"failure\", \"message\": \"No Data\"}";
+        }
+    }
+
+    @RequestMapping(value = "/download/{fileName}/{days}", headers = "Accept=text/csv", method = RequestMethod.GET, produces = "text/csv")
+    public String download(
+            @PathVariable("fileName") String fileName,
+            @PathVariable("days") String days,
+            @RequestParam(value = "url") String url,
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType,
+            @RequestParam(value = "date", required = false) String date,
+            @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
+            HttpServletResponse response
+            ) {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", fileName + ".csv");
+        JSONArray ja = new JSONArray();
+        try {
+            if (days.equalsIgnoreCase("30")) {
+                List<Metrics> metrics = metricsRepository.findScoresByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 30));
+                for (Metrics metric : metrics) {
+                    ja.put(MetricsController.convertMetricsToMap(metric, timezone));
+                }
+            } else {
+                Metrics metrics = this.getMetricsData(date, timezone, url, deviceType, metricsRepository);
+                try {
+                    ja.put(MetricsController.convertMetricsToMap(metrics, timezone));
+                } catch (JSONException e) {
+                    LOG.error(e.getMessage());
+                }
+            }
+            return CDL.toString(ja);
+        } catch (JSONException e) {
+            LOG.error(e.getMessage());
+        }
+        return null;
+    }
+
+    private static Map<String, String> convertMetricsToMap(Metrics metrics, String timezone) throws JSONException{
+        Map result = new LinkedHashMap();
+        result.put("URL", metrics.getUrl());
+        result.put("Device Type", metrics.getDeviceType());
+        result.put("Fetch Time", CommonUtil.getFormattedDate(metrics.getFetchTime(), timezone));
+        result.putAll(metrics.getLighthouseResult().getResult());
+        return result;
+    }
+
+    private static Metrics getMetricsData(String date,String timezone, String url, String deviceType, MetricsRepository metricsRepository) {
         Date parsedDate;
         Metrics metrics;
         try {
@@ -51,15 +105,10 @@ public class MetricsController {
 
             metrics = metricsRepository.findFirstByUrlEqualsAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType, parsedDate, CommonUtil.addDays(parsedDate, 1));
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
             metrics = metricsRepository.findFirstByUrlOrderByFetchTimeDesc(url);
         }
-
-        if (metrics != null) {
-            return metrics;
-        } else {
-            return "{\"status\": \"failure\", \"message\": \"No Data\"}";
-        }
+        return metrics;
     }
 
 

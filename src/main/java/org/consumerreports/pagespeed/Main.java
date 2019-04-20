@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.http.HttpStatus;
@@ -148,7 +147,7 @@ public class Main {
             @CookieValue(value = "isDisplayEMA", required = false, defaultValue = "false") boolean isDisplayEMA,
             @CookieValue(value = "colorPalette", required = false, defaultValue = "0") int colorPalette,
             Model model
-            ) {
+    ) {
         String path = request.getServletPath();
 
         CroUrl croUrl = urlsRepository.findFirstByUrl(url);
@@ -195,7 +194,6 @@ public class Main {
             tab = "benchmark";
             urlList = urlsRepository.findAllByCompetitorUrlIsNotNullOrderBySortOrderAsc();
             benchmarkUrl = croUrl.getCompetitorUrl().getUrl();
-            LOG.info(benchmarkUrl + "....");
             benchmarkTitle = croUrl.getCompetitorUrl().getTitle() + " (" + croUrl.getCompetitorUrl().getBrand() + ")";
             if (date == null) {
                 date = simpleDateFormat.format(new Date());

@@ -68,8 +68,8 @@ public class Metrics {
         return isDataFormatted;
     }
 
-    public void setDataFormatted(Boolean dataFormatted) {
-        isDataFormatted = dataFormatted;
+    public void setDataFormatted(Boolean isDataFormatted) {
+        this.isDataFormatted = isDataFormatted;
     }
 
     public void setFetchTime(Date fetchTime) {

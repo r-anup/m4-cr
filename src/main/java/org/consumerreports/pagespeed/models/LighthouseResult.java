@@ -1,16 +1,10 @@
 package org.consumerreports.pagespeed.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.bson.types.ObjectId;
+import org.consumerreports.pagespeed.util.CommonUtil;
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.annotation.AliasFor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Reference;
-
-import java.util.List;
+import java.util.*;
 
 public class LighthouseResult {
 
@@ -101,5 +95,17 @@ public class LighthouseResult {
 
     public void setEstimatedInputLatency(LightHouseResultsMetricsMeta estimatedInputLatency) {
         this.estimatedInputLatency = estimatedInputLatency;
+    }
+
+    public Map<String, String> getResult() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("Score", CommonUtil.toPercentage(this.score));
+        map.put(this.speedIndex.title, CommonUtil.toMiliSeconds(this.speedIndex.displayValue));
+        map.put(this.interactive.title, CommonUtil.toMiliSeconds(this.interactive.displayValue));
+        map.put(this.firstMeaningfulPaint.title, CommonUtil.toMiliSeconds(this.firstMeaningfulPaint.displayValue));
+        map.put(this.firstContentfulPaint.title, CommonUtil.toMiliSeconds(this.firstContentfulPaint.displayValue));
+        map.put(this.firstCpuIdle.title, CommonUtil.toMiliSeconds(this.firstCpuIdle.displayValue));
+        map.put(this.estimatedInputLatency.title, CommonUtil.toMiliSeconds(this.estimatedInputLatency.displayValue));
+        return map;
     }
 }

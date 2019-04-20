@@ -396,12 +396,14 @@ var isScrolledIntoView = function(elem) {
 };
 
 
-
-
-function plotFileTypeChart(data, elem, title, showLegends) {
+function resetChart(elem) {
     if ($(elem).attr('_echarts_instance_')) {
         window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).dispose();
     }
+}
+
+function plotFileTypeChart(data, elem, title, showLegends) {
+    resetChart(elem);
     if (typeof(showLegends) == "undefined") {
         showLegends = true;
     }

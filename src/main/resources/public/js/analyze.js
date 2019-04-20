@@ -14,7 +14,7 @@ if (urlStr != null) {
 
     $(function () {
         if (urlParams.get('fetchSource') != null && urlParams.get('fetchSource') == "lightHouseAndSave") {
-            $("#lightHouseAndSave").prop('checked',  true);
+            $("#lightHouseAndSave").prop('checked', true);
         }
 
         $(".main-action input[name='url']").val(url);
@@ -59,6 +59,22 @@ $(document).on("click", ".goog-tab", function () {
     generateReport(globalData.url, $(this).data().id, globalData.apiURL);
 });
 
+
+
+function generateDownloadLink() {
+    var urlParams = new URLSearchParams();
+    urlParams.set("url", globalData.url);
+    urlParams.set("strategy", globalData.strategy);
+    urlParams.set("date", globalData.date);
+    var fileName = "cro-" + globalData.url.match(/([\w\d_-]*)\.?[^\\\/]*$/i)[1] + "-" + globalData.date.replace(/\//g, '-');
+    var filePrefix = window.location.origin + "/metrics/download/";
+    $(".download-button-1").attr("href", filePrefix + fileName + "/1?" + urlParams.toString());
+    $(".download-button-1").attr("download", "cro-" + fileName + "-1.csv");
+
+    $(".download-button-30").attr("href", filePrefix + fileName + "/30?" + urlParams.toString());
+    $(".download-button-30").attr("download", "cro-" + fileName + "-30.csv");
+    $(".download-button-links").show();
+}
 function generateReport(url, strategy, apiURL, _id) {
     apiURL = apiURL || "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
     /* if (typeof(apiURL) === 'undefined') {
@@ -91,13 +107,12 @@ function generateReport(url, strategy, apiURL, _id) {
         $(".tab-bar-wrapper").show();
 
         /* reset DOM */
-        $("#analysis-chart").html('');
-        $("#field-data-chart").html('');
-        $("#diagnostics-chart").html('');
-        $("#more-info-chart").html('');
-        $('.report-summary').hide();
-        $("#screenshots-chart").html('');
-        $(".error-message").hide();
+        $("#analysis-chart, #field-data-chart, #field-data-chart, #diagnostics-chart, #more-info-chart, #screenshots-chart, #score-box").html('');
+        $(".report-summary, .error-message, .download-button-links").hide();
+        resetChart("#header-box");
+        resetChart("#score-bar-chart");
+
+        /* load spinner */
         $(".loading-spinner").show();
         /* reset DOM */
     }
@@ -135,7 +150,11 @@ function generateReport(url, strategy, apiURL, _id) {
             if(true) {
                 globalData.url = data['url'];
                 globalData.strategy = data['strategy'];
+                globalData.date = new Date(data['fetchTime']).toLocaleDateString();
                 $(".main-action input[name='url']").val(data['url']);
+                if (globalData.fetchSource == "repository") {
+                    generateDownloadLink();
+                }
             }
 
             if (data['showLoadingExperience']) {
@@ -188,6 +207,8 @@ function generateReport(url, strategy, apiURL, _id) {
                     }).get(), '#tasks-chart', 'Page tasks'
                 );
 
+            } else {
+                $("#diagnostics-chart").html("");
             }
             plotReportSummary(data['score'], data['fetchTime']);
             plotDonutChart(data['score']);
@@ -239,6 +260,8 @@ function generateReport(url, strategy, apiURL, _id) {
             /* draw main snapshot section */
             if (data.finalScreenshot) {
                 $("#finalScreenshot").html('<a target="_blank" href="' + globalData.url+'"><img src="' + data.finalScreenshot.data + '" alt="thumbnail" /></a>');
+            } else {
+                $("#finalScreenshot").html("");
             }
 
 
@@ -274,6 +297,8 @@ function generateReport(url, strategy, apiURL, _id) {
 
                 var d = new DetailsRenderer(new DOM(document));
                 $(".lh-crc-container").html($(d.render(data['lighthouseMisc']['critical-request-chains']['details'])));
+            } else {
+                $("#more-info-chart").html("");
             }
             /* End draw more info section */
 
