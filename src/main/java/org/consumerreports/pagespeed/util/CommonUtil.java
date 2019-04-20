@@ -14,6 +14,7 @@ public class CommonUtil {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, days); //minus number would decrement the days
+        LOG.info(cal);
         return cal.getTime();
     }
 
