@@ -60,13 +60,12 @@ $(document).on("click", ".goog-tab", function () {
 });
 
 
-
 function generateDownloadLink() {
     var urlParams = new URLSearchParams();
     urlParams.set("url", globalData.url);
     urlParams.set("strategy", globalData.strategy);
     urlParams.set("date", globalData.date);
-    var fileName = "cro-" + globalData.url.match(/([\w\d_\.-]*)\.?[^\\\/]?[\/]*$/i)[1] + "-" + globalData.date.replace(/\//g, '-');
+    var fileName = "cro-" + getFileNameFromURL(globalData.url) + "-" + globalData.date.replace(/\//g, '-');
     var filePrefix = window.location.origin + "/metrics/download/";
     $(".download-button-1").attr("href", filePrefix + fileName + "/1?" + urlParams.toString());
     $(".download-button-1").attr("download", "cro-" + fileName + "-1.csv");
@@ -75,6 +74,7 @@ function generateDownloadLink() {
     $(".download-button-30").attr("download", "cro-" + fileName + "-30.csv");
     $(".download-button-links").show();
 }
+
 function generateReport(url, strategy, apiURL, _id) {
     apiURL = apiURL || "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
     /* if (typeof(apiURL) === 'undefined') {

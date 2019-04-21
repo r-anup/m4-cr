@@ -343,6 +343,7 @@ $.addTemplateFormatter({
 });
 
 
+
 var getAllIndexes = function(arr, val) {
     var indexes = [], i = -1;
     while ((i = arr.indexOf(val, i+1)) != -1){
@@ -389,7 +390,20 @@ var getScoreData = function(response) {
 
     });
     return data;
-}
+};
+
+var getFileNameFromURL = function(url) {
+    var fileName = "";
+    var fileNameMatch = url.match(/([\w\d\.\?\#\%\$\&\=_-]*)\.?[^\\\/][\/]*$/i);
+    if (fileNameMatch.length >= 0) {
+        fileName = fileNameMatch[0];
+        fileNameMatch = fileName.match(/[^\/\?#\.]+/i);
+        if (fileNameMatch.length >= 0) {
+            fileName = fileNameMatch[0];
+        }
+    }
+    return fileName;
+};
 
 var isScrolledIntoView = function(elem) {
     var docViewTop = $(window).scrollTop();
@@ -621,7 +635,7 @@ function plotLineChart(data, elem) {
         });
         option.legend =  {
             color: '#007bff',
-                data:[
+            data:[
                 {
                     name: stackName,
                     textStyle: {
@@ -633,9 +647,9 @@ function plotLineChart(data, elem) {
                         color: '#007bff'
                     }
                 }],
-                orient: 'vertical',
-                left: 0,
-                top: 20,
+            orient: 'vertical',
+            left: 0,
+            top: 20,
         };
     }
 
@@ -747,7 +761,7 @@ function plotStackedBarChart(data, elem) {
         axisData.push(elem.groupLabel);
     });
 
- //   seriesData = seriesData.reverse();
+    //   seriesData = seriesData.reverse();
 
     var option = {
         color: ["#003f5c", "#444e86", "#955196", "#dd5182", "#ff6e54", "#ffa600"],
@@ -820,7 +834,7 @@ function plotStackedBarChart(data, elem) {
                 },
                 data: seriesData.reduce(function(r,c,i){
                     r.push((r[i-1]+seriesData[i-1] || 0));return r;
-                    }, [] ).reverse()
+                }, [] ).reverse()
             },
             {
                 type: 'bar',

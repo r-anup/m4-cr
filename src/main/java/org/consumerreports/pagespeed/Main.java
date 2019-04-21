@@ -177,9 +177,7 @@ public class Main {
 
             try {
                 if (leftDate == null) {
-                    LOG.info(rightDate);
                     leftDate = new SimpleDateFormat("MM/dd/yyyy").format(CommonUtil.addDays(new SimpleDateFormat("MM/dd/yyyy").parse(rightDate), -1));
-                    LOG.info(leftDate);
                 }
             } catch (ParseException e) {
                 LOG.error("Error parsing date string");
