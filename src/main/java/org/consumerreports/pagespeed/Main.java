@@ -6,7 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.consumerreports.pagespeed.config.ConfigProperties;
 import org.consumerreports.pagespeed.controllers.MetricsController;
+import org.consumerreports.pagespeed.models.CompetitorUrl;
 import org.consumerreports.pagespeed.models.CroUrl;
+import org.consumerreports.pagespeed.repositories.CompetitorsRepository;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.CommonUtil;
@@ -139,7 +141,8 @@ public class Main {
     @RequestMapping(value = {"/metrics.html", "/benchmark.html"}, method = RequestMethod.GET)
     String metrics(
             HttpServletRequest request,
-            @RequestParam(value = "url", required = false, defaultValue = "https://www.consumerreports.org/cro/washing-machines.htm") String url,
+            @RequestParam(value = "url", required = false) String url,
+            @RequestParam(value = "benchmarkurl", required = false) String benchmarkUrl,
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Strategy strategy,
             @RequestParam(value = "date", required = false) String date,
@@ -153,21 +156,20 @@ public class Main {
     ) {
         String path = request.getServletPath();
 
-        CroUrl croUrl = urlsRepository.findFirstByUrl(url);
-        if (croUrl != null) {
-            model.addAttribute("pageTitle", croUrl.title);
-        } else {
-            model.addAttribute("pageTitle", title);
-        }
+
+        CroUrl croUrl = null;
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
 
         List<CroUrl> urlList = null;
-        String benchmarkUrl = null;
         String benchmarkTitle = null;
         String tab = null;
         if (path.equalsIgnoreCase("/metrics.html")) {
+            if (url == null) {
+                url = "https://www.consumerreports.org/cro/washing-machines.htm";
+             }
+            croUrl = urlsRepository.findFirstByUrl(url);
             tab = "metrics";
             urlList = urlsRepository.findAll(Sort.by("sortOrder"));
 
@@ -196,11 +198,29 @@ public class Main {
         } else if (path.equalsIgnoreCase("/benchmark.html")) {
             tab = "benchmark";
             urlList = urlsRepository.findAllByCompetitorUrlIsNotNullOrderBySortOrderAsc();
+            if (url != null) {
+                croUrl = urlsRepository.findFirstByUrl(url);
+            } else if (benchmarkUrl != null) {
+                croUrl = urlsRepository.findFirstByCompetitorUrlValue(benchmarkUrl);
+                url = croUrl.url;
+            } else {
+                if (url == null) {
+                    url = "https://www.consumerreports.org/cro/washing-machines.htm";
+                }
+                croUrl = urlsRepository.findFirstByUrl(url);
+            }
             benchmarkUrl = croUrl.getCompetitorUrl().getUrl();
             benchmarkTitle = croUrl.getCompetitorUrl().getTitle() + " (" + croUrl.getCompetitorUrl().getBrand() + ")";
             if (date == null) {
                 date = simpleDateFormat.format(new Date());
             }
+
+        }
+
+        if (croUrl != null) {
+            model.addAttribute("pageTitle", croUrl.title);
+        } else {
+            model.addAttribute("pageTitle", title);
         }
 
         model.addAttribute("urlList", urlList);

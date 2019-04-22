@@ -20,4 +20,9 @@ public interface UrlsRepository extends MongoRepository<CroUrl, String> {
 
 
     List<CroUrl> findAllByCompetitorUrlIsNotNullOrderBySortOrderAsc();
+
+
+    CroUrl findFirstByCompetitorUrlValue(
+            String competitorUrl
+    );
 }

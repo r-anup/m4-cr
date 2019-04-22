@@ -12,6 +12,7 @@ public class CroUrl {
 
     @DBRef
     public CompetitorUrl competitorUrl;
+    public String competitorUrlValue;
     public String title;
     public Integer sortOrder;
     public String mobileLatestScore;
@@ -61,6 +62,14 @@ public class CroUrl {
 
     public void setCompetitorUrl(CompetitorUrl competitorUrl) {
         this.competitorUrl = competitorUrl;
+    }
+
+    public String getCompetitorUrlValue() {
+        return competitorUrlValue;
+    }
+
+    public void setCompetitorUrlValue(String competitorUrlValue) {
+        this.competitorUrlValue = competitorUrlValue;
     }
 
     public String getTitle() {

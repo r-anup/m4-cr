@@ -394,6 +394,7 @@ var getScoreData = function(response) {
 
 var getFileNameFromURL = function(url) {
     var fileName = "";
+    url = (url.match(/(?:\w+:)?\/\/[^/]+([^?#]+)/) || [url, '']).pop();
     var fileNameMatch = url.match(/([\w\d\.\?\#\%\$\&\=_-]*)\.?[^\\\/][\/]*$/i);
     if (fileNameMatch.length >= 0) {
         fileName = fileNameMatch[0];
@@ -721,20 +722,21 @@ function plotBarChart(data, elem) {
         ]
     };
 
-
-    option.series.push({
-        data: EMACalc(data.values, 6),
-        lineStyle: {
-            color: '#93eaf4',
-        },
-        type: 'line',
-        markPoint: 'none',
-        symbol: 'none',
-        smooth: true,
-        label: {
-            show: false
-        },
-    });
+    if (data.values) {
+        option.series.push({
+            data: EMACalc(data.values, 6),
+            lineStyle: {
+                color: '#93eaf4',
+            },
+            type: 'line',
+            markPoint: 'none',
+            symbol: 'none',
+            smooth: true,
+            label: {
+                show: false
+            },
+        });
+    }
 
     var event = "click";
     if (elem == "#header-box") {
@@ -861,9 +863,16 @@ function  plotReportSummary(scoreValue, fetchTime) {
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("fetchSource") == "repository") {
         urlParams.delete("fetchSource");
-        urlParams.delete("date");
-        urlParams.set('rightDate', new Date(fetchTime).toLocaleDateString());
-        $(".performance-metrics-url").attr("href", "/metrics.html" + "?" + urlParams.toString());
+        if (globalData.url.indexOf("consumerreports.org") == -1) {
+            urlParams.delete("url");
+            urlParams.set("benchmarkurl", globalData.url);
+            urlParams.set('date', new Date(fetchTime).toLocaleDateString());
+            $(".performance-metrics-url").attr("href", "/benchmark.html" + "?" + urlParams.toString());
+        } else {
+            urlParams.delete("date");
+            urlParams.set('rightDate', new Date(fetchTime).toLocaleDateString());
+            $(".performance-metrics-url").attr("href", "/metrics.html" + "?" + urlParams.toString());
+        }
     } else {
         $(".performance-metrics-url").parent().remove();
     }
@@ -923,3 +932,12 @@ function plotDonutChart(scoreValue) {
     myChart.setOption(option);
 
 }
+
+/*
+https://subscription.economist.com/DA/PPC/BlackNotebookNewYear/FY1819?gclsrc=aw.ds&gclid=EAIaIQobChMIuKbUy8TP3wIVxgOGCh3P5AovEAAYASAAEgILwfD_BwE&gclsrc=aw.ds
+https://subscription.economist.com/DA/PPC/BlackNotebookNewYear/FY1819?gclsrc=aw.ds&gclid=EAIaIQobChMIuKbUy8TP3wIVxgOGCh3P5AovEAAYASAAEgILwfD_BwE&gclsrc=aw.ds
+Comparision
+
+
+
+ */

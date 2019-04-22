@@ -218,17 +218,22 @@
     line-height: var(--subheader-line-height);
     flex: 1;
     display: flex;
+    justify-content: space-between;
     background: #eee;
     padding: 8px;
 }
 
 .lh-audit-group__subheader--description {
     font-weight: 300;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     line-height: var(--title-line-height);
     flex: 1;
-    color: #808080;
-    padding-bottom: 2.5rem;
+    padding: 1rem;
+    background: #e1e2ea;
+}
+
+.dark-mode-theme .lh-audit-group__subheader--description {
+    background: #2b2828;
 }
 
 .lh-audit-group--metrics .lh-audit-group__header::before {
@@ -281,6 +286,10 @@
 
 .lh-metric {
     border-bottom: 1px solid var(--report-secondary-border-color);
+}
+
+#more-info-chart .lh-metric {
+    border-bottom: 0 none !important;
 }
 
 .tooltip-boundary {
@@ -427,16 +436,30 @@
 }
 
 /* critical rendering path */
-#critical-request-chains .lh-metric__value {
-    margin-left: 6rem;
-    background: #ffff007a;
-    padding: 0.2rem;
+.lh-audit-group__subheader--title .lh-metric__value {
+    padding: 0 0.8rem;
+    background: #fff;
 }
+
+.dark-mode-theme .lh-audit-group__subheader--title .lh-metric__value {
+    padding: 0 0.8rem;
+    background: #000;
+}
+
 
 .lh-crc {
     font-size: 1.4rem;
     padding: 1rem;
     background: #f5f6fb;
+}
+
+.lh-crc-container {
+    background: #f5f6fb;
+    padding: 1rem;
+}
+
+.dark-mode-theme .lh-crc-container {
+    background: #2f2f2f;
 }
 
 .s-container {
@@ -621,14 +644,20 @@
 
 .field-data-description, .lh-audit-group__description {
     font-size: 1.5rem;
-    margin: var(--lh-audit-group-vpadding) -15px;
     padding: 8px;
     font-weight: 600;
     background: #eee;
 }
 
+.lh-audit-group__description, .field-data-description, .lh-audit-group__subheader--title {
+    background: #eee;
+    border-bottom: 1px solid #bdbdbd;
+}
+
+
 .dark-mode-theme .lh-audit-group__description, .dark-mode-theme .field-data-description, .dark-mode-theme .lh-audit-group__subheader--title {
     background: #464040;
+    border-bottom: 1px solid #5f5f5f;
 }
 
 .field-data-description.fast b {
