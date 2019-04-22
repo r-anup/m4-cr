@@ -78,6 +78,10 @@
     border-bottom: solid 1px #e0e0e0;
 }
 
+.dark-mode-theme .bottom-border {
+    border-bottom: 1px solid #464646;
+}
+
 .summary-description .audited-url {
     font-size: 2rem;
     font-weight: 400;
@@ -286,6 +290,10 @@
 
 .lh-metric {
     border-bottom: 1px solid var(--report-secondary-border-color);
+}
+
+.dark-mode-theme .lh-metric {
+    border-bottom: 1px solid #464646;
 }
 
 #more-info-chart .lh-metric {
