@@ -1,3 +1,11 @@
+function convertDateTimeToCompatibleType(time) {
+    try {
+        return new Date(time.replace(/([+\-]\d\d)(\d\d)$/, "$1:$2"));
+    }catch (e) {
+        return new Date(time);
+    }
+}
+
 function getScoreEntities(response) {
     if (response.status == 'failure') {
         return null;
@@ -6,7 +14,7 @@ function getScoreEntities(response) {
 
     if (response.isDataFormatted) {
         /* data coming from database */
-        data['fetchTime'] = new Date(response.fetchTime).toLocaleString();
+        data['fetchTime'] = convertDateTimeToCompatibleType(response.fetchTime).toLocaleString();
         data['lighthouseResult'] = response.lighthouseResult;
         data['lighthouseMisc'] = response.lighthouseMisc;
         data['url'] = response.url;
@@ -17,7 +25,7 @@ function getScoreEntities(response) {
         /* data coming directly from server call */
         var result = response.lighthouseResult || response;
         data['score'] = result.categories.performance.score;
-        data['fetchTime'] = new Date(response.analysisUTCTimestamp).toLocaleString();
+        data['fetchTime'] = convertDateTimeToCompatibleType(response.analysisUTCTimestamp).toLocaleString();
         data['lighthouseResult'] = result.audits;
         data['lighthouseMisc'] = result.lighthouseMisc || result.audits;
         data['url'] = response.finalUrl;
@@ -373,7 +381,7 @@ var generateScoreRequests = function(urls, strategy) {
 var getScoreData = function(response) {
     var data = {days: [], fullDays:[], scores: {}, id: []};
     $.each(response.reverse(), function (idx, item) {
-        var dt = new Date(item.fetchTime);
+        var dt = convertDateTimeToCompatibleType(item.fetchTime);
         data.days.push((dt.getMonth()+1)+"/"+dt.getDate());
         data.fullDays.push(dt.toLocaleDateString());
         data.id.push(item._id);

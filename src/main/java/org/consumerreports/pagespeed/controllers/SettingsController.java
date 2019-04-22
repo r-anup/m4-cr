@@ -111,6 +111,7 @@ public class SettingsController {
                 CompetitorUrl competitorUrl = competitorsRepository.findFirstByUrl(mappingUrlCompetitor);
                 if (competitorUrl != null && croUrl != null) {
                     croUrl.setCompetitorUrl(competitorUrl);
+                    croUrl.setCompetitorUrlValue(mappingUrlCompetitor);
                     urlsRepository.save(croUrl);
                 }
             }
