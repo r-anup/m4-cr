@@ -932,12 +932,3 @@ function plotDonutChart(scoreValue) {
     myChart.setOption(option);
 
 }
-
-/*
-https://subscription.economist.com/DA/PPC/BlackNotebookNewYear/FY1819?gclsrc=aw.ds&gclid=EAIaIQobChMIuKbUy8TP3wIVxgOGCh3P5AovEAAYASAAEgILwfD_BwE&gclsrc=aw.ds
-https://subscription.economist.com/DA/PPC/BlackNotebookNewYear/FY1819?gclsrc=aw.ds&gclid=EAIaIQobChMIuKbUy8TP3wIVxgOGCh3P5AovEAAYASAAEgILwfD_BwE&gclsrc=aw.ds
-Comparision
-
-
-
- */
