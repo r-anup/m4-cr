@@ -243,6 +243,7 @@ public class Main {
             @RequestParam(value = "date", required = false) String date,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
             @RequestParam(value = "fetchSource", required = false) FetchSource fetchSource,
+            @RequestParam(value = "suppressOutput", required = false, defaultValue = "false") boolean suppressOutput,
             @RequestParam(value = "strategy", required = false) String strategy) {
 
         if (fetchSource.equals(FetchSource.repository)) {
@@ -252,7 +253,11 @@ public class Main {
         PageSpeed pageSpeed = new PageSpeed(configProperties);
         JSONObject output = pageSpeed.processRequest(url, strategy, fetchSource, metricsRepository, urlsRepository);
         if (output != null) {
-            return output.toString();
+            if (suppressOutput) {
+                return "{\"status\": \"success\", \"message\": \"\"}";
+            } else {
+                return output.toString();
+            }
         } else {
             return "{\"status\": \"failure\", \"message\": \"No Data\"}";
         }

@@ -29,8 +29,10 @@ if (urlStr != null) {
 $(window).scroll(function () {
     if (isScrolledIntoView($(".goog-tab-bar")[0])) {
         $("#header-box, #score-box").hide();
+        $(".hide-on-scroll").show();
     } else {
         $("#header-box,  #score-box").slideDown();
+        $(".hide-on-scroll").hide();
        // $("#header-box").fadeIn();
     }
 });

@@ -271,7 +271,10 @@
             <header class="d-flex justify-content-between p-3 fixed-header">
                 <div class="d-flex"><a href="/"><img class="d-none d-xl-block cr-logo mr-3" src="images/cr-logo.svg"></a> <a href="/"><img style="height: 42px;" src="images/m4.png"></a></div>
 
-                <div class="d-flex justify-content-center"><div style="display: none; margin: auto auto auto 2rem;" id="score-box"></div><div style="width: 800px; height: 50px; margin-bottom: 0.2rem; display: none;" id="header-box"></div></div>
+                <div class="d-inline-flex">
+                    <div style="display: none; margin: auto auto auto 4rem;" id="score-box"></div>
+                    <div style="width: 800px; height: 50px; margin-bottom: 0.2rem; display: none;" id="header-box"></div>
+                </div>
 
                 <div style="position: relative;">
                     <ul class="nav justify-content-end nav-pills"  style="background: #fff; left: -110px;">
@@ -287,10 +290,10 @@
                         <li class="nav-item">
                             <a th:class="${tab} == 'benchmark' ? 'nav-link active' : 'nav-link'" href="benchmark.html">Benchmark</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item hide-on-scroll">
                             <a th:class="${tab} == 'settings' ? 'nav-link active' : 'nav-link'" href="settings.html">Settings</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item hide-on-scroll">
                             <a th:class="${tab} == 'history' ? 'nav-link active' : 'nav-link'" href="history.html">History</a>
                         </li>
                     </ul>

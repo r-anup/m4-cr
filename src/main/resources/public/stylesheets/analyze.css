@@ -85,6 +85,7 @@
 .summary-description .audited-url {
     font-size: 2rem;
     font-weight: 400;
+    width: 60px;
     color: inherit;
 }
 
@@ -438,7 +439,6 @@
 
 .chart-lighthouse-time {
     font-size: 1.1rem;
-    width: 10rem;
     line-height: 2rem;
     margin-left: -1rem;
 }
