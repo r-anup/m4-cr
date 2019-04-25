@@ -40,14 +40,14 @@
             }
 
             .dark-mode-theme .fixed-header {
-                -webkit-box-shadow: 0 4px 5px 0 rgba(255, 255, 255, 0), 0 1px 10px 0 rgba(255,255,255,0.12), 0 2px 4px -1px rgba(255,255,255,0.2) !important;
-                box-shadow: 0 4px 5px 0 rgba(255, 255, 255, 0), 0 1px 10px 0 rgba(255,255,255,0.12), 0 2px 4px -1px rgba(255,255,255, 0.2) !important;
-                background: #1d1d1d !important;
+                -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0), 0 1px 10px 0 rgba(0, 0,0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+                box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0), 0 1px 10px 0 rgba(0, 0,0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+                background: #232323 !important;
                 color: #ddd !important;
             }
 
             .dark-mode-theme .nav-pills {
-                background: #1d1d1d !important
+                background: #232323 !important
             }
 
             .footer-buttons {
@@ -58,6 +58,7 @@
             .footer-buttons i {
                 font-size: 3rem;
                 cursor: pointer;
+                color: #292833;
             }
 
             .footer-buttons sup {
@@ -72,7 +73,7 @@
             }
 
             .dark-mode-theme .footer-buttons i{
-                color: green;
+                color: #b5b5b5;
             }
 
             .table-dark td a {
@@ -85,9 +86,10 @@
 
 
             .crux-headline--standard {
-                font-size: 3.6rem;
-                font-weight: normal;
+                font-size: 3.1rem;
+                font-weight: 600;
                 line-height: 1em;
+                font-family: sans-serif;
             }
 
 
@@ -314,11 +316,13 @@
                         $(".cr-logo").attr("src", "images/cr-logo-dark-mode.svg");
                         $(".table thead").removeClass("thead-light").addClass("thead-dark");
                         $(".table").removeClass("table-light").addClass("table-dark");
+                        $(".dark-mode-button").html("brightness_5");
                     } else {
                         Cookies.remove('isDarkMode');
                         $(".cr-logo").attr("src", "images/cr-logo.svg");
                         $(".table thead").removeClass("thead-dark").addClass("thead-light");
                         $(".table").removeClass("table-dark").addClass("table-light");
+                        $(".dark-mode-button").html("brightness_4");
 
                     }
                 });
@@ -399,7 +403,7 @@
                 <a class="download-button-30" download="filename"><i class="material-icons" title="Download Last 30 days">save_alt</i><sup>30</sup></a>
                 <a class="download-button-1" download="filename"><i class="material-icons" title="Download">save_alt</i><sup>1</sup></a>
             </span>
-            <i class="material-icons dark-mode-button" title="Dark Mode">power_settings_new</i>
+            <i class="material-icons dark-mode-button" title="Dark Mode" th:text="${isDarkMode} ? 'brightness_5' : 'brightness_4'">brightness_4</i>
         </div>
         <footer class="container-fluid d-flex">
             <div class="footer container-fluid">
@@ -414,7 +418,7 @@
                         </ul>
                     </div>
                 </div>
-                <div style="margin-left: 11rem;">For questions or suggestions, please email <a href="mailto:arai@consumer.org">arai@consumer.org</a></div>
+                <div style="margin-left: 11rem;">For feedback and suggestions, please email <a href="mailto:arai@consumer.org">arai@consumer.org</a></div>
             </div>
         </footer>
     </body>

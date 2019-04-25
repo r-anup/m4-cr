@@ -99,7 +99,6 @@
     <orderEntry type="library" name="org.apache.directory.studio:org.apache.commons.lang:2.6" level="project" />
     <orderEntry type="library" name="org.json:json:20140107" level="project" />
     <orderEntry type="library" name="com.budjb:http-requests-httpcomponents-client:2.0.3" level="project" />
-    <orderEntry type="library" name="org.mongodb:mongo-java-driver:3.0.0" level="project" />
     <orderEntry type="library" name="org.springframework.data:spring-data-commons:2.1.5.RELEASE" level="project" />
     <orderEntry type="library" name="org.springframework.data:spring-data-mongodb:2.1.5.RELEASE" level="project" />
     <orderEntry type="library" name="javax.xml.bind:jaxb-api:2.3.1" level="project" />

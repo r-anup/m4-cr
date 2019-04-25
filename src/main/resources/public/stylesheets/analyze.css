@@ -157,6 +157,10 @@
     text-transform: uppercase;
 }
 
+.dark-mode-theme .result-tabs .tab-bar-wrapper,.dark-mode-theme .main-action {
+    background: #0c3b6d;
+}
+
 .result-tabs .goog-tab-selected {
     border-bottom: solid 2px #fff;
     z-index: 2;
@@ -447,10 +451,10 @@
 .lh-audit-group__subheader--title .lh-metric__value {
     padding: 0 0.8rem;
     background: #fff;
+    margin: 0;
 }
 
 .dark-mode-theme .lh-audit-group__subheader--title .lh-metric__value {
-    padding: 0 0.8rem;
     background: #000;
 }
 

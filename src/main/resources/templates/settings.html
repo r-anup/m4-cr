@@ -55,6 +55,33 @@
             @-moz-keyframes spin {rom {-moz-transform: rotate(0deg);} to { -moz-transform: rotate(360deg);}}
             @-webkit-keyframes spin {from {-webkit-transform: rotate(0deg); } to {-webkit-transform: rotate(360deg); }}
             @keyframes spin {from {transform: rotate(0deg);}to {transform: rotate(360deg);}}
+
+            #settings-form .loading {
+                width: 17rem;
+                text-align: left;
+            }
+
+            #settings-form .loading:after {
+                overflow: hidden;
+                display: inline-block;
+                vertical-align: bottom;
+                -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+                animation: ellipsis steps(4,end) 900ms infinite;
+                content: "\2026"; /* ascii code for the ellipsis character */
+                width: 0px;
+            }
+
+            @keyframes ellipsis {
+                to {
+                    width: 1.25em;
+                }
+            }
+
+            @-webkit-keyframes ellipsis {
+                to {
+                    width: 1.25em;
+                }
+            }
         </style>
 
         <script th:inline="javascript">
@@ -222,11 +249,12 @@
                     var submitBtn = $(container + " .submit-btn");
 
                     submitBtn.on("click", function () {
-                        $(this).html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop Processing...');
+                        $(submitBtn).addClass("loading");
+                        $(this).html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop Processing');
                         if (processIndex >= 0) {
                             clearTimeSpent(container);
                             stopProcessing = true;
-                            submitBtn.html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopping...');
+                            submitBtn.html('<i style="position: absolute;" class="material-icons spin">autorenew</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopping');
                             return;
                         }
                         processIndex = 0;
@@ -235,6 +263,7 @@
                         var processURL = function () {
                             if (stopProcessing) {
                                 $(".run-status").hide();
+                                $(submitBtn).removeClass("loading");
                                 submitBtn.html("Process Lighthouse reports");
                                 return;
                             }
@@ -245,6 +274,7 @@
                             }
                             if (processStrategy == "desktop" && processIndex == processURLsLength) {
                                 //$(".run-status").hide();
+                                $(submitBtn).removeClass("loading");
                                 submitBtn.html("Process Lighthouse reports");
                                 pauseTimeSpent();
                                 return;
@@ -261,6 +291,7 @@
                                     strategy: processStrategy,
                                     category: 'performance',
                                     locale: 'en_US',
+                                    suppressOutput: true,
                                     fetchSource: 'lightHouseAndSave',
                                 },
                                 dataType: 'json',

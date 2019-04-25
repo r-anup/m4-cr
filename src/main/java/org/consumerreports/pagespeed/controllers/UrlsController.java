@@ -1,8 +1,5 @@
 package org.consumerreports.pagespeed.controllers;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.consumerreports.pagespeed.models.CompetitorUrl;
 import org.consumerreports.pagespeed.models.CroUrl;
 import org.consumerreports.pagespeed.repositories.CompetitorsRepository;
@@ -18,10 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.joining;
 
@@ -41,9 +35,9 @@ public class UrlsController {
 
     @RequestMapping(value = "/cro-list", method = RequestMethod.GET, produces = "application/json")
     public List<CroUrl> getAllUrlsOnly(
-            @RequestParam(value = "type", required = false,  defaultValue = "json") String type,
-            @RequestParam(value = "formatted", required = false,  defaultValue = "false") boolean isFormatted,
-            @RequestParam(value = "doSave", required = false,  defaultValue = "false") boolean doSave,
+            @RequestParam(value = "mediaType", required = false, defaultValue = "json") String mediaType,
+            @RequestParam(value = "formatted", required = false, defaultValue = "false") boolean isFormatted,
+            @RequestParam(value = "doSave", required = false, defaultValue = "false") boolean doSave,
             HttpServletRequest request
     ) {
         List<CroUrl> urls = urlsRepository.findAllUrls();
@@ -83,12 +77,12 @@ public class UrlsController {
 
     @RequestMapping(value = "/competitor-list", method = RequestMethod.GET, produces = "application/json")
     public List<CompetitorUrl> getAllCompetitorUrlsOnly(
-            @RequestParam(value = "type", required = false,  defaultValue = "json") String type,
-            @RequestParam(value = "formatted", required = false,  defaultValue = "false") boolean isFormatted,
-            @RequestParam(value = "doSave", required = false,  defaultValue = "false") boolean doSave,
+            @RequestParam(value = "mediaType", required = false, defaultValue = "json") String mediaType,
+            @RequestParam(value = "formatted", required = false, defaultValue = "false") boolean isFormatted,
+            @RequestParam(value = "doSave", required = false, defaultValue = "false") boolean doSave,
             HttpServletRequest request
     ) {
-        List<CompetitorUrl> urls = competitorsRepository.findAllUrls();
+        Set<CompetitorUrl> urls = new HashSet<>(competitorsRepository.findAllUrls());
         List urlList = new ArrayList();
         if (isFormatted) {
             Map<String, String> params = new HashMap<>();

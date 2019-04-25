@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CompetitorsRepository extends MongoRepository<CompetitorUrl, String> {
     CompetitorUrl findBy_id(ObjectId _id);
