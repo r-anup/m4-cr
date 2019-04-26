@@ -40,7 +40,6 @@ import java.util.TimeZone;
 @ComponentScan(basePackages = {"org.consumerreports.pagespeed"})
 @SpringBootApplication(scanBasePackages = {"org.consumerreports.pagespeed"})
 @EnableConfigurationProperties(ConfigProperties.class)
-@EnableScheduling
 public class Main {
 
     private static final Logger LOG = LogManager.getLogger(Main.class);
