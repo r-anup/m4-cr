@@ -109,9 +109,9 @@ public class PageSpeed {
     }
 
 
-    public JSONObject processRequest(String url, String strategy, Main.FetchSource fetchSource, MetricsRepository metricsRepository, UrlsRepository urlsRepository) {
+    public JSONObject processRequest(String url, Main.Strategy strategy, Main.FetchSource fetchSource, MetricsRepository metricsRepository, UrlsRepository urlsRepository) {
         if (strategy == null) {
-            strategy = "mobile";
+            strategy = Main.Strategy.mobile;
         }
 
         if (fetchSource == null) {
@@ -197,7 +197,7 @@ public class PageSpeed {
             if (fetchSource.equals(Main.FetchSource.lightHouseAndSave)) {
                 Metrics m = new Metrics(
                         url,
-                        strategy,
+                        strategy.name(),
                         (DatatypeConverter.parseDateTime(formattedData.getString("fetchTime")).getTime()),
                         true,
                         lighthouseResult,

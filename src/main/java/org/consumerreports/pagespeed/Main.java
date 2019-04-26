@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ import java.util.TimeZone;
 @ComponentScan(basePackages = {"org.consumerreports.pagespeed"})
 @SpringBootApplication(scanBasePackages = {"org.consumerreports.pagespeed"})
 @EnableConfigurationProperties(ConfigProperties.class)
+@EnableScheduling
 public class Main {
 
     private static final Logger LOG = LogManager.getLogger(Main.class);
@@ -244,7 +246,7 @@ public class Main {
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
             @RequestParam(value = "fetchSource", required = false) FetchSource fetchSource,
             @RequestParam(value = "suppressOutput", required = false, defaultValue = "false") boolean suppressOutput,
-            @RequestParam(value = "strategy", required = false) String strategy) {
+            @RequestParam(value = "strategy", required = false) Strategy strategy) {
 
         if (fetchSource.equals(FetchSource.repository)) {
             return metricsController.getMetrics(url, strategy, date, timezone);

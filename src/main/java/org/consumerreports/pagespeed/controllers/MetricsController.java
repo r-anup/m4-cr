@@ -2,6 +2,7 @@ package org.consumerreports.pagespeed.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.bson.types.ObjectId;
+import org.consumerreports.pagespeed.Main;
 import org.consumerreports.pagespeed.util.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
@@ -36,7 +37,7 @@ public class MetricsController {
     @RequestMapping(value = "/url", method = RequestMethod.GET, produces = "application/json")
     public Object getMetrics(
             @RequestParam(value = "url") String url,
-            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType,
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Main.Strategy deviceType,
             @RequestParam(value = "date", required = false) String date,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone
     ) {
@@ -53,7 +54,7 @@ public class MetricsController {
             @PathVariable("fileName") String fileName,
             @PathVariable("days") String days,
             @RequestParam(value = "url") String url,
-            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") String deviceType,
+            @RequestParam(value = "strategy", required = false, defaultValue = "mobile") Main.Strategy deviceType,
             @RequestParam(value = "date", required = false) String date,
             @CookieValue(value = "timezone", required = false, defaultValue = "GMT-0400") String timezone,
             HttpServletResponse response
@@ -63,7 +64,7 @@ public class MetricsController {
         JSONArray ja = new JSONArray();
         try {
             if (days.equalsIgnoreCase("30")) {
-                List<Metrics> metrics = metricsRepository.findScoresByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType, PageRequest.of(0, 30));
+                List<Metrics> metrics = metricsRepository.findScoresByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, deviceType.name(), PageRequest.of(0, 30));
                 for (Metrics metric : metrics) {
                     ja.put(MetricsController.convertMetricsToMap(metric, timezone));
                 }
@@ -91,7 +92,7 @@ public class MetricsController {
         return result;
     }
 
-    private static Metrics getMetricsData(String date,String timezone, String url, String deviceType, MetricsRepository metricsRepository) {
+    private static Metrics getMetricsData(String date, String timezone, String url, Main.Strategy deviceType, MetricsRepository metricsRepository) {
         Date parsedDate;
         Metrics metrics;
         try {
@@ -103,7 +104,7 @@ public class MetricsController {
             }
             parsedDate = simpleDateFormat.parse(date);
 
-            metrics = metricsRepository.findFirstByUrlEqualsAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType, parsedDate, CommonUtil.addDays(parsedDate, 1));
+            metrics = metricsRepository.findFirstByUrlEqualsAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType.name(), parsedDate, CommonUtil.addDays(parsedDate, 1));
         } catch (ParseException e) {
             LOG.error(e.getMessage());
             metrics = metricsRepository.findFirstByUrlOrderByFetchTimeDesc(url);
