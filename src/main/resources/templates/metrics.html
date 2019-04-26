@@ -304,6 +304,11 @@
                 } else if(globalData.leftDate != null && globalData.rightDate != null) {
                     displayMetricsData([globalData.url], [globalData.leftDate, globalData.rightDate], globalData.strategy);
                 }
+
+                $(".dark-mode-button").bind( "click", function() {
+                    reTriggerFileChart(".file-type-chart");
+                    reTriggerFileChart(".tasks-chart");
+                });
             });
 
             var setDateStats = function(dateId, date, textId) {

@@ -429,23 +429,22 @@ function resetChart(elem) {
     }
 }
 
-
-
 function reTriggerFileChart(elem) {
     var option = setFileTypeChartColor({});
     window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).setOption(option);
 }
 
 function setFileTypeChartColor(option) {
-    var colorD = ["#3a5487", "#5c8c9c", "#c0c4c9", "#eb7e24", "#ca1e32"];
+    var colorLight = ["#1d3f72", "#5699d2", "#71c2cc", "#4996a2", "#785471", "#e8cdc5", "#eee7d8"];
+    var colorDark = ["#c5523f", "#f2b736", "#1875e5", "#95d5ee", "#499255", "#585872", "#9e4446"];
     if ($("body").hasClass("dark-mode-theme")) {
         if (option.series) {
-            option.color = colorD;
+            option.color = colorDark;
             option.title.textStyle.color = '#ffffff';
             option.legend.textStyle.color = '#ffffff';
         } else {
             option = {
-                color: colorD,
+                color: colorDark,
                 title: {
                     textStyle: {
                         color: '#ffffff',
@@ -461,12 +460,12 @@ function setFileTypeChartColor(option) {
         }
     } else {
         if (option.series) {
-            option.color = colorD;
+            option.color = colorLight;
             option.title.textStyle.color = '#000000';
             option.legend.textStyle.color = '#000000';
         } else {
             option = {
-                color: colorD,
+                color: colorLight,
                 title: {
                     textStyle: {
                         color: '#000000',
@@ -524,13 +523,6 @@ function plotFileTypeChart(data, elem, title, showLegends) {
                 center: ['50%', '60%'],
                 label: {
                     formatter: "{b}: {c}",
-                },
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
                 },
                 data: data
             }
@@ -817,7 +809,7 @@ function plotStackedBarChart(data, elem) {
     //   seriesData = seriesData.reverse();
 
     var option = {
-        color: ["#003f5c", "#444e86", "#955196", "#dd5182", "#ff6e54", "#ffa600"],
+        color: ["#0c3b6d", "#444e86", "#955196", "#dd5182", "#ff6e54", "#ffa600"],
         tooltip : {
             trigger: 'axis',
             axisPointer : {
@@ -877,12 +869,12 @@ function plotStackedBarChart(data, elem) {
                 stack:  'a',
                 itemStyle: {
                     normal: {
-                        barBorderColor: 'rgba(0,0,0,0.2)',
-                        color: 'rgba(0,0,0,0.2)'
+                        barBorderColor: 'rgba(127,127,127,0.1)',
+                        color: 'rgba(127,127,127,0.1)'
                     },
                     emphasis: {
-                        barBorderColor: 'rgba(0,0,0,0.2)',
-                        color: 'rgba(0,0,0,0.2)'
+                        barBorderColor: 'rgba(127,127,127,0.1)',
+                        color: 'rgba(127,127,127,0.1)'
                     }
                 },
                 data: seriesData.reduce(function(r,c,i){

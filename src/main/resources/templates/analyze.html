@@ -49,8 +49,8 @@
                 });
 
                 $(".dark-mode-button").bind( "click", function() {
-                    reTriggerFileChart("#file-type-chart");
-                    reTriggerFileChart("#tasks-chart");
+                    reTriggerFileChart(".file-type-chart");
+                    reTriggerFileChart(".tasks-chart");
                 });
             });
         </script>
@@ -527,10 +527,10 @@
 
                                 <div class="lh-columns row pt-2 s-container">
                                     <div class="lh-column">
-                                        <div id="file-type-chart" style="width: 80%; height: 440px;"></div>
+                                        <div class="file-type-chart" style="width: 80%; height: 440px;"></div>
                                     </div>
                                     <div class="lh-column">
-                                        <div id="tasks-chart" style="height: 440px;"></div>
+                                        <div class="tasks-chart" style="height: 440px;"></div>
                                     </div>
                                 </div>
                             </div>

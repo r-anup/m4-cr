@@ -219,7 +219,7 @@ function generateReport(url, strategy, apiURL, _id) {
                             name: $(this).find(".lh-metric__title").text(),
                             value: $(this).find(".lh-metric__value").text()
                         };
-                    }).get(), '#file-type-chart', 'Page weight'
+                    }).get(), '.file-type-chart', 'Page weight'
                 );
 
                 plotFileTypeChart(
@@ -228,7 +228,7 @@ function generateReport(url, strategy, apiURL, _id) {
                             name: $(this).find(".lh-metric__title").text(),
                             value: $(this).find(".lh-metric__value").text()
                         };
-                    }).get(), '#tasks-chart', 'Page tasks'
+                    }).get(), '.tasks-chart', 'Page tasks'
                 );
 
             } else {
