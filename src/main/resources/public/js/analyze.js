@@ -42,9 +42,12 @@ $(window).scroll(function () {
 $(document).on("click", ".main-submit", function () {
     var inputURL = $(".main-action input[name='url']");
     var inputURLStr = inputURL.val();
+    if (inputURLStr == "") {
+        return;
+    }
     inputURLStr = inputURLStr.trim();
     if (!inputURLStr.startsWith('http', 0)) {
-        inputURLStr = "http://" + inputURLStr;
+        inputURLStr = "https://" + inputURLStr;
         inputURL.val(inputURLStr);
     }
 
@@ -53,12 +56,31 @@ $(document).on("click", ".main-submit", function () {
     }
 
     globalData.date = null;
-    generateReport(inputURLStr, 'mobile', globalData.apiURL);
+    generateReport(inputURLStr, $(".goog-tab-selected").data().id, globalData.apiURL);
 });
 
 
 $(document).on("click", ".goog-tab", function () {
+    var inputURL = $(".main-action input[name='url']");
+    var inputURLStr = inputURL.val();
+    if (inputURLStr == "") {
+        return;
+    } else {
+        inputURLStr = inputURLStr.trim();
+        if (!inputURLStr.startsWith('http', 0)) {
+            inputURLStr = "https://" + inputURLStr;
+            inputURL.val(inputURLStr);
+        }
+
+        if ($("#lightHouseAndSave").prop('checked')) {
+            globalData.fetchSource = "lightHouseAndSave";
+        }
+
+        globalData.url = inputURLStr;
+    }
+
     generateReport(globalData.url, $(this).data().id, globalData.apiURL);
+
 });
 
 
@@ -391,10 +413,11 @@ function plotDomSizeChart(data, elem) {
     $.each(data, function(i, item) {
         $(elem).find("tbody").append("<tr>" +
             "<td>" + item.statistic + "</td>" +
-            "<td style='max-width: 500px;'>" + ((item.element) ? (((item.element.type) ? (item.element.type == 'code' ? '<code>'+$('<div />').text(item.element.value).html()+'</code>': item.element.value) : item.element)): '') + "</td>" +
+            "<td style='max-width: 500px;'>" + ((item.element) ? (((item.element.type) ? (item.element.type == 'code' ? '<code class="language-markup">'+$('<div />').text(item.element.value).html()+'</code>': item.element.value) : item.element)): '') + "</td>" +
             "<td  class='text-right'>" + item.value + "</td></tr>"
         );
     });
+    Prism.highlightAll();
 }
 
 function plotBootupTimeChart(data, elem) {

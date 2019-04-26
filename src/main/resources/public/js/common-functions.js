@@ -429,22 +429,66 @@ function resetChart(elem) {
     }
 }
 
+
+
+function reTriggerFileChart(elem) {
+    var option = setFileTypeChartColor({});
+    window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).setOption(option);
+}
+
+function setFileTypeChartColor(option) {
+    var colorD = ["#3a5487", "#5c8c9c", "#c0c4c9", "#eb7e24", "#ca1e32"];
+    if ($("body").hasClass("dark-mode-theme")) {
+        if (option.series) {
+            option.color = colorD;
+            option.title.textStyle.color = '#ffffff';
+            option.legend.textStyle.color = '#ffffff';
+        } else {
+            option = {
+                color: colorD,
+                title: {
+                    textStyle: {
+                        color: '#ffffff',
+                    }
+                },
+                legend:
+                    {
+                        textStyle: {
+                            color: '#ffffff',
+                        }
+                    },
+            };
+        }
+    } else {
+        if (option.series) {
+            option.color = colorD;
+            option.title.textStyle.color = '#000000';
+            option.legend.textStyle.color = '#000000';
+        } else {
+            option = {
+                color: colorD,
+                title: {
+                    textStyle: {
+                        color: '#000000',
+                    }
+                },
+                legend:
+                    {
+                        textStyle: {
+                            color: '#000000',
+                        }
+                    },
+            };
+        }
+    }
+    return option;
+}
+
 function plotFileTypeChart(data, elem, title, showLegends) {
     resetChart(elem);
     if (typeof(showLegends) == "undefined") {
         showLegends = true;
     }
-    var colorPalette = ['#558ba9','#da70d6','#32cd32','#3d52ed','#b75c45','#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0','#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700','#6699FF','#ff6666','#3cb371','#b8860b','#30e0e0'];
-    switch(globalData.colorPalette) {
-        case 1:
-            colorPalette = ["#003f5c", "#444e86", "#955196", "#dd5182", "#ff6e54", "#ffa600"];
-            break;
-        case 2:
-            colorPalette = ["#004d66", "#41abe1", "#80d4f7", "#00A8A8", "#3D52ED", "#da70d6"];
-            break;
-        default:
-    }
-
     var myChart = echarts.init($(elem)[0]);
 
     var option = {
@@ -456,7 +500,6 @@ function plotFileTypeChart(data, elem, title, showLegends) {
                 fontWeight: 400
             }
         },
-        color: colorPalette,
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -493,7 +536,7 @@ function plotFileTypeChart(data, elem, title, showLegends) {
             }
         ]
     };
-
+    option = setFileTypeChartColor(option);
     myChart.setOption(option);
 }
 

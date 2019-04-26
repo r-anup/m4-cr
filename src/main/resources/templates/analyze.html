@@ -5,6 +5,10 @@
         <link rel="stylesheet" href="/stylesheets/analyze.css" type="text/css">
         <script src="/js/critical-chain.js"></script>
         <script src="/js/analyze.js"></script>
+
+        <link rel="stylesheet" href="/stylesheets/prism.css" type="text/css">
+        <script src="/js/prism.js"></script>
+
         <script>
             var globalData = {};
             var substringMatcher = function(strs) {
@@ -42,6 +46,11 @@
                             });
 
                     }
+                });
+
+                $(".dark-mode-button").bind( "click", function() {
+                    reTriggerFileChart("#file-type-chart");
+                    reTriggerFileChart("#tasks-chart");
                 });
             });
         </script>

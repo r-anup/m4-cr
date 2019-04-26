@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import sun.jvm.hotspot.debugger.Page;
 
 import java.util.*;
 
@@ -42,7 +41,7 @@ public class RunLightHouse {
 
     private static final Logger LOG = LogManager.getLogger(RunLightHouse.class);
 
-    @Scheduled(cron = "${cron.run.expression:0 30 0 * * ?}")
+    @Scheduled(cron = "${cron.run.expression:0 30 0 * * ?}", zone = "EST")
     public void run() {
         if (runEnabled) {
             List<CroUrl> urls = urlsRepository.findAllUrls();
