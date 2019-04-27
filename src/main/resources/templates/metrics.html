@@ -363,6 +363,7 @@
             var plotAllineChart = function(days, scores, competitorScores) {
                 if (competitorScores) {
                     Object.keys(scores).forEach(function (key) {
+                        if ($('.chart-' + key).length == 0) return;
                         $('.chart-' + key).parent().attr('id', 'chart-' + key);
                         plotLineChart({
                             days: days,
@@ -372,6 +373,7 @@
                     });
                 } else {
                     Object.keys(scores).forEach(function (key) {
+                        if ($('.chart-' + key).length == 0) return;
                         $('.chart-' + key).parent().attr('id', 'chart-' + key);
                         plotLineChart({
                             days: days,
@@ -410,6 +412,9 @@
 
                     var metricsData = [];
                     Object.keys(leftdata['lighthouseResult']).forEach(function (key) {
+                        if (key == "result" || key == "ema-score") {
+                            return;
+                        }
                         if (key == 'score') {
                             var compare = getDifferenceInPercentage(leftdata['lighthouseResult'].score, rightdata['lighthouseResult'].score);
 

@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ff90437-4756-4c43-854f-32e6b5062259" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/controllers/MetricsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/CompetitorUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/CompetitorUrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/CroUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/CroUrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/LighthouseResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/LighthouseResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/util/CommonUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/util/CommonUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/util/PageSpeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/util/PageSpeed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/common-functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/reports.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/reports.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/build-info.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/metrics.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/metrics.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -96,6 +85,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="metrics.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/metrics.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="367">
+              <caret line="375" column="67" selection-start-line="375" selection-start-column="67" selection-end-line="375" selection-end-column="67" />
+              <folding>
+                <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="common-functions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/public/js/common-functions.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -105,11 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+            <state relative-caret-position="180">
+              <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -122,15 +124,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MetricsRepository.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/repositories/MetricsRepository.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="29" column="35" lean-forward="true" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -161,9 +154,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_echarts_</find>
-      <find>resi</find>
-      <find>.dark-mode-b</find>
       <find>file-type-chart</find>
       <find>tasks-c</find>
       <find>/metrics/url/score</find>
@@ -189,8 +179,11 @@
       <find>EMACalc</find>
       <find>latestScoreD</find>
       <find>previ</find>
-      <find>latest sc</find>
       <find>lighthouseData</find>
+      <find>latest sc</find>
+      <find>.charts-</find>
+      <find>chart-res</find>
+      <find>chart-</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed</dir>
@@ -241,7 +234,6 @@
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/job/RunLightHouse.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/analyze.html" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/metrics.html" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/CompetitorUrl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/notes.txt" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/reports.html" />
@@ -253,6 +245,7 @@
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/models/CroUrl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/util/PageSpeed.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/metrics.html" />
       </list>
     </option>
   </component>
@@ -370,6 +363,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="m4-cr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="m4-cr" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -503,12 +504,12 @@
       <workItem from="1553524101738" duration="193371000" />
       <workItem from="1555474419194" duration="141752000" />
       <workItem from="1556242480278" duration="208000" />
-      <workItem from="1556243036819" duration="30376000" />
+      <workItem from="1556243036819" duration="31502000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="736825000" />
+    <option name="totallyTimeSpent" value="737951000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="0" />
@@ -862,17 +863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/metrics.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="400" column="42" lean-forward="true" selection-start-line="400" selection-start-column="42" selection-end-line="400" selection-end-column="42" />
-          <folding>
-            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="262">
@@ -1019,16 +1009,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/reports.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
-          <folding>
-            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/consumerreports/pagespeed/util/PageSpeed.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
@@ -1041,8 +1021,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        <state relative-caret-position="180">
+          <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/reports.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
+          <folding>
+            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/metrics.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="375" column="67" selection-start-line="375" selection-start-column="67" selection-end-line="375" selection-end-column="67" />
+          <folding>
+            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
