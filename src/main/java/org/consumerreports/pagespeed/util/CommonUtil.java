@@ -1,8 +1,13 @@
 package org.consumerreports.pagespeed.util;
 
 import org.apache.logging.log4j.LogManager;
+import org.consumerreports.pagespeed.controllers.MetricsController;
+import org.consumerreports.pagespeed.models.Metrics;
+import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.data.domain.PageRequest;
+
 import javax.xml.bind.DatatypeConverter;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -85,5 +90,29 @@ public class CommonUtil {
         } else {
             return s;
         }
+   }
+
+   public static List<Integer> getScores(List<Metrics> metrics, String score, String url) {
+       List<Integer> scores = new ArrayList<>();
+       scores.add(Math.round(Float.parseFloat(score)*100));
+       for (int i = metrics.size(); i > 0; i--) {
+           Metrics metric = metrics.get(i-1);
+           try {
+               scores.add(Math.round(Float.parseFloat(metric.getLighthouseResult().getScore())*100));
+           } catch(Exception ex) {
+               LOG.error("Error parsing score for " + url + " , score: " + metric.getLighthouseResult().getScore());
+           }
+       }
+       return scores;
+   }
+
+   public static List<Integer> getEMAScores(List<Integer> scores, int mRange) {
+        List<Integer> ema = new ArrayList<>();
+       double k = 2.0/(mRange + 1);
+       ema.add(scores.get(0));
+       for (int i = 1; i < scores.size(); i++) {
+           ema.add((int) (long) Math.round(scores.get(i) * k + ema.get(i - 1) * (1 - k)));
+       }
+       return ema;
    }
 }

@@ -10,6 +10,9 @@ public class LighthouseResult {
 
     public String score;
 
+    @JsonProperty(value = "ema-score")
+    public String emaScore = "0";
+
     @JsonProperty(value = "speed-index")
     public LightHouseResultsMetricsMeta speedIndex;
 
@@ -31,8 +34,9 @@ public class LighthouseResult {
     public LighthouseResult() {
     }
 
-    public LighthouseResult(String score, LightHouseResultsMetricsMeta speedIndex, LightHouseResultsMetricsMeta interactive, LightHouseResultsMetricsMeta firstMeaningfulPaint, LightHouseResultsMetricsMeta firstContentfulPaint, LightHouseResultsMetricsMeta firstCpuIdle, LightHouseResultsMetricsMeta estimatedInputLatency) {
+    public LighthouseResult(String score, String emaScore, LightHouseResultsMetricsMeta speedIndex, LightHouseResultsMetricsMeta interactive, LightHouseResultsMetricsMeta firstMeaningfulPaint, LightHouseResultsMetricsMeta firstContentfulPaint, LightHouseResultsMetricsMeta firstCpuIdle, LightHouseResultsMetricsMeta estimatedInputLatency) {
         this.score = score;
+        this.emaScore = emaScore;
         this.speedIndex = speedIndex;
         this.interactive = interactive;
         this.firstMeaningfulPaint = firstMeaningfulPaint;
@@ -97,9 +101,18 @@ public class LighthouseResult {
         this.estimatedInputLatency = estimatedInputLatency;
     }
 
+    public String getEmaScore() {
+        return emaScore;
+    }
+
+    public void setEmaScore(String emaScore) {
+        this.emaScore = emaScore;
+    }
+
     public Map<String, String> getResult() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Score", CommonUtil.toPercentage(this.score));
+        map.put("EMA Score", CommonUtil.toPercentage(this.emaScore));
         map.put(this.speedIndex.title, CommonUtil.toMiliSeconds(this.speedIndex.displayValue));
         map.put(this.interactive.title, CommonUtil.toMiliSeconds(this.interactive.displayValue));
         map.put(this.firstMeaningfulPaint.title, CommonUtil.toMiliSeconds(this.firstMeaningfulPaint.displayValue));

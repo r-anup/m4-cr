@@ -83,7 +83,7 @@ public class MetricsController {
         return null;
     }
 
-    private static Map<String, String> convertMetricsToMap(Metrics metrics, String timezone) throws JSONException{
+    public static Map<String, String> convertMetricsToMap(Metrics metrics, String timezone) throws JSONException{
         Map result = new LinkedHashMap();
         result.put("URL", metrics.getUrl());
         result.put("Device Type", metrics.getDeviceType());

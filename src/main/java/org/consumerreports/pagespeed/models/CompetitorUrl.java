@@ -3,6 +3,8 @@ package org.consumerreports.pagespeed.models;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
+
 public class CompetitorUrl {
     @Id
     public ObjectId _id;
@@ -13,6 +15,10 @@ public class CompetitorUrl {
     public String mobilePreviousScore;
     public String desktopLatestScore;
     public String desktopPreviousScore;
+    public Date mobileLatestScoreDate;
+    public Date mobilePreviousScoreDate;
+    public Date desktopLatestScoreDate;
+    public Date desktopPreviousScoreDate;
 
     // Constructors
     public CompetitorUrl() {
@@ -99,5 +105,37 @@ public class CompetitorUrl {
 
     public void setDesktopPreviousScore(String desktopPreviousScore) {
         this.desktopPreviousScore = desktopPreviousScore;
+    }
+
+    public Date getMobileLatestScoreDate() {
+        return mobileLatestScoreDate;
+    }
+
+    public void setMobileLatestScoreDate(Date mobileLatestScoreDate) {
+        this.mobileLatestScoreDate = mobileLatestScoreDate;
+    }
+
+    public Date getMobilePreviousScoreDate() {
+        return mobilePreviousScoreDate;
+    }
+
+    public void setMobilePreviousScoreDate(Date mobilePreviousScoreDate) {
+        this.mobilePreviousScoreDate = mobilePreviousScoreDate;
+    }
+
+    public Date getDesktopLatestScoreDate() {
+        return desktopLatestScoreDate;
+    }
+
+    public void setDesktopLatestScoreDate(Date desktopLatestScoreDate) {
+        this.desktopLatestScoreDate = desktopLatestScoreDate;
+    }
+
+    public Date getDesktopPreviousScoreDate() {
+        return desktopPreviousScoreDate;
+    }
+
+    public void setDesktopPreviousScoreDate(Date desktopPreviousScoreDate) {
+        this.desktopPreviousScoreDate = desktopPreviousScoreDate;
     }
 }

@@ -22,6 +22,8 @@ import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.data.domain.PageRequest;
+
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.util.ArrayList;
@@ -152,13 +154,19 @@ public class PageSpeed {
             }
 
             JSONObject lighthouseData = processLighthouseData(data, "lighthouse");
-            lighthouseData.put("score", data.getJSONObject("categories").getJSONObject("performance").getString("score"));
+            String score = data.getJSONObject("categories").getJSONObject("performance").getString("score");
+
+            lighthouseData.put("score", score);
+            List<Metrics> metrics = metricsRepository.findByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, strategy.name(), PageRequest.of(0, 6));
+            List<Integer> emaScores = CommonUtil.getEMAScores(CommonUtil.getScores(metrics, score, url), 7);
+            lighthouseData.put("ema-score", emaScores.get(emaScores.size()-1));
 
             JSONObject lighthouseMiscData = processLighthouseData(data, "lighthouseMisc");
 
 
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            objectMapper.disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES);
             LighthouseResult lighthouseResult = objectMapper.readValue(lighthouseData.toString(), LighthouseResult.class);
             LighthouseMisc lighthouseMisc = objectMapper.readValue(lighthouseMiscData.toString(), LighthouseMisc.class);
 
@@ -209,16 +217,29 @@ public class PageSpeed {
 
                 CroUrl croUrl = urlsRepository.findFirstByUrl(url);
                 if (croUrl != null) {
-                    if (strategy.equals("mobile")) {
+                    if (strategy.name().equals("mobile")) {
                         croUrl.setMobilePreviousScore(croUrl.getMobileLatestScore());
                         croUrl.setMobileLatestScore(lighthouseData.getString("score"));
+
+                        croUrl.setMobilePreviousScoreDate(croUrl.getMobileLatestScoreDate());
+                        croUrl.setMobileLatestScoreDate(DatatypeConverter.parseDateTime(formattedData.getString("fetchTime")).getTime());
+
+                        croUrl.setMobilePreviousEMAScore(croUrl.getMobileLatestEMAScore());
+                        croUrl.setMobileLatestEMAScore(lighthouseData.getString("ema-score"));
                     } else {
                         croUrl.setDesktopPreviousScore(croUrl.getDesktopLatestScore());
                         croUrl.setDesktopLatestScore(lighthouseData.getString("score"));
+
+                        croUrl.setDesktopPreviousScoreDate(croUrl.getDesktopLatestScoreDate());
+                        croUrl.setDesktopLatestScoreDate(DatatypeConverter.parseDateTime(formattedData.getString("fetchTime")).getTime());
+
+                        croUrl.setDesktopPreviousEMAScore(croUrl.getDesktopLatestEMAScore());
+                        croUrl.setDesktopLatestEMAScore(lighthouseData.getString("ema-score"));
                     }
                     urlsRepository.save(croUrl);
                 }
             }
+            formattedData.put("deviceType", strategy.name());
             formattedData.put("lighthouseResult", lighthouseData);
             formattedData.put("lighthouseMisc", lighthouseMiscData);
             if (diagnostics != null) formattedData.put("diagnostics", diagnosticsData);
@@ -237,6 +258,7 @@ public class PageSpeed {
         }
         return null;
     }
+
 
     private JSONObject processLighthouseData(JSONObject data, String type) throws JSONException {
         JSONObject metricsProperties = PageSpeed.getMetricsProperties();

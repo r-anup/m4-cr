@@ -21,6 +21,22 @@
             #reports-chart tr:hover {
                 cursor: pointer;
             }
+
+            .reports-chart-thead {
+                font-size: 1.6rem;
+            }
+
+            .reports-chart-thead div{
+                font-size: 1rem;
+            }
+
+            tr .even-score-column {
+                background-color: #c3c3c378;
+            }
+
+            .dark-mode-theme tr .even-score-column {
+                background-color: #7575756b;
+            }
         </style>
 
         <script>
@@ -33,7 +49,16 @@
                     url: "/urls/", success: function (result) {
                         $("#records_table tbody").html('');
                         var urlRecords = [];
+                        var dateRecords = {};
                         $.each(result, function (idx, elem) {
+                            if ($.isEmptyObject(dateRecords)) {
+                                dateRecords = {
+                                    mobileLatestScoreDate: elem.mobileLatestScoreDate,
+                                    mobilePreviousScoreDate: elem.mobilePreviousScoreDate,
+                                    desktopLatestScoreDate: elem.desktopLatestScoreDate,
+                                    desktopPreviousScoreDate: elem.desktopPreviousScoreDate
+                                };
+                            }
                             urlRecords.push({
                                     url: elem.url,
                                     title: elem.title,
@@ -48,6 +73,8 @@
                                 }
                             );
                         });
+
+                        $("#reports-chart-thead").loadTemplate($("#reports-chart-thead-template"), dateRecords);
 
                         $("#reports-chart").loadTemplate($("#reports-chart-template"), urlRecords, {"append": true});
 
@@ -76,11 +103,20 @@
             <tr class="target" data-src="url">
                 <td data-content="title"></td>
                 <td style="word-break: break-word;" data-content="url"></td>
-                <td style="background-color: #868686;"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span></td>
+                <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span></td>
                 <td><span class="d-flex justify-content-center"><div data-css="mobilePreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobilePreviousScore"></div></span></td>
-                <td style="background-color: #868686;"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span></td>
+                <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span></td>
                 <td><span class="d-flex justify-content-center"><div data-css="desktopPreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopPreviousScore"></div></span></td>
             </tr>
+        </script>
+
+        <script type="text/html" id="reports-chart-thead-template">
+            <th scope="col">Title</th>
+            <th scope="col">URL</th>
+            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="mobileLatestScoreDate" data-format="DateFormatter">03/19/2019</div></th>
+            <th scope="col" class="text-center">Previous Score <div data-content="mobilePreviousScoreDate" data-format="DateFormatter">03/19/2019</div></th>
+            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="desktopLatestScoreDate"  data-format="DateFormatter">03/19/2019</div></th>
+            <th scope="col" class="text-center">Previous Score <div data-content="desktopPreviousScoreDate" data-format="DateFormatter">03/19/2019</div></th>
         </script>
 
         <div class="d-flex pt-4">
@@ -91,14 +127,7 @@
                         <th scope="col" colspan="2" style="text-align: center">Mobile</th>
                         <th scope="col" colspan="2" style="text-align: center">Desktop</th>
                     </tr>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">URL</th>
-                        <th scope="col" class="text-center">Latest Score</th>
-                        <th scope="col" class="text-center">Previous Score</th>
-                        <th scope="col" class="text-center">Latest Score</th>
-                        <th scope="col" class="text-center">Previous Score</th>
-                    </tr>
+                    <tr class="reports-chart-thead" id="reports-chart-thead"></tr>
                 </thead>
                 <tbody id="reports-chart">
                     <tr>

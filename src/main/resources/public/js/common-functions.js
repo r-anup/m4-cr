@@ -346,6 +346,13 @@ $.addTemplateFormatter({
         return percentageFormatter(value);
     },
 
+    DateFormatter: function (value, template) {
+        if (value == null) {
+            return "-";
+        }
+        return new Date(value).toLocaleDateString();
+    }
+
 
 
 });
