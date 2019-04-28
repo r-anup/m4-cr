@@ -401,7 +401,7 @@ function delayPopoverClose() {
 
 function plotRenderBlockingResourcesChart(data, elem) {
     $.each(data, function(i, item) {
-        $(elem).find("tbody").append("<tr><td>"
+        $(elem).find("tbody").append("<tr><td style='word-break: break-word'>"
             + item.url + "</td><td class='text-right'>"
             + bytesFormatter(item.totalBytes) + "</td><td class='text-right'>"
             + timeMiliSecondFormatter(item.wastedMs) + "</td></tr>"

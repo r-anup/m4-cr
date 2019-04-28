@@ -452,10 +452,14 @@
     padding: 0 0.8rem;
     background: #fff;
     margin: 0;
+    border-right: 1px solid #b5b5b5;
+    border-bottom: 1px solid #b5b5b5;
 }
 
 .dark-mode-theme .lh-audit-group__subheader--title .lh-metric__value {
     background: #000;
+    border-right: 1px solid #616161;
+    border-bottom: 1px solid #616161;
 }
 
 

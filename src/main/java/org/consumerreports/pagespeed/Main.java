@@ -84,12 +84,15 @@ public class Main {
     }
 
 
-    @RequestMapping("/reports.html")
+    @RequestMapping({"/reports.html"})
     String reports(
+            HttpServletRequest request,
             @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
+            @CookieValue(value = "reportView", required = false, defaultValue = "") String view,
             Model model) {
         model.addAttribute("isDarkMode", isDarkMode);
         model.addAttribute("tab", "reports");
+        model.addAttribute("view", view);
         return "reports";
     }
 
@@ -174,7 +177,7 @@ public class Main {
             urlList = urlsRepository.findAll(Sort.by("sortOrder"));
 
             if (rightDate == null) {
-                rightDate = simpleDateFormat.format(new Date());
+                rightDate = simpleDateFormat.format(croUrl.getMobileLatestScoreDate());
             }
 
             try {
@@ -212,7 +215,7 @@ public class Main {
             benchmarkUrl = croUrl.getCompetitorUrl().getUrl();
             benchmarkTitle = croUrl.getCompetitorUrl().getTitle() + " (" + croUrl.getCompetitorUrl().getBrand() + ")";
             if (date == null) {
-                date = simpleDateFormat.format(new Date());
+                date = rightDate = simpleDateFormat.format(croUrl.getMobileLatestScoreDate());
             }
 
         }

@@ -262,3 +262,8 @@
 .switch + .switch {
   margin-left: 1rem;
 }
+
+.no-gutter {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}

@@ -350,6 +350,9 @@ $.addTemplateFormatter({
         if (value == null) {
             return "-";
         }
+        if (template == "covertFormat") {
+            value = convertDateTimeToCompatibleType(value);
+        }
         return new Date(value).toLocaleDateString();
     }
 
@@ -443,7 +446,7 @@ function reTriggerFileChart(elem) {
 
 function setFileTypeChartColor(option) {
     var colorLight = ["#1d3f72", "#5699d2", "#71c2cc", "#4996a2", "#785471", "#e8cdc5", "#eee7d8"];
-    var colorDark = ["#c5523f", "#f2b736", "#1875e5", "#95d5ee", "#499255", "#585872", "#9e4446"];
+    var colorDark = ["#1875e5", "#95d5ee", "#499255", "#f2b736", "#c5523f", "#585872", "#9e4446"];
     if ($("body").hasClass("dark-mode-theme")) {
         if (option.series) {
             option.color = colorDark;

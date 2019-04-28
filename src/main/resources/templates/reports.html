@@ -4,6 +4,10 @@
     <head>
         <title>Reports - Consumer Reports</title>
         <style>
+            #reports-chart td, #reports-chart th {
+                vertical-align: middle;
+            }
+
             #reports-chart .target td div {
                 width: 40px;
                 height: 40px;
@@ -12,6 +16,14 @@
                 line-height: 40px;
                 text-align: center;
                 background: #675c5c;
+                margin: 1rem;
+            }
+
+            #reports-chart .url {
+                word-break: break-word;
+                font-size: 1.4rem;
+                font-weight: 200;
+                font-family: monospace;
             }
 
             #reports-chart {
@@ -30,63 +42,201 @@
                 font-size: 1rem;
             }
 
-            tr .even-score-column {
-                background-color: #c3c3c378;
+            table .even-score-column {
+                background-color: #c3c3c378 !important;
             }
 
-            .dark-mode-theme tr .even-score-column {
-                background-color: #7575756b;
+            .dark-mode-theme table .even-score-column {
+                background-color: #7575756b !important;
             }
+
+            #records_table .view-icon {
+                position: absolute;
+                top: -3.4rem;
+                right: -.3rem;
+                cursor: pointer;
+                font-size: 3rem;
+                transform: rotate(180deg);
+            }
+
+            .score-change {
+                position: absolute;
+                top: .1rem;
+                right: .15rem;
+                z-index: 99;
+                font-size: 1.4rem;
+                color: #444;
+            }
+
+            .box {
+                position: relative;
+            }
+
+            .box::before,
+            .box::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                border-color: transparent;
+                border-style: solid;
+            }
+
+            .box::before {
+                border-width: 1.8rem;
+                border-right-color: #c5c5c5;
+                border-top-color: #c5c5c5;
+            }
+
+            .dark-mode-theme .box::before {
+                border-right-color: #5f5f5f;
+                border-top-color: #5f5f5f;
+            }
+
+            .box::after {
+                border-radius: 0.2rem;
+                border-width: 1.7rem;
+                /* border-right-color: #0c8c0c;
+                 border-top-color: #0c8c0c;*/
+                border-right-color: #ffc107;
+                border-top-color: #ffc107;
+            }
+
+            .box-increase {
+                background: rgba(59, 140, 59, 0.18);
+            }
+
+            .box-decrease {
+                background: rgba(253, 128, 31, 0.21);
+            }
+
+            .dark-mode-theme .box-increase {
+                background: rgba(28, 115, 28, 0.18);
+            }
+
+            .dark-mode-theme .box-decrease {
+                background: rgba(255, 89, 2, 0.45);
+            }
+
+
         </style>
+
+
+        <script th:inline="javascript">
+            var globalData = {};
+            globalData.view = /*[[${view}]]*/ "";
+            if (globalData.view == "v2") {
+                globalData.viewIcon = "view_module";
+            } else {
+                globalData.viewIcon = "view_list";
+            }
+            globalData.result = {};
+        </script>
+
 
         <script>
             /* reset */
+            var calculateChange = function(score1, score2) {
+                if (score1 < 1) {
+                    score1 = score1*100;
+                }
+                if (score2 < 1) {
+                    score2 = score2*100;
+                }
+                var differenece = score1 - score2;
+                if (differenece == 0) {
+                    return {
+                        class: '',
+                        text: ''
+                    };
+                } else if (differenece > 0) {
+                    return {
+                        class: 'box box-increase',
+                        text: '+' + Math.round(differenece)
+                    };
+                } else {
+                    return {
+                        class: 'box box-decrease',
+                        text: Math.round(differenece)
+                    };
+                }
+            };
+
+            var renderChart = function(result) {
+                $("#records_table tbody").html('');
+                var urlRecords = [];
+                var dateRecords = {};
+                $.each(result, function (idx, elem) {
+                    if ($.isEmptyObject(dateRecords)) {
+                        dateRecords = {
+                            mobileLatestScoreDate: elem.mobileLatestScoreDate,
+                            mobilePreviousScoreDate: elem.mobilePreviousScoreDate,
+                            desktopLatestScoreDate: elem.desktopLatestScoreDate,
+                            desktopPreviousScoreDate: elem.desktopPreviousScoreDate
+                        };
+                    }
+                    var mobileScoreChange = calculateChange(elem.mobileLatestScore,elem.mobilePreviousScore);
+                    var desktopScoreChange = calculateChange(elem.desktopLatestScore,elem.desktopPreviousScore);
+                    urlRecords.push({
+                            url: elem.url,
+                            title: elem.title,
+
+                            mobileLatestScore: elem.mobileLatestScore,
+                            mobilePreviousScore: elem.mobilePreviousScore,
+                            mobileScoreChange: mobileScoreChange.text,
+                            mobileScoreChangeClass: mobileScoreChange.class,
+
+                            desktopLatestScore: elem.desktopLatestScore,
+                            desktopPreviousScore: elem.desktopPreviousScore,
+                            desktopScoreChange: desktopScoreChange.text,
+                            desktopScoreChangeClass: desktopScoreChange.class,
+
+                            mobileLatestScoreCSS: {background: getScaleFromScore(elem.mobileLatestScore).color},
+                            mobilePreviousScoreCSS: {background: getScaleFromScore(elem.mobilePreviousScore).color},
+                            desktopLatestScoreCSS: {background: getScaleFromScore(elem.desktopLatestScore).color},
+                            desktopPreviousScoreCSS: {background: getScaleFromScore(elem.desktopPreviousScore).color},
+                        }
+                    );
+                });
+
+                if (globalData.view == 'v2') {
+                    globalData.suffix = "-v2";
+                    globalData.colspan = 1;
+                    globalData.viewIcon = "view_module";
+                } else {
+                    globalData.suffix = "";
+                    globalData.colspan = 2;
+                    globalData.viewIcon = "view_list";
+                }
+                $("#reports-chart-thead-main").loadTemplate($("#reports-chart-thead-main-template"), {colspan: globalData.colspan});
+                $("#reports-chart-thead").loadTemplate($("#reports-chart-thead" + globalData.suffix + "-template"), dateRecords);
+                $("#reports-chart").loadTemplate($("#reports-chart" + globalData.suffix + "-template"), urlRecords, {"append": true});
+                $(".view-icon").html(globalData.viewIcon);
+                $("#reports-chart").on("click", ".target", function () {
+                    var url_to_check = $(this).attr("src");
+                    window.location.href = "/analyze.html?url=" + url_to_check;
+                });
+            }
+
             $(function () {
                 $(".loading-spinner").show();
-
-
                 $.ajax({
                     url: "/urls/", success: function (result) {
-                        $("#records_table tbody").html('');
-                        var urlRecords = [];
-                        var dateRecords = {};
-                        $.each(result, function (idx, elem) {
-                            if ($.isEmptyObject(dateRecords)) {
-                                dateRecords = {
-                                    mobileLatestScoreDate: elem.mobileLatestScoreDate,
-                                    mobilePreviousScoreDate: elem.mobilePreviousScoreDate,
-                                    desktopLatestScoreDate: elem.desktopLatestScoreDate,
-                                    desktopPreviousScoreDate: elem.desktopPreviousScoreDate
-                                };
-                            }
-                            urlRecords.push({
-                                    url: elem.url,
-                                    title: elem.title,
-                                    mobileLatestScore: elem.mobileLatestScore,
-                                    mobilePreviousScore: elem.mobilePreviousScore,
-                                    desktopLatestScore: elem.desktopLatestScore,
-                                    desktopPreviousScore: elem.desktopPreviousScore,
-                                    mobileLatestScoreCSS: {background: getScaleFromScore(elem.mobileLatestScore).color},
-                                    mobilePreviousScoreCSS: {background: getScaleFromScore(elem.mobilePreviousScore).color},
-                                    desktopLatestScoreCSS: {background: getScaleFromScore(elem.desktopLatestScore).color},
-                                    desktopPreviousScoreCSS: {background: getScaleFromScore(elem.desktopPreviousScore).color},
-                                }
-                            );
-                        });
-
-                        $("#reports-chart-thead").loadTemplate($("#reports-chart-thead-template"), dateRecords);
-
-                        $("#reports-chart").loadTemplate($("#reports-chart-template"), urlRecords, {"append": true});
-
-                        $("#reports-chart").on("click", ".target", function () {
-                            var url_to_check = $(this).attr("src");
-                            window.location.href = "/analyze.html?url=" + url_to_check;
-                        });
-
+                        globalData.result = result;
+                        renderChart(result);
                        $(".loading-spinner").hide();
                     }
                 });
-
+                $(document).on("click", ".view-icon", function () {
+                    if (globalData.view == "v2") {
+                        globalData.view = "";
+                        Cookies.set('reportView', "", {expires: 365});
+                    } else {
+                        globalData.view = "v2";
+                        Cookies.set('reportView', "v2", {expires: 365});
+                    }
+                    renderChart(globalData.result);
+                });
             });
         </script>
 
@@ -99,10 +249,26 @@
             <h1 class="crux-headline--standard">Latest Score Report</h1>
         </div>
 
+        <script type="text/html" id="reports-chart-v2-template">
+            <tr class="target" data-src="url">
+                <td data-content="title"></td>
+                <td class="url" data-content="url"></td>
+                <td data-class="mobileScoreChangeClass"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span><span data-content="mobileScoreChange" class="score-change"></span></td>
+                <td data-class="desktopScoreChangeClass"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span><span data-content="desktopScoreChange" class="score-change"></span></td>
+            </tr>
+        </script>
+
+        <script type="text/html" id="reports-chart-thead-v2-template">
+            <th scope="col">Title</th>
+            <th scope="col">URL</th>
+            <th scope="col" class="text-center">Latest Score <div data-content="mobileLatestScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+            <th scope="col" class="text-center">Latest Score <div data-content="desktopLatestScoreDate"  data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+        </script>
+
         <script type="text/html" id="reports-chart-template">
             <tr class="target" data-src="url">
                 <td data-content="title"></td>
-                <td style="word-break: break-word;" data-content="url"></td>
+                <td class="url"  style="word-break: break-word;" data-content="url"></td>
                 <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span></td>
                 <td><span class="d-flex justify-content-center"><div data-css="mobilePreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobilePreviousScore"></div></span></td>
                 <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span></td>
@@ -113,20 +279,22 @@
         <script type="text/html" id="reports-chart-thead-template">
             <th scope="col">Title</th>
             <th scope="col">URL</th>
-            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="mobileLatestScoreDate" data-format="DateFormatter">03/19/2019</div></th>
-            <th scope="col" class="text-center">Previous Score <div data-content="mobilePreviousScoreDate" data-format="DateFormatter">03/19/2019</div></th>
-            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="desktopLatestScoreDate"  data-format="DateFormatter">03/19/2019</div></th>
-            <th scope="col" class="text-center">Previous Score <div data-content="desktopPreviousScoreDate" data-format="DateFormatter">03/19/2019</div></th>
+            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="mobileLatestScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+            <th scope="col" class="text-center">Previous Score <div data-content="mobilePreviousScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="desktopLatestScoreDate"  data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+            <th scope="col" class="text-center">Previous Score <div data-content="desktopPreviousScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+        </script>
+
+        <script type="text/html" id="reports-chart-thead-main-template">
+            <th scope="col" colspan="2"></th>
+            <th scope="col" data-template-bind='[{"attribute": "colspan", "value": "colspan"}]' style="text-align: center">Mobile</th>
+            <th scope="col" data-template-bind='[{"attribute": "colspan", "value": "colspan"}]' style="text-align: center; position: relative;">Desktop <i class="view-icon material-icons">view_module</i></th>
         </script>
 
         <div class="d-flex pt-4">
             <table id="records_table" class="table table-striped table-hover table-bordered"  th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
                 <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
-                    <tr>
-                        <th scope="col" colspan="2"></th>
-                        <th scope="col" colspan="2" style="text-align: center">Mobile</th>
-                        <th scope="col" colspan="2" style="text-align: center">Desktop</th>
-                    </tr>
+                    <tr class="reports-chart-thead-main" id="reports-chart-thead-main"></tr>
                     <tr class="reports-chart-thead" id="reports-chart-thead"></tr>
                 </thead>
                 <tbody id="reports-chart">

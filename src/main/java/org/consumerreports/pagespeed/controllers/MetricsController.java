@@ -3,6 +3,8 @@ package org.consumerreports.pagespeed.controllers;
 import org.apache.logging.log4j.LogManager;
 import org.bson.types.ObjectId;
 import org.consumerreports.pagespeed.Main;
+import org.consumerreports.pagespeed.models.CroUrl;
+import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
@@ -25,6 +27,9 @@ import java.util.*;
 public class MetricsController {
     @Autowired
     private MetricsRepository metricsRepository;
+
+    @Autowired
+    private UrlsRepository urlsRepository;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -92,7 +97,7 @@ public class MetricsController {
         return result;
     }
 
-    private static Metrics getMetricsData(String date, String timezone, String url, Main.Strategy deviceType, MetricsRepository metricsRepository) {
+    private Metrics getMetricsData(String date, String timezone, String url, Main.Strategy deviceType, MetricsRepository metricsRepository) {
         Date parsedDate;
         Metrics metrics;
         try {
@@ -100,14 +105,14 @@ public class MetricsController {
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
 
             if (date == null || date.equals("")) {
-                date = simpleDateFormat.format(new Date());
+                metrics = metricsRepository.findFirstByUrlAndDeviceTypeOrderByFetchTimeDesc(url, deviceType.name());
+            } else {
+                parsedDate = simpleDateFormat.parse(date);
+                metrics = metricsRepository.findFirstByUrlEqualsAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType.name(), parsedDate, CommonUtil.addDays(parsedDate, 1));
             }
-            parsedDate = simpleDateFormat.parse(date);
-
-            metrics = metricsRepository.findFirstByUrlEqualsAndDeviceTypeEqualsAndFetchTimeBetweenOrderByFetchTimeDesc(url, deviceType.name(), parsedDate, CommonUtil.addDays(parsedDate, 1));
         } catch (ParseException e) {
             LOG.error(e.getMessage());
-            metrics = metricsRepository.findFirstByUrlOrderByFetchTimeDesc(url);
+            metrics = metricsRepository.findFirstByUrlAndDeviceTypeOrderByFetchTimeDesc(url, deviceType.name());
         }
         return metrics;
     }

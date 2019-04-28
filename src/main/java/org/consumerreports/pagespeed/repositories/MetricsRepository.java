@@ -23,6 +23,11 @@ public interface MetricsRepository extends MongoRepository<Metrics, String> {
             String url
     );
 
+    Metrics findFirstByUrlAndDeviceTypeOrderByFetchTimeDesc(
+            String url,
+            String deviceType
+    );
+
     @Query(value="{url: ?0, deviceType: ?1}", fields="{screenshots : 0, diagnostics : 0}", sort="{fetchTime: -1}")
     List<Metrics> findByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(
             String url,
