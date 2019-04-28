@@ -293,7 +293,7 @@
                                         </div>
                                     </div>
                                     <div class="lh-audit-group__subheader--description" data-content="renderBlockingResourcesDescription"></div>
-                                   <div id="render-blocking-resources-chart" style="width: 100%; font-size: 1.4rem;">
+                                   <div class="table-container" id="render-blocking-resources-chart">
                                        <table class="table table-striped table-hover table-bordered"
                                               th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
                                            <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
@@ -315,7 +315,7 @@
                                     <div class="lh-audit-group__subheader--title"><span data-content="domSizeTitle"></span> <span class="pl-3 lh-metric__value" data-content="domSizeDisplayValue"></span></div>
                                     <div class="lh-audit-group__subheader--description" data-content="domSizeDescription"></div>
 
-                                    <div id="dom-size-chart" style="width: 100%; font-size: 1.4rem;">
+                                    <div class="table-container" id="dom-size-chart">
                                         <table class="table table-striped table-hover table-bordered"
                                                th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
                                             <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">
@@ -359,7 +359,7 @@
                                     <div class="lh-audit-group__subheader--title"><span data-content="criticalRequestChainsTitle"></span> <span class="lh-metric__value" data-content="criticalRequestChainsDisplayValue"></span></div>
                                     <div class="lh-audit-group__subheader--description" data-content="criticalRequestChainsDescription"></div>
 
-                                    <div class="crc-chart lh-details"></div>
+                                    <div class="crc-chart lh-details table-container"></div>
                                 </div>
                             </div>
 
@@ -369,7 +369,7 @@
                                     <div class="lh-audit-group__subheader--title"><span data-content="bootupTimeTitle"></span> <span class="pl-3 lh-metric__value" data-content="bootupTimeDisplayValue"></span></div>
                                     <div class="lh-audit-group__subheader--description" data-content="bootupTimeDescription"></div>
 
-                                    <div id="bootup-time-chart" style="width: 100%; font-size: 1.4rem;">
+                                    <div class="table-container" id="bootup-time-chart">
                                         <table class="table table-striped table-hover table-bordered"
                                                th:classappend="${isDarkMode} ? ' table-dark' : 'table-light'">
                                             <thead th:class="${isDarkMode} ? 'thead-dark' : 'thead-light'">

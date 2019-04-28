@@ -104,7 +104,7 @@ public class MetricsController {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
 
-            if (date == null || date.equals("")) {
+            if (null == date || date.equals("")) {
                 metrics = metricsRepository.findFirstByUrlAndDeviceTypeOrderByFetchTimeDesc(url, deviceType.name());
             } else {
                 parsedDate = simpleDateFormat.parse(date);

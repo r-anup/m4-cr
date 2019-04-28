@@ -55,7 +55,7 @@ public class SettingsController {
         }
         model.addAttribute("isEditAllowed", isEditAllowed);
         model.addAttribute("tab", "settings");
-        if (urlList == null || emailList == null) {
+        if (null == urlList || null == emailList) {
             return "{\"status\": \"failure\", \"message\": \"No Data\"}";
         }
         return "settings";
@@ -133,7 +133,7 @@ public class SettingsController {
         model.addAttribute("emailList", emailList);
 
 
-        if (urlList == null || emailList == null) {
+        if (null == urlList || null == emailList) {
             return "{\"status\": \"failure\", \"message\": \"No Data\"}";
         }
         return "settings";

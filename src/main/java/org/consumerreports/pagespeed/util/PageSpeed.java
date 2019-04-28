@@ -112,17 +112,17 @@ public class PageSpeed {
 
 
     public JSONObject processRequest(String url, Main.Strategy strategy, Main.FetchSource fetchSource, MetricsRepository metricsRepository, UrlsRepository urlsRepository) {
-        if (strategy == null) {
+        if (null == strategy) {
             strategy = Main.Strategy.mobile;
         }
 
-        if (fetchSource == null) {
+        if (null == fetchSource) {
             fetchSource = Main.FetchSource.repository;
         }
 
         String api = String.format(PAGE_SPEED_LOCAL_API, url, strategy, "");
 
-        if (fetchSource != null && fetchSource.equals(Main.FetchSource.googleNoSave)) {
+        if (null != fetchSource && fetchSource.equals(Main.FetchSource.googleNoSave)) {
             api = String.format(PAGE_SPEED_GOOGLE_API, url, strategy, PAGE_SPEED_GOOGLE_KEY);
         }
 
@@ -135,7 +135,7 @@ public class PageSpeed {
             JSONObject metricsProperties = PageSpeed.getMetricsProperties();
 
             HttpResponse response = httpClient.execute(request);
-            String responseString = EntityUtils.toString(response.getEntity() == null ?
+            String responseString = EntityUtils.toString(null == response.getEntity() ?
                     new StringEntity(StringUtils.EMPTY) : response.getEntity());
             if (!responseString.isEmpty()) {
                 data = new JSONObject(responseString);

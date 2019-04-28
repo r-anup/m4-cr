@@ -267,3 +267,27 @@
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+
+.table-container {
+  width: 100%;
+  font-size: 1.4rem;
+  border-right: 1px solid #bdbdbd;
+  border-bottom: 1px solid #bdbdbd;
+}
+
+.table-light {
+  border-right: 1px solid #bdbdbd;
+  border-bottom: 1px solid #bdbdbd;
+  margin-bottom: 0;
+}
+
+.dark-mode-theme .table-container {
+  border-right: 1px solid #353535;
+  border-bottom: 1px solid #353535;
+}
+
+.dark-mode-theme  .table-dark {
+  border-right: 1px solid #353535;
+  border-bottom: 1px solid #353535;
+  margin-bottom: 0;
+}

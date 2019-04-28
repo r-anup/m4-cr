@@ -64,10 +64,10 @@ public class RunLightHouse {
 
     private boolean processRequest(PageSpeed pageSpeed, String url, Main.Strategy strategy, MetricsRepository metricsRepository, UrlsRepository urlsRepository) {
         JSONObject jo = pageSpeed.processRequest(url, strategy, Main.FetchSource.lightHouseAndSave, metricsRepository, urlsRepository);
-        if (jo == null) {
+        if (null == jo) {
             LOG.error("Error processing, Attempt: 1, URL: " + url + ", Strategy: " + strategy.name());
             jo = pageSpeed.processRequest(url, strategy, Main.FetchSource.lightHouseAndSave, metricsRepository, urlsRepository);
-            if (jo == null) {
+            if (null == jo) {
                 LOG.error("Error processing, Attempt: 2, URL: " + url + ", Strategy: " + strategy.name());
                 return false;
             }

@@ -440,6 +440,8 @@ function resetChart(elem) {
 }
 
 function reTriggerFileChart(elem) {
+    if ($(elem).length == 0)
+        return;
     var option = setFileTypeChartColor({});
     window.echarts.getInstanceById($(elem).attr('_echarts_instance_')).setOption(option);
 }

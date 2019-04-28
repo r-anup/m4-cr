@@ -169,19 +169,19 @@ public class Main {
         String benchmarkTitle = null;
         String tab = null;
         if (path.equalsIgnoreCase("/metrics.html")) {
-            if (url == null) {
+            if (null == url) {
                 url = "https://www.consumerreports.org/cro/washing-machines.htm";
              }
             croUrl = urlsRepository.findFirstByUrl(url);
             tab = "metrics";
             urlList = urlsRepository.findAll(Sort.by("sortOrder"));
 
-            if (rightDate == null) {
+            if (null == rightDate) {
                 rightDate = simpleDateFormat.format(croUrl.getMobileLatestScoreDate());
             }
 
             try {
-                if (leftDate == null) {
+                if (null == leftDate) {
                     leftDate = new SimpleDateFormat("MM/dd/yyyy").format(CommonUtil.addDays(new SimpleDateFormat("MM/dd/yyyy").parse(rightDate), -1));
                 }
             } catch (ParseException e) {
@@ -207,14 +207,14 @@ public class Main {
                 croUrl = urlsRepository.findFirstByCompetitorUrlValue(benchmarkUrl);
                 url = croUrl.url;
             } else {
-                if (url == null) {
+                if (null == url) {
                     url = "https://www.consumerreports.org/cro/washing-machines.htm";
                 }
                 croUrl = urlsRepository.findFirstByUrl(url);
             }
             benchmarkUrl = croUrl.getCompetitorUrl().getUrl();
             benchmarkTitle = croUrl.getCompetitorUrl().getTitle() + " (" + croUrl.getCompetitorUrl().getBrand() + ")";
-            if (date == null) {
+            if (null == date) {
                 date = rightDate = simpleDateFormat.format(croUrl.getMobileLatestScoreDate());
             }
 

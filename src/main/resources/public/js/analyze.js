@@ -320,7 +320,7 @@ function generateReport(url, strategy, apiURL, _id) {
                 // plotCriticalRequestChain(data['lighthouseMisc']['critical-request-chains']['details']['chains'], ".lh-crc");
 
                 var d = new DetailsRenderer(new DOM(document));
-                $(".lh-crc-container").html($(d.render(data['lighthouseMisc']['critical-request-chains']['details'])));
+                $(".lh-details").html($(d.render(data['lighthouseMisc']['critical-request-chains']['details'])));
             } else {
                 $("#more-info-chart").html("");
             }

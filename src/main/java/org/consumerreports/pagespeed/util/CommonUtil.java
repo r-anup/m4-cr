@@ -79,7 +79,7 @@ public class CommonUtil {
     }
 
     public static String toMiliSeconds(String s) {
-        if (s == null) {
+        if (null == s) {
             return "";
         }
         float n = Float.valueOf(s.replaceAll("[^\\d.]+|\\.(?!\\d)", ""));
