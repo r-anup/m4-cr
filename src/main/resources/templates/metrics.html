@@ -412,7 +412,7 @@
 
                     var metricsData = [];
                     Object.keys(leftdata['lighthouseResult']).forEach(function (key) {
-                        if (key == "result" || key == "ema-score") {
+                        if (key == "result" || key == "ema-score" || key == "ema-range") {
                             return;
                         }
                         if (key == 'score') {

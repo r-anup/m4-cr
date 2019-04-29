@@ -3,8 +3,6 @@ package org.consumerreports.pagespeed.controllers;
 import org.apache.logging.log4j.LogManager;
 import org.bson.types.ObjectId;
 import org.consumerreports.pagespeed.Main;
-import org.consumerreports.pagespeed.models.CroUrl;
-import org.consumerreports.pagespeed.repositories.UrlsRepository;
 import org.consumerreports.pagespeed.util.PageSpeed;
 import org.consumerreports.pagespeed.models.Metrics;
 import org.consumerreports.pagespeed.repositories.MetricsRepository;
@@ -27,9 +25,6 @@ import java.util.*;
 public class MetricsController {
     @Autowired
     private MetricsRepository metricsRepository;
-
-    @Autowired
-    private UrlsRepository urlsRepository;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

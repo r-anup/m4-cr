@@ -23,8 +23,10 @@ public class CroUrl {
     public String desktopPreviousScore;
     public String mobileLatestEMAScore;
     public String mobilePreviousEMAScore;
+    public String mobileLatestEMARange;
     public String desktopLatestEMAScore;
     public String desktopPreviousEMAScore;
+    public String desktopLatestEMARange;
     public Date mobileLatestScoreDate;
     public Date mobilePreviousScoreDate;
     public Date desktopLatestScoreDate;
@@ -193,5 +195,22 @@ public class CroUrl {
 
     public void setDesktopPreviousEMAScore(String desktopPreviousEMAScore) {
         this.desktopPreviousEMAScore = desktopPreviousEMAScore;
+    }
+
+
+    public String getMobileLatestEMARange() {
+        return mobileLatestEMARange;
+    }
+
+    public void setMobileLatestEMARange(String mobileLatestEMARange) {
+        this.mobileLatestEMARange = mobileLatestEMARange;
+    }
+
+    public String getDesktopLatestEMARange() {
+        return desktopLatestEMARange;
+    }
+
+    public void setDesktopLatestEMARange(String desktopLatestEMARange) {
+        this.desktopLatestEMARange = desktopLatestEMARange;
     }
 }

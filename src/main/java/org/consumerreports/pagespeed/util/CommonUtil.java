@@ -1,5 +1,6 @@
 package org.consumerreports.pagespeed.util;
 
+import io.micrometer.core.instrument.util.MathUtils;
 import org.apache.logging.log4j.LogManager;
 import org.consumerreports.pagespeed.controllers.MetricsController;
 import org.consumerreports.pagespeed.models.Metrics;
@@ -7,6 +8,7 @@ import org.consumerreports.pagespeed.repositories.MetricsRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.aggregation.AccumulatorOperators;
 
 import javax.xml.bind.DatatypeConverter;
 import java.text.SimpleDateFormat;
@@ -92,27 +94,40 @@ public class CommonUtil {
         }
    }
 
-   public static List<Integer> getScores(List<Metrics> metrics, String score, String url) {
-       List<Integer> scores = new ArrayList<>();
-       scores.add(Math.round(Float.parseFloat(score)*100));
+   public static List<Integer> getScores(List<Metrics> metrics, String value, String url) {
+       List<Integer> values = new ArrayList<>();
        for (int i = metrics.size(); i > 0; i--) {
            Metrics metric = metrics.get(i-1);
            try {
-               scores.add(Math.round(Float.parseFloat(metric.getLighthouseResult().getScore())*100));
+               values.add(Math.round(Float.parseFloat(metric.getLighthouseResult().getScore())*100));
            } catch(Exception ex) {
                LOG.error("Error parsing score for " + url + " , score: " + metric.getLighthouseResult().getScore());
            }
        }
-       return scores;
+       values.add(Math.round(Float.parseFloat(value)*100));
+       return values;
    }
 
-   public static List<Integer> getEMAScores(List<Integer> scores, int mRange) {
+   public static List<Integer> getEMAScores(List<Integer> values, int mRange) {
         List<Integer> ema = new ArrayList<>();
        double k = 2.0/(mRange + 1);
-       ema.add(scores.get(0));
-       for (int i = 1; i < scores.size(); i++) {
-           ema.add((int) (long) Math.round(scores.get(i) * k + ema.get(i - 1) * (1 - k)));
+       ema.add(values.get(0));
+       for (int i = 1; i < values.size(); i++) {
+           ema.add((int) (long) Math.round(values.get(i) * k + ema.get(i - 1) * (1 - k)));
        }
        return ema;
    }
+
+   public static Integer getScoreRange(List<Integer> values, Integer currentValue) {
+        //Integer cV = Math.round(Float.parseFloat(currentValue)*100);
+        //int min = Collections.min(scores);
+        int max = Collections.max(values);
+        return max - currentValue;
+   }
+
+    public static Integer getMinMaxRange(List<Integer> values) {
+        int min = Collections.min(values);
+        int max = Collections.max(values);
+        return max-min;
+    }
 }

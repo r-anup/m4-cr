@@ -24,7 +24,7 @@
             body {
                 font-size: 2rem;
                 font-family: 'Roboto', Arial, sans-serif;
-                background: #dcdcdc;
+                background: #eaeaea;
               }
 
               .body-container {
@@ -62,7 +62,7 @@
 
               .footer-buttons {
                   right: 2rem;
-                  bottom: 1rem;
+                  bottom: 1.5rem;
               }
 
               .footer-buttons i {
@@ -143,8 +143,8 @@
               }
 
               .dark-mode-theme .tt-menu {
-                  color: #111;
-                  background: #bbb;
+                  color: #000;
+                  background: #d4d4d4;
               }
 
               .tt-suggestion {
@@ -386,7 +386,7 @@
                 <div style="position: relative;">
                     <ul class="nav justify-content-end nav-pills"  style="background: #fff; left: -110px;">
                         <li class="nav-item">
-                            <a th:class="${tab} == 'reports' ? 'nav-link active' : 'nav-link'" href="reports.html">Reports</a>
+                            <a th:class="${tab} == 'reports' ? 'nav-link active' : 'nav-link'" href="/">Reports</a>
                         </li>
                         <li class="nav-item">
                             <a th:class="${tab} == 'analyze' ? 'nav-link active' : 'nav-link'" href="analyze.html">Analysis</a>

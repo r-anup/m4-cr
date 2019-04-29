@@ -158,8 +158,18 @@ public class PageSpeed {
 
             lighthouseData.put("score", score);
             List<Metrics> metrics = metricsRepository.findByUrlEqualsAndDeviceTypeEqualsOrderByFetchTimeDesc(url, strategy.name(), PageRequest.of(0, 6));
-            List<Integer> emaScores = CommonUtil.getEMAScores(CommonUtil.getScores(metrics, score, url), 7);
-            lighthouseData.put("ema-score", emaScores.get(emaScores.size()-1));
+            List<Integer> emaScores = CommonUtil.getEMAScores(CommonUtil.getScores(metrics, score, url), 6);
+            lighthouseData.put("ema-score", String.valueOf((double) emaScores.get(emaScores.size()-1)/100));
+
+            lighthouseData.put("ema-range", CommonUtil.getScoreRange(emaScores, emaScores.get(emaScores.size()-1)));
+
+/*
+            LOG.info("Reg Scores" + CommonUtil.getScores(metrics, score, url).toString());
+            LOG.info("EMA scores: " + emaScores.toString());
+            LOG.info("EMA range: " + lighthouseData.get("ema-range"));
+            LOG.info("EMA score: " + lighthouseData.get("ema-score"));
+            LOG.info("Score: " + score);
+*/
 
             JSONObject lighthouseMiscData = processLighthouseData(data, "lighthouseMisc");
 
@@ -226,6 +236,7 @@ public class PageSpeed {
 
                         croUrl.setMobilePreviousEMAScore(croUrl.getMobileLatestEMAScore());
                         croUrl.setMobileLatestEMAScore(lighthouseData.getString("ema-score"));
+                        croUrl.setMobileLatestEMARange(lighthouseData.getString("ema-range"));
                     } else {
                         croUrl.setDesktopPreviousScore(croUrl.getDesktopLatestScore());
                         croUrl.setDesktopLatestScore(lighthouseData.getString("score"));
@@ -235,6 +246,7 @@ public class PageSpeed {
 
                         croUrl.setDesktopPreviousEMAScore(croUrl.getDesktopLatestEMAScore());
                         croUrl.setDesktopLatestEMAScore(lighthouseData.getString("ema-score"));
+                        croUrl.setDesktopLatestEMARange(lighthouseData.getString("ema-range"));
                     }
                     urlsRepository.save(croUrl);
                 }

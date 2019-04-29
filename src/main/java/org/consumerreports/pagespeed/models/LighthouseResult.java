@@ -13,6 +13,9 @@ public class LighthouseResult {
     @JsonProperty(value = "ema-score")
     public String emaScore = "0";
 
+    @JsonProperty(value = "ema-range")
+    public String emaRange = "0";
+
     @JsonProperty(value = "speed-index")
     public LightHouseResultsMetricsMeta speedIndex;
 
@@ -34,9 +37,10 @@ public class LighthouseResult {
     public LighthouseResult() {
     }
 
-    public LighthouseResult(String score, String emaScore, LightHouseResultsMetricsMeta speedIndex, LightHouseResultsMetricsMeta interactive, LightHouseResultsMetricsMeta firstMeaningfulPaint, LightHouseResultsMetricsMeta firstContentfulPaint, LightHouseResultsMetricsMeta firstCpuIdle, LightHouseResultsMetricsMeta estimatedInputLatency) {
+    public LighthouseResult(String score, String emaScore, String emaRange, LightHouseResultsMetricsMeta speedIndex, LightHouseResultsMetricsMeta interactive, LightHouseResultsMetricsMeta firstMeaningfulPaint, LightHouseResultsMetricsMeta firstContentfulPaint, LightHouseResultsMetricsMeta firstCpuIdle, LightHouseResultsMetricsMeta estimatedInputLatency) {
         this.score = score;
         this.emaScore = emaScore;
+        this.emaRange = emaRange;
         this.speedIndex = speedIndex;
         this.interactive = interactive;
         this.firstMeaningfulPaint = firstMeaningfulPaint;
@@ -109,10 +113,19 @@ public class LighthouseResult {
         this.emaScore = emaScore;
     }
 
+    public String getEmaRange() {
+        return emaRange;
+    }
+
+    public void setEmaRange(String emaRange) {
+        this.emaRange = emaRange;
+    }
+
     public Map<String, String> getResult() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Score", CommonUtil.toPercentage(this.score));
         map.put("EMA Score", CommonUtil.toPercentage(this.emaScore));
+        map.put("EMA Range", CommonUtil.toPercentage(this.emaRange));
         map.put(this.speedIndex.title, CommonUtil.toMiliSeconds(this.speedIndex.displayValue));
         map.put(this.interactive.title, CommonUtil.toMiliSeconds(this.interactive.displayValue));
         map.put(this.firstMeaningfulPaint.title, CommonUtil.toMiliSeconds(this.firstMeaningfulPaint.displayValue));

@@ -59,6 +59,25 @@
                 transform: rotate(180deg);
             }
 
+            #records_table .view-icon-ema {
+                position: absolute;
+                top: -3rem;
+                right: 4rem;
+                cursor: pointer;
+                font-size: 3rem;
+            }
+
+            #records_table .view-icon-ema i {
+                font-size: 3rem;
+            }
+
+            #records_table .view-icon-ema span {
+                font-size: 1.2rem;
+                position: absolute;
+                right: .3rem;
+                top: 0;
+            }
+
             .score-change {
                 position: absolute;
                 top: .1rem;
@@ -118,6 +137,16 @@
                 background: rgba(175, 77, 2, 0.24);
             }
 
+            .score-column {
+                min-width: 13rem;
+            }
+
+            .table-header-text {
+                text-align: center;
+                font-size: 2rem;
+                position: relative;
+            }
+
 
         </style>
 
@@ -136,30 +165,34 @@
 
         <script>
             /* reset */
-            var calculateChange = function(score1, score2) {
-                if (score1 < 1) {
-                    score1 = score1*100;
-                }
-                if (score2 < 1) {
-                    score2 = score2*100;
-                }
-                var differenece = score1 - score2;
-                if (differenece == 0) {
+            var getRangeStyle = function (range) {
+                if (range == 0) {
                     return {
                         class: '',
                         text: ''
                     };
-                } else if (differenece > 0) {
+                } else if (range > 0) {
                     return {
                         class: 'box box-increase',
-                        text: '+' + Math.round(differenece)
+                        text: '+' + Math.round(range)
                     };
                 } else {
                     return {
                         class: 'box box-decrease',
-                        text: Math.round(differenece)
+                        text: Math.round(range)
                     };
                 }
+            };
+
+            var calculateChange = function(score1, score2) {
+                if (score1 <= 1) {
+                    score1 = score1*100;
+                }
+                if (score2 <= 1) {
+                    score2 = score2*100;
+                }
+                var difference = score1 - score2;
+                return getRangeStyle(difference);
             };
 
             var renderChart = function(result) {
@@ -175,8 +208,14 @@
                             desktopPreviousScoreDate: elem.desktopPreviousScoreDate
                         };
                     }
-                    var mobileScoreChange = calculateChange(elem.mobileLatestScore,elem.mobilePreviousScore);
-                    var desktopScoreChange = calculateChange(elem.desktopLatestScore,elem.desktopPreviousScore);
+                     if (globalData.view == "v3") {
+                        var mobileScoreChange = getRangeStyle(-1 * elem.mobileLatestEMARange);
+                        var desktopScoreChange = getRangeStyle(-1 * elem.desktopLatestEMARange);
+                    } else {
+                         var mobileScoreChange = calculateChange(elem.mobileLatestScore, elem.mobilePreviousScore);
+                         var desktopScoreChange = calculateChange(elem.desktopLatestScore, elem.desktopPreviousScore);
+                    }
+
                     urlRecords.push({
                             url: elem.url,
                             title: elem.title,
@@ -198,24 +237,40 @@
                         }
                     );
                 });
-
-                if (globalData.view == 'v2') {
+                if (globalData.view == 'v2' || globalData.view == 'v3') {
                     globalData.suffix = "-v2";
                     globalData.colspan = 1;
                     globalData.viewIcon = "view_module";
+                    $(".view-icon-ema").show();
                 } else {
-                    globalData.suffix = "";
+                    globalData.suffix = "-v1";
                     globalData.colspan = 2;
                     globalData.viewIcon = "view_list";
+                    $(".view-icon-ema").hide();
                 }
                 $("#reports-chart-thead-main").loadTemplate($("#reports-chart-thead-main-template"), {colspan: globalData.colspan});
                 $("#reports-chart-thead").loadTemplate($("#reports-chart-thead" + globalData.suffix + "-template"), dateRecords);
                 $("#reports-chart").loadTemplate($("#reports-chart" + globalData.suffix + "-template"), urlRecords, {"append": true});
                 $(".view-icon").html(globalData.viewIcon);
+
+                if (globalData.view == 'v3') {
+                    $(".view-icon-ema").show();
+                    $(".crux-headline--standard").html("Latest Score Report - <span style='font-size: 1.7rem;vertical-align: middle;'>Exponential-Moving-Average Change</span>");
+                    $(".view-icon-ema span").html("LHR");
+                } else if (globalData.view == 'v2') {
+                    $(".view-icon-ema").show();
+                    $(".crux-headline--standard").html("Latest Score Report - <span style='font-size: 1.7rem;vertical-align: middle;'>Lighthouse Score Change</span>");
+                    $(".view-icon-ema span").html("EMA");
+                } else {
+                    $(".view-icon-ema").hide();
+                    $(".crux-headline--standard").html("Latest Score Report");
+                }
+
                 $("#reports-chart").on("click", ".target", function () {
                     var url_to_check = $(this).attr("src");
                     window.location.href = "/analyze.html?url=" + url_to_check;
                 });
+
             }
 
             $(function () {
@@ -228,7 +283,7 @@
                     }
                 });
                 $(document).on("click", ".view-icon", function () {
-                    if (globalData.view == "v2") {
+                    if (globalData.view == "v2" || globalData.view == "v3") {
                         globalData.view = "";
                         Cookies.set('reportView', "", {expires: 365});
                     } else {
@@ -237,6 +292,19 @@
                     }
                     renderChart(globalData.result);
                 });
+
+                $(document).on("click", ".view-icon-ema", function () {
+                    if (globalData.view == "v3") {
+                        globalData.view = "v2";
+                        Cookies.set('reportView', "v2", {expires: 365});
+                    } else {
+                        globalData.view = "v3";
+                        Cookies.set('reportView', "v3", {expires: 365});
+                    }
+                    renderChart(globalData.result);
+                });
+
+
             });
         </script>
 
@@ -249,6 +317,23 @@
             <h1 class="crux-headline--standard">Latest Score Report</h1>
         </div>
 
+        <script type="text/html" id="reports-chart-thead-main-template">
+            <th scope="col" class="text-left table-header-text" colspan="2"></th>
+            <th scope="col" class="score-column table-header-text" data-template-bind='[{"attribute": "colspan", "value": "colspan"}]'>Mobile</th>
+            <th scope="col" class="score-column table-header-text" data-template-bind='[{"attribute": "colspan", "value": "colspan"}]'>Desktop <span class="view-icon-ema"><i class="material-icons">linear_scale</i><span>EMA</span></span> <i class="view-icon material-icons">view_module</i></th>
+        </script>
+
+        <script type="text/html" id="reports-chart-v1-template">
+            <tr class="target" data-src="url">
+                <td data-content="title"></td>
+                <td class="url"  data-content="url"></td>
+                <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span></td>
+                <td><span class="d-flex justify-content-center"><div data-css="mobilePreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobilePreviousScore"></div></span></td>
+                <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span></td>
+                <td><span class="d-flex justify-content-center"><div data-css="desktopPreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopPreviousScore"></div></span></td>
+            </tr>
+        </script>
+
         <script type="text/html" id="reports-chart-v2-template">
             <tr class="target" data-src="url">
                 <td data-content="title"></td>
@@ -258,38 +343,25 @@
             </tr>
         </script>
 
-        <script type="text/html" id="reports-chart-thead-v2-template">
+
+
+        <script type="text/html" id="reports-chart-thead-v1-template">
+            <th scope="col">Title</th>
+            <th scope="col">URL</th>
+            <th scope="col" class="score-column even-score-column text-center">Latest Score <div data-content="mobileLatestScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+            <th scope="col" class="score-column text-center">Previous Score <div data-content="mobilePreviousScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+            <th scope="col" class="score-column even-score-column text-center">Latest Score <div data-content="desktopLatestScoreDate"  data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+            <th scope="col" class="score-column text-center">Previous Score <div data-content="desktopPreviousScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
+        </script>
+
+
+        <script type="text/html" id="reports-chart-thead-v3-template">
             <th scope="col">Title</th>
             <th scope="col">URL</th>
             <th scope="col" class="text-center">Latest Score <div data-content="mobileLatestScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
             <th scope="col" class="text-center">Latest Score <div data-content="desktopLatestScoreDate"  data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
         </script>
 
-        <script type="text/html" id="reports-chart-template">
-            <tr class="target" data-src="url">
-                <td data-content="title"></td>
-                <td class="url"  style="word-break: break-word;" data-content="url"></td>
-                <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="mobileLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobileLatestScore"></div></span></td>
-                <td><span class="d-flex justify-content-center"><div data-css="mobilePreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="mobilePreviousScore"></div></span></td>
-                <td class="even-score-column"><span class="d-flex justify-content-center"><div data-css="desktopLatestScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopLatestScore"></div></span></td>
-                <td><span class="d-flex justify-content-center"><div data-css="desktopPreviousScoreCSS" data-format="PercentageFormatterWithoutSign" data-format-options="showHyphenIfNull" data-content="desktopPreviousScore"></div></span></td>
-            </tr>
-        </script>
-
-        <script type="text/html" id="reports-chart-thead-template">
-            <th scope="col">Title</th>
-            <th scope="col">URL</th>
-            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="mobileLatestScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
-            <th scope="col" class="text-center">Previous Score <div data-content="mobilePreviousScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
-            <th scope="col" class="even-score-column text-center">Latest Score <div data-content="desktopLatestScoreDate"  data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
-            <th scope="col" class="text-center">Previous Score <div data-content="desktopPreviousScoreDate" data-format="DateFormatter" data-format-options="covertFormat">03/19/2019</div></th>
-        </script>
-
-        <script type="text/html" id="reports-chart-thead-main-template">
-            <th scope="col" colspan="2"></th>
-            <th scope="col" data-template-bind='[{"attribute": "colspan", "value": "colspan"}]' style="text-align: center">Mobile</th>
-            <th scope="col" data-template-bind='[{"attribute": "colspan", "value": "colspan"}]' style="text-align: center; position: relative;">Desktop <i class="view-icon material-icons">view_module</i></th>
-        </script>
 
         <div class="d-flex pt-4">
             <div class="table-container">

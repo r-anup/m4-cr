@@ -77,14 +77,8 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @RequestMapping("/")
-    String index() {
 
-        return "redirect:/reports.html";
-    }
-
-
-    @RequestMapping({"/reports.html"})
+    @RequestMapping({"/", "/reports.html"})
     String reports(
             HttpServletRequest request,
             @CookieValue(value = "isDarkMode", required = false, defaultValue = "false") boolean isDarkMode,
